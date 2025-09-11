@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nestly Project Developer Guide
 
-## Getting Started
+### Working with branches algorithm
 
-First, run the development server:
+|  #  | Action                                                                         |     | Command                                                         |
+| :-: | :----------------------------------------------------------------------------- | :-- | :-------------------------------------------------------------- |
+|  1  | 🔴 **Обовʼязково** робимо pull останньої <br> версії main                      |     | `git checkout main` <br> `git pull origin main`                 |
+|  2  | Видаляємо стару гілку                                                          |     | `git branch -d назва`                                           |
+|  3  | Створюємо гілку і працюємо виключно там. <br> Назва починається з Вашого імені |     | `git checkout -b name/feature/my-feature`                       |
+|  4  | Робіть ваші зміни, комітьте часто                                              |     | `git add .` <br> `git commit -m "Add feature: navbar dropdown"` |
+|  5  | Пуште вашу гілку                                                               |     | `git push -u origin name/feature/my-feature`                    |
+|  6  | 🟡 Обовʼязково вказуємо ревʼювера в pull request                               |     |                                                                 |
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Custom Packages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| List1            | List2       | List3       | List 4 | List5 |
+| :--------------- | :---------- | :---------- | :----- | :---- |
+| axios            | toaster     | next        | -      | -     |
+| cookies          | yup         | react       | -      | -     |
+| date-fns         | react-icons | react-dom   | -      | -     |
+| formik           | zustand     | react-tabs  | -      | -     |
+| modern-normalize | tanstack    | react-icons | -      | -     |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### .ENV
 
-To learn more about Next.js, take a look at the following resources:
+- `NEXT_PUBLIC_API_URL=` ваш localhost
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Images & Icons
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Всі картинки в `/public`
+- Іконки використовуємо із `react-icons`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### Icons Sheet
+
+| #   | Icon Name    | Import code                                              |
+| --- | ------------ | -------------------------------------------------------- |
+| 1   | Google       | `import { FaGoogle } from "react-icons/fa";`             |
+| 2   | ArrowDown    | `import { IoIosArrowDown } from "react-icons/io";`       |
+| 3   | ArrowUp      | `import { IoIosArrowUp } from "react-icons/io";`         |
+| 4   | Logout       | `import { LuLogOut } from "react-icons/lu";`             |
+| 5   | Calendar     | `import { BsCalendar2Event } from "react-icons/bs";`     |
+| 6   | Route        | `import { LuRoute } from "react-icons/lu";`              |
+| 7   | Book         | `import { TbBook2 } from "react-icons/tb";`              |
+| 8   | Avatar       | `import { RxAvatar } from "react-icons/rx";`             |
+| 9   | Close        | `import { IoIosClose } from "react-icons/io";`           |
+| 10  | Fork & Spoon | `import { ImSpoonKnife } from "react-icons/im";`         |
+| 11  | Dumbbell     | `import { CiDumbbell } from "react-icons/ci";`           |
+| 12  | Burger       | `import { GiHamburgerMenu } from "react-icons/gi";`      |
+| 13  | Couch        | `import { LiaCouchSolid } from "react-icons/lia";`       |
+| 14  | Trash can    | `import { TbTrashX } from "react-icons/tb";`             |
+| 15  | Edit         | `import { FiEdit } from "react-icons/fi";`               |
+| 16  | Arrow Left   | `import { MdKeyboardArrowLeft } from "react-icons/md";`  |
+| 17  | Arrow Right  | `import { MdKeyboardArrowRight } from "react-icons/md";` |
+| 18  | SignIn       | `import { GoSignIn } from "react-icons/go";`             |
+
+---
