@@ -4,7 +4,6 @@ import { Lato } from "next/font/google";
 import "./globals.css";
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import Header from "@/components/Header/Header";
-import Footer from "@/components/Footer/Footer";
 import { ReactNode } from "react";
 import { OG_IMAGE, SITE_DOMAIN } from "@/config/metadata";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
@@ -45,7 +44,6 @@ export default function RootLayout({
             <Header />
             {children}
             {modal}
-            <Footer />
           </AuthProvider>
         </TanStackProvider>
       </body>
