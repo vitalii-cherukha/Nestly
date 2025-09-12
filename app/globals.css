@@ -25,4 +25,6 @@ body {
     --placeholder-color: #7F7F7F;
     --btn-border-bottom: 4px solid;
     --btn-border-radius: 100px;
+    --input-border: #ffffff26;
+    --input-hover: #0000000d;
 }
