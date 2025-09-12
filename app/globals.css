@@ -15,10 +15,10 @@ body {
     --btn-hover: #FFFFFF;
     --btn-active:#B2B2B2;
     --btn-disabled: #FFDAE0;
-    --secondary-btn: rgba(0, 0, 0, 0.5);
+    --secondary-btn: rgba(0, 0, 0, 0.05);
     --secondary-btn-hover: #FFF4F6;
     --secondary-btn-active: #FFCBD3;
-    --secondary-btn-disabled: rgba(0, 0, 0, 0.5);
+    --secondary-btn-disabled: rgba(0, 0, 0, 0.05);
     --error-color: #C60000;
     --font-color: #000000;
 }
