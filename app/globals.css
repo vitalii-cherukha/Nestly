@@ -6,6 +6,7 @@ body {
   min-height: 100vh;
   margin: 0;
   background-color: #fff;
+  list-style: none;
 }
 :root {
   --secondary-bg-color: FFF4F6;
