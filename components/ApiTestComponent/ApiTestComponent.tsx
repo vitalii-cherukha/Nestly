@@ -7,6 +7,8 @@ export default function ApiTestComponent() {
   useEffect(() => {
     async function testApis() {
       try {
+        const profile = await clientApi.getProfile();
+        console.log("profile:", profile);
         //        console.log("=== Testing APIs ===");
         //
         //        // AUTH
@@ -51,10 +53,10 @@ export default function ApiTestComponent() {
         //          console.log("updateTaskById:", updatedTask);
         //        }
 
-        const newTask = await clientApi.createTask({
-          name: "Test Task",
-          date: "2025-09-13",
-        });
+        //        const newTask = await clientApi.createTask({
+        //          name: "Test Task",
+        //          date: "2025-09-13",
+        //        });
         //        console.log("createTask:", newTask);
         //
         //        // DIARY

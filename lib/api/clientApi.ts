@@ -1,91 +1,8 @@
 import { nextServer } from "./api";
-// import type { CreateNote, Note } from "@/types/note";
 import { User } from "@/types/user";
 import { DiaryEntry, GetDiaryEntriesRep } from "@/types/note";
+import type { Task } from "@/types/task";
 
-// interface FetchNotesResponse {
-//   notes: Note[];
-//   totalPages: number;
-// }
-
-// export async function fetchNotes({
-//   page,
-//   search,
-//   tag,
-// }: {
-//   page: number;
-//   search: string;
-//   tag?: string;
-// }): Promise<FetchNotesResponse> {
-//   const { data } = await nextServer.get<FetchNotesResponse>("/notes", {
-//     params: {
-//       page,
-//       search,
-//       perPage: 12,
-//       ...(tag && tag !== "All" ? { tag } : {}),
-//     },
-//   });
-//   return data;
-// }
-
-// export async function createNote(newNote: CreateNote): Promise<Note> {
-//   const { data } = await nextServer.post<Note>("/notes", newNote);
-//   return data;
-// }
-// export async function fetchNoteById(id: string): Promise<Note> {
-//   const { data } = await nextServer.get<Note>(`/notes/${id}`);
-//   return data;
-// }
-
-// export async function deleteNote(id: string): Promise<Note> {
-//   const { data } = await nextServer.delete<Note>(`/notes/${id}`);
-//   return data;
-// }
-
-// export const register = async (data: RegisterLoginRequest) => {
-//   const res = await nextServer.post<User>(`/auth/register`, data);
-//   return res.data;
-// };
-
-// export const login = async (data: RegisterLoginRequest) => {
-//   const res = await nextServer.post<User>(`/auth/login`, data);
-//   return res.data;
-// };
-
-// export const logout = async (): Promise<void> => {
-//   await nextServer.post(`/auth/logout`);
-// };
-// type CheckSessionRequest = {
-//   success: boolean;
-// };
-// export const checkSession = async () => {
-//   const res = await nextServer.get<CheckSessionRequest>("/auth/session");
-//   return res.data.success;
-// };
-
-// export const getMe = async () => {
-//   const { data } = await nextServer.get<User>("users/me");
-//   return data;
-// };
-
-// export type updateProfileProps = {
-//   email: string;
-//   username: string;
-// };
-
-// export const updateProfile = async (data: updateProfileProps) => {
-//   const res = await nextServer.patch<User>(`/users/me`, data);
-//   return res.data;
-// };
-
-// !!!!!! NEW APIS
-
-interface Task {
-  _id: string;
-  name: string;
-  date: string;
-  isDone: boolean;
-}
 interface GetTasksRep {
   tasks: Task[];
   totalCount: number;
@@ -202,11 +119,11 @@ export const getTasks = async (params?: {
 
 export const updateTaskById = async (
   taskId: string,
-  body: { isDone: boolean },
+  body: { isDone: boolean }
 ): Promise<UpdateTaskByIdRep> => {
   const { data } = await nextServer.patch<UpdateTaskByIdRep>(
     `/tasks/status/${taskId}`,
-    body,
+    body
   );
   return data;
 };
@@ -243,16 +160,16 @@ export const getDiaryEntries = async (params?: {
 
 export const updateDiaryEntry = async (
   noteId: string,
-  body: { title?: string; description?: string; emotions?: string[] },
+  body: { title?: string; description?: string; emotions?: string[] }
 ): Promise<DiaryEntry> => {
   const { data } = await nextServer.patch<DiaryEntry>(`/diary/${noteId}`, body);
   return data;
 };
 export const deleteDiaryEntry = async (
-  noteId: string,
+  noteId: string
 ): Promise<DeleteDiaryEntryRep> => {
   const { data } = await nextServer.delete<DeleteDiaryEntryRep>(
-    `/diary/${noteId}`,
+    `/diary/${noteId}`
   );
   return data;
 };
@@ -269,25 +186,25 @@ export const getWeekGreeting = async (): Promise<GetWeekGreetingRep> => {
 
 export const getWeekGreetingPublic = async (): Promise<GetWeekGreetingRep> => {
   const { data } = await nextServer.get<GetWeekGreetingRep>(
-    "/weeks/greeting/public",
+    "/weeks/greeting/public"
   );
   return data;
 };
 
 export const getWeekBabyInfo = async (
-  weekNumber: string,
+  weekNumber: string
 ): Promise<GetWeekBabyInfoRep> => {
   const { data } = await nextServer.get<GetWeekBabyInfoRep>(
-    `/weeks/${weekNumber}/baby`,
+    `/weeks/${weekNumber}/baby`
   );
   return data;
 };
 
 export const getWeekMomInfo = async (
-  weekNumber: string,
+  weekNumber: string
 ): Promise<GetWeekMomInfoRep> => {
   const { data } = await nextServer.get<GetWeekMomInfoRep>(
-    `/weeks/${weekNumber}/mom`,
+    `/weeks/${weekNumber}/mom`
   );
   return data;
 };
