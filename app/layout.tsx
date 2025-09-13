@@ -7,6 +7,8 @@ import Header from "@/components/Header/Header";
 import { ReactNode } from "react";
 import { OG_IMAGE, SITE_DOMAIN } from "@/config/metadata";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import Sidebar from "@/components/Sidebar/Sidebar";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_DOMAIN),
@@ -48,7 +50,13 @@ export default function RootLayout({
         <TanStackProvider>
           <AuthProvider>
             <Header />
-            {children}
+            <Breadcrumbs />
+            <div className="layout-shell">
+              <aside className="sidebar">
+                <Sidebar />
+              </aside>
+              <main className="main-content">{children}</main>
+            </div>
             {modal}
           </AuthProvider>
         </TanStackProvider>
