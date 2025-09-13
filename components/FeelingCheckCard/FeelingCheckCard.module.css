@@ -1,0 +1,74 @@
+.title {
+  font-family: var(--font-comfortaa);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: 0.01em;
+  color: var(--font-color);
+  margin-bottom: 8px;
+  max-width: 213px;
+}
+
+.recWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.recTitle {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 160%;
+  color: var(--font-color);
+}
+.recText {
+  font-size: 14px;
+  line-height: 150%;
+  color: var(--font-color);
+}
+.button {
+  background: var(--btn-color);
+  border-bottom: var(--btn-color-bottom);
+  border-radius: 100px;
+  padding: 10px 24px;
+  width: 225px;
+  max-height: 42px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 160%;
+  color: var(--font-color);
+  transition:
+    background var(--primary-transition),
+    border-bottom var(--primary-transition);
+}
+.button:hover,
+.button:focus {
+  background: var(--btn-hover);
+  border-bottom: var(--btn-hover-bottom);
+}
+.button:active {
+  background: var(--btn-active);
+  border-bottom: var(--btn-active-bottom);
+}
+@media screen and (min-width: 768px) {
+  .title {
+    max-width: 100%;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .title {
+    font-size: 24px;
+    max-width: 213px;
+  }
+  .recTitle {
+    font-size: 16px;
+  }
+  .recText {
+    font-size: 16px;
+  }
+  .button {
+    font-size: 16px;
+    width: 250px;
+    max-height: 46px;
+  }
+}

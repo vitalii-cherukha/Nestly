@@ -1,0 +1,133 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 64 20px;
+}
+
+.modal {
+  background-color: #ffffff;
+  padding: 64px 20px;
+  border-radius: 40px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 335px;
+  min-height: 413px;
+  max-width: 768px;
+}
+.closeButton {
+  position: absolute;
+  top: 20;
+  right: 20;
+  width: 48px;
+  height: 48px;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.closeButtonIcon {
+  transition: fill var(--primary-transition);
+}
+.closeButton:hover .closeButtonIcon,
+.closeButton:focus .closeButtonIcon {
+  fill: #ffcbd3;
+}
+.title {
+  font-family: var(--font-comfortaa);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 120%;
+  letter-spacing: 0.01em;
+  text-align: center;
+  margin-bottom: 48px;
+  color: var(--font-color);
+}
+.ulElement {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 24px;
+}
+.buttonCancel {
+  background: var(--btn-color);
+  border-bottom: var(--btn-color-bottom);
+  border-radius: 100px;
+  padding: 10px 24px;
+  width: 268px;
+  height: 42px;
+  transition:
+    background var(--primary-transition),
+    border-bottom var(--primary-transition);
+  cursor: pointer;
+}
+.buttonCancel:hover,
+.buttonCancel:focus {
+  pointer-events: all;
+  background: var(--btn-hover);
+  border-bottom: var(--btn-hover-bottom);
+}
+.buttonCancel:active {
+  background: var(--btn-active);
+  border-bottom: var(--btn-active-bottom);
+}
+
+.buttonAccept {
+  background: var(--secondary-btn);
+  border-bottom: var(--secondary-btn-color-bottom);
+  border-radius: 100px;
+  padding: 10px 24px;
+  width: 268px;
+  height: 42px;
+  transition: background var(--primary-transition);
+  cursor: pointer;
+}
+.buttonAccept:hover,
+.buttonAccept:focus {
+  background: var(--secondary-btn-hover);
+}
+.buttonAccept:active {
+  background: var(--secondary-btn-active);
+}
+
+@media screen and (min-width: 768px) {
+  .backdrop {
+    padding: 64px 32px;
+  }
+  .modal {
+    padding: 64px 32px;
+    width: 704px;
+    min-height: 261px;
+  }
+  .closeButton {
+    right: 32;
+  }
+  .ulElement {
+    flex-direction: row;
+    column-gap: 24px;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .modal {
+    padding: 64px;
+    width: 768px;
+    min-height: 338px;
+  }
+  .title {
+    font-size: 48px;
+  }
+  .closeButton {
+    top: 32;
+  }
+}
