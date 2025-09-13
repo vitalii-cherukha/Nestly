@@ -1,6 +1,7 @@
 import { nextServer } from "./api";
 // import type { CreateNote, Note } from "@/types/note";
 import { User } from "@/types/user";
+import { DiaryEntry, GetDiaryEntriesRep } from "@/types/note";
 
 // interface FetchNotesResponse {
 //   notes: Note[];
@@ -93,19 +94,6 @@ interface GetTasksRep {
 }
 interface UpdateTaskByIdRep {
   isDone: boolean;
-}
-interface DiaryEntry {
-  _id: string;
-  title: string;
-  date: string;
-  emotions: { _id: string; title: string }[];
-  description: string;
-}
-interface GetDiaryEntriesRep {
-  diaryNotes: DiaryEntry[];
-  totalCount: number;
-  totalPages: number;
-  page: number;
 }
 
 interface DeleteDiaryEntryRep {
@@ -268,7 +256,10 @@ export const deleteDiaryEntry = async (
   );
   return data;
 };
-
+export async function fetchDiaryById(id: string): Promise<DiaryEntry> {
+  const { data } = await nextServer.get<DiaryEntry>(`/diary/${id}`);
+  return data;
+}
 // ? Weeks endpoints
 
 export const getWeekGreeting = async (): Promise<GetWeekGreetingRep> => {

@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { nextServer } from "./api";
 import type { User } from "@/types/user";
-import { Note } from "@/types/note";
+import { GetDiaryEntriesRep, Note } from "@/types/note";
 
 export interface FetchNotesProps {
   page?: number;
@@ -16,7 +16,7 @@ export interface FetchNotesResponse {
 }
 
 export const fetchServerNotes = async (
-  params: FetchNotesProps,
+  params: FetchNotesProps
 ): Promise<FetchNotesResponse> => {
   const cookieStore = await cookies();
   const response = await nextServer.get<FetchNotesResponse>("/notes", {
@@ -38,6 +38,16 @@ export const fetchServerNoteById = async (id: string): Promise<Note> => {
   return response.data;
 };
 
+export const getDiaryListServer = async (): Promise<GetDiaryEntriesRep> => {
+  const cookieStore = await cookies();
+
+  const { data } = await nextServer.get<GetDiaryEntriesRep>("/diary", {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
 export const checkServerSession = async () => {
   const cookieStore = await cookies();
   return await nextServer.get(`/auth/session`, {

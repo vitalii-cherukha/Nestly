@@ -34,3 +34,17 @@ export type NoteFormZustandStore = {
   setDraft: (draft: CreateNote) => void;
   clearDraft: () => void;
 };
+export interface DiaryEntry {
+  _id: string;
+  title: string;
+  date: string;
+  emotions: { _id: string; title: string }[];
+  description: string;
+}
+
+export interface GetDiaryEntriesRep {
+  diaryNotes: DiaryEntry[];
+  totalCount: number;
+  totalPages: number;
+  page: number;
+}
