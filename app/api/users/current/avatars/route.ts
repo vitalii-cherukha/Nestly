@@ -1,23 +1,18 @@
 export const dynamic = 'force-dynamic';
 
-import { NextResponse, NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
 import { api } from '@/app/api/api';
 import { cookies } from 'next/headers';
 import { logErrorResponse } from '@/app/api/_utils/utils';
 import { isAxiosError } from 'axios';
 
 
-export async function GET(request:NextRequest) {
+export async function PATCH(request: Request) {
   try {
     const cookieStore = await cookies();
-    const page = Number(request.nextUrl.searchParams.get('page') ?? 1);
-    const limit = Number(request.nextUrl.searchParams.get('limit') ?? 10);
+    const avatar = await request.json();
 
-      const res = await api.get('emotions', {
-        params: {
-        page,
-        limit,
-      },
+    const res = await api.patch('/users/current/avatars', avatar, {
       headers: {
         Cookie: cookieStore.toString(),
       },

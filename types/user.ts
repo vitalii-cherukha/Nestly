@@ -1,10 +1,19 @@
 export interface User {
-  username: string;
+  _id: string;
+  name: string;
   email: string;
-  avatar: string;
+  avatarUrl: string;
+  dueDate: string;
+  babyGender: string;
+  theme?: string;
 }
 
-export type RegisterLoginRequest = {
+export interface LoginData {
   email: string;
   password: string;
-};
+}
+export interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+}

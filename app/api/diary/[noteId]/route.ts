@@ -1,16 +1,21 @@
-export const dynamic = 'force-dynamic';
-
 import { NextResponse } from 'next/server';
 import { api } from '../../api';
 import { cookies } from 'next/headers';
 import { logErrorResponse } from '../../_utils/utils';
 import { isAxiosError } from 'axios';
 
-export async function GET() {
+type Props = {
+  params: Promise<{ noteId: string }>;
+};
+
+
+export async function PATCH(request: Request, { params }: Props) {
   try {
     const cookieStore = await cookies();
+    const { noteId } = await params;
+    const body = await request.json();
 
-    const res = await api.get('users/current', {
+    const res = await api.patch(`diary/${noteId}`, body, {
       headers: {
         Cookie: cookieStore.toString(),
       },
@@ -29,12 +34,13 @@ export async function GET() {
   }
 }
 
-export async function PATCH(request: Request) {
+
+export async function DELETE(request: Request, { params }: Props) {
   try {
     const cookieStore = await cookies();
-    const body = await request.json();
+    const { noteId } = await params;
 
-    const res = await api.patch('/users/current', body, {
+    const res = await api.delete(`diary/${noteId}`, {
       headers: {
         Cookie: cookieStore.toString(),
       },

@@ -7,17 +7,15 @@ import { logErrorResponse } from '../_utils/utils';
 export async function GET(request: NextRequest) {
   try {
     const cookieStore = await cookies();
-    const search = request.nextUrl.searchParams.get('search') ?? '';
     const page = Number(request.nextUrl.searchParams.get('page') ?? 1);
-    const rawTag = request.nextUrl.searchParams.get('tag') ?? '';
-    const tag = rawTag === 'All' ? '' : rawTag;
+    const limit = Number(request.nextUrl.searchParams.get('limit') ?? 10);
+    const sortOrder = String(request.nextUrl.searchParams.get('sortOrder') ?? "asc");  
 
     const res = await api('/diary', {
-      params: {
-        ...(search !== '' && { search }),
+       params: {
         page,
-        perPage: 12,
-        ...(tag && { tag }),
+        limit,
+        sortOrder
       },
       headers: {
         Cookie: cookieStore.toString(),
@@ -44,7 +42,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    const res = await api.post('/notes', body, {
+    const res = await api.post('/diary', body, {
       headers: {
         Cookie: cookieStore.toString(),
         'Content-Type': 'application/json',

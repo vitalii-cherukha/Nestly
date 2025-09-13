@@ -12,9 +12,10 @@ export async function middleware(request: NextRequest) {
   const accessToken = cookieStore.get("accessToken")?.value;
   const refreshToken = cookieStore.get("refreshToken")?.value;
 
-  const isPublicRoute = publicRoutes.some((route) =>
-    pathname.startsWith(route),
-  );
+  const isPublicRoute = publicRoutes.some((route) => {
+    return pathname.startsWith(route);
+  });
+
   const isPrivateRoute = privateRoutes.some((route) =>
     pathname.startsWith(route),
   );
