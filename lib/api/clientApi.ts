@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { nextServer } from "./api";
 // import type { CreateNote, Note } from "@/types/note";
 import { User } from "@/types/user";
 
@@ -16,7 +16,7 @@ import { User } from "@/types/user";
 //   search: string;
 //   tag?: string;
 // }): Promise<FetchNotesResponse> {
-//   const { data } = await api.get<FetchNotesResponse>("/notes", {
+//   const { data } = await nextServer.get<FetchNotesResponse>("/notes", {
 //     params: {
 //       page,
 //       search,
@@ -28,42 +28,42 @@ import { User } from "@/types/user";
 // }
 
 // export async function createNote(newNote: CreateNote): Promise<Note> {
-//   const { data } = await api.post<Note>("/notes", newNote);
+//   const { data } = await nextServer.post<Note>("/notes", newNote);
 //   return data;
 // }
 // export async function fetchNoteById(id: string): Promise<Note> {
-//   const { data } = await api.get<Note>(`/notes/${id}`);
+//   const { data } = await nextServer.get<Note>(`/notes/${id}`);
 //   return data;
 // }
 
 // export async function deleteNote(id: string): Promise<Note> {
-//   const { data } = await api.delete<Note>(`/notes/${id}`);
+//   const { data } = await nextServer.delete<Note>(`/notes/${id}`);
 //   return data;
 // }
 
 // export const register = async (data: RegisterLoginRequest) => {
-//   const res = await api.post<User>(`/auth/register`, data);
+//   const res = await nextServer.post<User>(`/auth/register`, data);
 //   return res.data;
 // };
 
 // export const login = async (data: RegisterLoginRequest) => {
-//   const res = await api.post<User>(`/auth/login`, data);
+//   const res = await nextServer.post<User>(`/auth/login`, data);
 //   return res.data;
 // };
 
 // export const logout = async (): Promise<void> => {
-//   await api.post(`/auth/logout`);
+//   await nextServer.post(`/auth/logout`);
 // };
 // type CheckSessionRequest = {
 //   success: boolean;
 // };
 // export const checkSession = async () => {
-//   const res = await api.get<CheckSessionRequest>("/auth/session");
+//   const res = await nextServer.get<CheckSessionRequest>("/auth/session");
 //   return res.data.success;
 // };
 
 // export const getMe = async () => {
-//   const { data } = await api.get<User>("users/me");
+//   const { data } = await nextServer.get<User>("users/me");
 //   return data;
 // };
 
@@ -73,7 +73,7 @@ import { User } from "@/types/user";
 // };
 
 // export const updateProfile = async (data: updateProfileProps) => {
-//   const res = await api.patch<User>(`/users/me`, data);
+//   const res = await nextServer.patch<User>(`/users/me`, data);
 //   return res.data;
 // };
 
@@ -150,7 +150,7 @@ export const register = async (body: {
   email: string;
   password: string;
 }): Promise<void> => {
-  const { data } = await api.post<void>("/auth/register", body);
+  const { data } = await nextServer.post<void>("/auth/register", body);
   return data;
 };
 
@@ -158,12 +158,12 @@ export const login = async (body: {
   email: string;
   password: string;
 }): Promise<User> => {
-  const { data } = await api.post<User>("/auth/login", body);
+  const { data } = await nextServer.post<User>("/auth/login", body);
   return data;
 };
 
 export const logout = async (): Promise<void> => {
-  const { data } = await api.post<void>("/auth/logout");
+  const { data } = await nextServer.post<void>("/auth/logout");
   return data;
 };
 
@@ -172,14 +172,14 @@ interface CheckSessionRequest {
 }
 
 export const checkSession = async () => {
-  const { data } = await api.get<CheckSessionRequest>("/auth/session");
+  const { data } = await nextServer.get<CheckSessionRequest>("/auth/session");
   return data.success;
 };
 
 // ? Profile
 
 export const getProfile = async (): Promise<User> => {
-  const { data } = await api.get<User>("/users/current");
+  const { data } = await nextServer.get<User>("/users/current");
   return data;
 };
 
@@ -190,14 +190,14 @@ export const updateProfile = async (body: {
   dueDate?: string;
   babyGender?: string;
 }) => {
-  const { data } = await api.patch<User>("/users/current", body);
+  const { data } = await nextServer.patch<User>("/users/current", body);
   return data;
 };
 
 export const updateAvatar = async (avatar: File): Promise<User> => {
   const formData = new FormData();
   formData.append("avatar", avatar);
-  const res = await api.patch<User>("/users/current/avatars", formData);
+  const res = await nextServer.patch<User>("/users/current/avatars", formData);
   return res.data;
 };
 
@@ -208,7 +208,7 @@ export const getTasks = async (params?: {
   limit?: number;
   sortOrder?: "asc" | "desc";
 }): Promise<GetTasksRep> => {
-  const { data } = await api.get<GetTasksRep>("/tasks", { params });
+  const { data } = await nextServer.get<GetTasksRep>("/tasks", { params });
   return data;
 };
 
@@ -216,7 +216,7 @@ export const updateTaskById = async (
   taskId: string,
   body: { isDone: boolean },
 ): Promise<UpdateTaskByIdRep> => {
-  const { data } = await api.patch<UpdateTaskByIdRep>(
+  const { data } = await nextServer.patch<UpdateTaskByIdRep>(
     `/tasks/status/${taskId}`,
     body,
   );
@@ -227,7 +227,7 @@ export const createTask = async (body: {
   name: string;
   date: string;
 }): Promise<Task> => {
-  const { data } = await api.post<Task>("/tasks", body);
+  const { data } = await nextServer.post<Task>("/tasks", body);
   return data;
 };
 
@@ -238,7 +238,7 @@ export const createDiaryEntry = async (body: {
   description: string;
   emotions: string[];
 }): Promise<DiaryEntry> => {
-  const { data } = await api.post<DiaryEntry>("/diary", body);
+  const { data } = await nextServer.post<DiaryEntry>("/diary", body);
   return data;
 };
 
@@ -247,7 +247,9 @@ export const getDiaryEntries = async (params?: {
   limit?: number;
   sortOrder?: "asc" | "desc";
 }): Promise<GetDiaryEntriesRep> => {
-  const { data } = await api.get<GetDiaryEntriesRep>("/diary", { params });
+  const { data } = await nextServer.get<GetDiaryEntriesRep>("/diary", {
+    params,
+  });
   return data;
 };
 
@@ -255,32 +257,36 @@ export const updateDiaryEntry = async (
   noteId: string,
   body: { title?: string; description?: string; emotions?: string[] },
 ): Promise<DiaryEntry> => {
-  const { data } = await api.patch<DiaryEntry>(`/diary/${noteId}`, body);
+  const { data } = await nextServer.patch<DiaryEntry>(`/diary/${noteId}`, body);
   return data;
 };
 export const deleteDiaryEntry = async (
   noteId: string,
 ): Promise<DeleteDiaryEntryRep> => {
-  const { data } = await api.delete<DeleteDiaryEntryRep>(`/diary/${noteId}`);
+  const { data } = await nextServer.delete<DeleteDiaryEntryRep>(
+    `/diary/${noteId}`,
+  );
   return data;
 };
 
 // ? Weeks endpoints
 
 export const getWeekGreeting = async (): Promise<GetWeekGreetingRep> => {
-  const { data } = await api.get<GetWeekGreetingRep>("/weeks/greeting");
+  const { data } = await nextServer.get<GetWeekGreetingRep>("/weeks/greeting");
   return data;
 };
 
 export const getWeekGreetingPublic = async (): Promise<GetWeekGreetingRep> => {
-  const { data } = await api.get<GetWeekGreetingRep>("/weeks/greeting/public");
+  const { data } = await nextServer.get<GetWeekGreetingRep>(
+    "/weeks/greeting/public",
+  );
   return data;
 };
 
 export const getWeekBabyInfo = async (
   weekNumber: string,
 ): Promise<GetWeekBabyInfoRep> => {
-  const { data } = await api.get<GetWeekBabyInfoRep>(
+  const { data } = await nextServer.get<GetWeekBabyInfoRep>(
     `/weeks/${weekNumber}/baby`,
   );
   return data;
@@ -289,7 +295,9 @@ export const getWeekBabyInfo = async (
 export const getWeekMomInfo = async (
   weekNumber: string,
 ): Promise<GetWeekMomInfoRep> => {
-  const { data } = await api.get<GetWeekMomInfoRep>(`/weeks/${weekNumber}/mom`);
+  const { data } = await nextServer.get<GetWeekMomInfoRep>(
+    `/weeks/${weekNumber}/mom`,
+  );
   return data;
 };
 
@@ -299,6 +307,6 @@ export const getEmotions = async (params?: {
   page?: number;
   limit?: number;
 }): Promise<GetEmotionsRep> => {
-  const { data } = await api.get("/emotions", { params });
+  const { data } = await nextServer.get("/emotions", { params });
   return data;
 };
