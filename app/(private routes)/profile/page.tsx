@@ -1,6 +1,6 @@
 import Container from "@/components/Container/Container";
-import ProfileAvatar from "@/components/ProfileAvatar/ProfileAvatar";
-import ProfileEditForm from "@/components/ProfileEditForm/ProfileEditForm";
+//import ProfileAvatar from "@/components/ProfileAvatar/ProfileAvatar";
+//import ProfileEditForm from "@/components/ProfileEditForm/ProfileEditForm";
 import Section from "@/components/Section/Section";
 
 const ProfilePage = () => {
@@ -8,8 +8,9 @@ const ProfilePage = () => {
     <main>
       <Section>
         <Container>
-          <ProfileAvatar />
-          <ProfileEditForm />
+          Hello
+          {/* <ProfileAvatar /> */}
+          {/* <ProfileEditForm /> */}
         </Container>
       </Section>
     </main>

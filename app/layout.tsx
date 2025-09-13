@@ -9,6 +9,7 @@ import { OG_IMAGE, SITE_DOMAIN } from "@/config/metadata";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_DOMAIN),

@@ -34,7 +34,7 @@ const RegisterForm = () => {
       .max(50, "Ім'я не повинно перевищувати 50 символів")
       .matches(
         /^[a-zA-Zа-яА-ЯёЁ\s]+$/,
-        "Ім'я може містити лише букви та пробіли",
+        "Ім'я може містити лише букви та пробіли"
       ),
 
     email: Yup.string()
@@ -48,13 +48,13 @@ const RegisterForm = () => {
       .max(128, "Пароль не повинен перевищувати 128 символів")
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        "Пароль повинен містити хоча б одну малу літеру, одну велику літеру та одну цифру",
+        "Пароль повинен містити хоча б одну малу літеру, одну велику літеру та одну цифру"
       ),
   });
 
   const handleSubmit = async (
     values: RegisterData,
-    actions: FormikHelpers<RegisterData>,
+    actions: FormikHelpers<RegisterData>
   ) => {
     try {
       console.log("Registration values:", values);
@@ -80,7 +80,7 @@ const RegisterForm = () => {
         {({ isSubmitting }) => (
           <Form className={css.form}>
             <div className={css.inputGroup}>
-              <p>Ім'я*</p>
+              <p>Ім&apos;я*</p>
               <Field
                 type="text"
                 name="name"
