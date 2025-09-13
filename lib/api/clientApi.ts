@@ -63,7 +63,7 @@ export const checkSession = async () => {
 };
 
 export const getMe = async () => {
-  const { data } = await api.get<User>("users/me");
+  const { data } = await api.get<User>("/users/current");
   return data;
 };
 
@@ -73,6 +73,6 @@ export type updateProfileProps = {
 };
 
 export const updateProfile = async (data: updateProfileProps) => {
-  const res = await api.patch<User>(`/users/me`, data);
+  const res = await api.patch<User>(`/users/current`, data);
   return res.data;
 };
