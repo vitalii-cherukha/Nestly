@@ -1,12 +1,5 @@
 const Page = () => {
-  //  const checkServerSession = async () => {
-
-  return (
-    <div>
-      Page
-      {/* <ApiTestComponent /> */}
-    </div>
-  );
+  return <div>Page</div>;
 };
 
 export default Page;
