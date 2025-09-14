@@ -7,7 +7,7 @@ import {
 import { getDiaryListServer } from "@/lib/api/serverApi";
 import DiaryClient from "./DiaryDetails.client";
 
-const DiaryPage = async () => {
+export default async function DiaryPage() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
@@ -24,6 +24,4 @@ const DiaryPage = async () => {
       </div>
     </section>
   );
-};
-
-export default DiaryPage;
+}

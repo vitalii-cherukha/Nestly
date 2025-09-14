@@ -40,7 +40,6 @@ export const fetchServerNoteById = async (id: string): Promise<Note> => {
 
 export const getDiaryListServer = async (): Promise<GetDiaryEntriesRep> => {
   const cookieStore = await cookies();
-
   const { data } = await nextServer.get<GetDiaryEntriesRep>("/diary", {
     headers: {
       Cookie: cookieStore.toString(),
