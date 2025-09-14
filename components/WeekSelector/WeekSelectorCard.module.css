@@ -1,13 +1,58 @@
 .card {
-  background-color: rgb(90, 241, 163);
+  display: block;
+  width: 97px;
+  height: 87px;
+  padding: 16px;
+  border: 4px solid transparent;
+  border-radius: 32px;
+
+  font-family: var(--font-comfortaa);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: var(--font-color);
+
+  background-color: var(--secondary-bg-color);
+
   cursor: pointer;
+
+  transition: all var(--primary-transition);
 }
 
-.card:disabled {
-  background-color: rgb(171, 173, 172);
-  cursor: auto;
+@media screen and (min-width: 1440px) {
+  .card {
+    height: 101px;
+    padding: 16px;
+    font-size: 32px;
+  }
+}
+
+.card:hover,
+.card:focus {
+  border-color: var(--btn-color);
 }
 
 .is-active {
-  background-color: rgb(245, 144, 241);
+  background-color: var(--secondary-btn-active);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.is-active:hover,
+.is-active:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.card:disabled {
+  background-color: var(--input-color);
+  border-color: var(--input-color);
+  cursor: auto;
+  opacity: 0.6;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
 }

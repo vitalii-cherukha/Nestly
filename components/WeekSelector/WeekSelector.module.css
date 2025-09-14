@@ -1,16 +1,17 @@
 .list {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   overflow-x: auto;
   user-select: none;
-  -ms-overflow-style: none; /* для IE/Edge */
+  -ms-overflow-style: none;
+  padding-bottom: 32px;
 }
 
 ::-webkit-scrollbar {
   width: 0px;
-  display: none;
 }
 
 .list-item {
   flex-shrink: 0;
+  list-style: none;
 }

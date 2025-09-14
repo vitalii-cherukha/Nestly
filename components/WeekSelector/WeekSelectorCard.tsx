@@ -18,13 +18,14 @@ export function WeekSelectorCard({
     <button
       type="button"
       onClick={onCardClick}
+      onMouseUp={(e) => e.currentTarget.blur()}
       disabled={isDisabled}
       className={clsx(css.card, {
         [css["is-active"]]: isActive,
       })}
     >
       <p>{weekOrder}</p>
-      <p>Тиждень</p>
+      <p className={clsx(css.text)}>Тиждень</p>
     </button>
   );
 }
