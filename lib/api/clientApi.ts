@@ -173,8 +173,8 @@ export const deleteDiaryEntry = async (
   );
   return data;
 };
-export async function fetchDiaryById(id: string): Promise<DiaryEntry> {
-  const { data } = await nextServer.get<DiaryEntry>(`/diary/${id}`);
+export async function fetchDiaryById(noteId: string): Promise<DiaryEntry> {
+  const { data } = await nextServer.get<DiaryEntry>(`/diary/${noteId}`);
   return data;
 }
 // ? Weeks endpoints
