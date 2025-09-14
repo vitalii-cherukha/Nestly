@@ -1,3 +1,4 @@
+"use client";
 import css from "./Container.module.css";
 interface ContainerProps {
   children: React.ReactNode;

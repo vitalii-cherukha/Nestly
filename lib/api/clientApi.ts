@@ -160,7 +160,7 @@ export const getDiaryEntries = async (params?: {
 
 export const updateDiaryEntry = async (
   noteId: string,
-  body: { title?: string; description?: string; emotions?: string[] }
+  body: { title: string; description: string; emotions: string[] }
 ): Promise<DiaryEntry> => {
   const { data } = await nextServer.patch<DiaryEntry>(`/diary/${noteId}`, body);
   return data;
