@@ -1,0 +1,13 @@
+.card {
+  background-color: rgb(90, 241, 163);
+  cursor: pointer;
+}
+
+.card:disabled {
+  background-color: rgb(171, 173, 172);
+  cursor: auto;
+}
+
+.is-active {
+  background-color: rgb(245, 144, 241);
+}
