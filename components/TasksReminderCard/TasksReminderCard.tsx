@@ -7,7 +7,8 @@ import "izitoast/dist/css/iziToast.min.css";
 import { getTasks } from "@/lib/api/clientApi";
 import { Task } from "@/types/task";
 import { updateTaskById } from "@/lib/api/clientApi";
-// import { AddTaskModal } from '@/components/AddDiaryEntryModal'
+import AddTaskModal from "../AddTaskModal/AddTaskModal";
+import AddTaskForm from "../AddTaskForm/AddTaskForm";
 
 // ! ІКОНКА ДОДАВАННЯ + ЧЕКБОКС, ЗАМІНИТИ ПРИ ПОТРЕБІ, ІКОНКА ВІД САШІ ЗАМАЛА.
 import { FiPlusCircle } from "react-icons/fi";
@@ -53,6 +54,10 @@ export default function TasksReminderCard() {
         });
       });
     }
+  };
+
+  const handleCloseModal = () => {
+    setModal(false);
   };
 
   return (
@@ -102,7 +107,11 @@ export default function TasksReminderCard() {
             );
           })}
       </ul>
-      {/* {modalOpen && <AddTaskModal setModal={setModal} />} */}
+      {modalOpen && (
+        <AddTaskModal onClose={handleCloseModal}>
+          <AddTaskForm onCloseModal={handleCloseModal} />
+        </AddTaskModal>
+      )}
     </>
   );
 }
