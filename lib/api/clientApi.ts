@@ -195,24 +195,6 @@ export const getWeekGreetingPublic = async (): Promise<GetWeekGreetingRep> => {
   return data;
 };
 
-export const getWeekBabyInfo = async (
-  weekNumber: string
-): Promise<GetWeekBabyInfoRep> => {
-  const { data } = await nextServer.get<GetWeekBabyInfoRep>(
-    `/weeks/${weekNumber}/baby`
-  );
-  return data;
-};
-
-export const getWeekMomInfo = async (
-  weekNumber: string
-): Promise<GetWeekMomInfoRep> => {
-  const { data } = await nextServer.get<GetWeekMomInfoRep>(
-    `/weeks/${weekNumber}/mom`
-  );
-  return data;
-};
-
 // ? Emotions endpoints
 
 export const getEmotions = async (params?: {
