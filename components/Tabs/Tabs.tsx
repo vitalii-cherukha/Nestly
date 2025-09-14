@@ -67,13 +67,8 @@ export function CustomTabs({
         }
       };
       return (
-        <TabPanel
-          key={i}
-          className={clsx(css["tab-panel"])}
-          selectedClassName={clsx(css["tab-panel-selected"])}
-          {...tabPanelProps}
-        >
-          {getContent()}
+        <TabPanel key={i} {...tabPanelProps}>
+          <div className={clsx(css["tab-panel"])}>{getContent()}</div>
         </TabPanel>
       );
     },

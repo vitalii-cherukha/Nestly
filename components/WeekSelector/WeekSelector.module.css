@@ -4,7 +4,9 @@
   overflow-x: auto;
   user-select: none;
   -ms-overflow-style: none;
-  padding-bottom: 32px;
+  margin-bottom: 15.2px;
+  margin-right: -20px;
+  margin-left: -20px;
 }
 
 ::-webkit-scrollbar {

@@ -14,6 +14,8 @@ import { CustomTabs } from "@/components/Tabs/Tabs";
 import BabyTabContent from "@/components/Tabs/BabyTabContent";
 import MomTabContent from "@/components/Tabs/MomTabContent";
 import Loader from "@/components/Loader/Loader";
+import Section from "@/components/Section/Section";
+import Container from "@/components/Container/Container";
 
 export default function JourneyDetails() {
   const [tabIndex, setTabIndex] = React.useState(0);
@@ -76,27 +78,31 @@ export default function JourneyDetails() {
 
   return (
     <>
-      {pregnantData ? (
-        <WeekSelector
-          curWeekToPregnant={pregnantData.curWeekToPregnant}
-          onCardClick={handleOnCardClick}
-          selectedWeek={Number(weekNumber)}
-          weekQty={
-            pregnantData.curWeekToPregnant +
-            Math.ceil(pregnantData.daysBeforePregnant / 7)
-          }
-        />
-      ) : (
-        <Loader styles={{ margin: "auto" }} />
-      )}
+      <Section>
+        <Container>
+          {pregnantData ? (
+            <WeekSelector
+              curWeekToPregnant={pregnantData.curWeekToPregnant}
+              onCardClick={handleOnCardClick}
+              selectedWeek={Number(weekNumber)}
+              weekQty={
+                pregnantData.curWeekToPregnant +
+                Math.ceil(pregnantData.daysBeforePregnant / 7)
+              }
+            />
+          ) : (
+            <Loader styles={{ margin: "auto" }} />
+          )}
 
-      <CustomTabs
-        items={tabData}
-        tabsProps={{
-          selectedIndex: tabIndex,
-          onSelect: setTabIndex,
-        }}
-      />
+          <CustomTabs
+            items={tabData}
+            tabsProps={{
+              selectedIndex: tabIndex,
+              onSelect: setTabIndex,
+            }}
+          />
+        </Container>
+      </Section>
     </>
   );
 }
