@@ -34,9 +34,8 @@ const LoginForm = () => {
 
   return (
     <>
-      <h1 className={css.title}>Вхід</h1>
-
       <form action={handleSubmit} className={css.form}>
+        <h1 className={css.title}>Вхід</h1>
         <div className={css.inputGroup}>
           <label htmlFor="email">Пошта</label>
           <input

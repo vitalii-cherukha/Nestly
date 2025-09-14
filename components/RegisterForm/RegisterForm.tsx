@@ -70,8 +70,6 @@ const RegisterForm = () => {
 
   return (
     <>
-      <h1 className={css.title}>Реєстрація</h1>
-
       <Formik
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
@@ -79,6 +77,7 @@ const RegisterForm = () => {
       >
         {({ isSubmitting }) => (
           <Form className={css.form}>
+            <h1 className={css.title}>Реєстрація</h1>
             <div className={css.inputGroup}>
               <p>Ім&apos;я*</p>
               <Field
