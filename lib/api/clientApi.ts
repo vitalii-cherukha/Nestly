@@ -7,7 +7,6 @@ import { BabyData, MomData } from "./serverApi";
 
 import { GreetingData } from "@/types/greeting";
 
-
 interface GetTasksRep {
   tasks: Task[];
   totalCount: number;
@@ -224,7 +223,6 @@ export const getEmotions = async (params?: {
   return data;
 };
 
-
 export const getWeekInfoBaby = async ({
   weekNumber,
 }: {
@@ -242,7 +240,7 @@ export const getWeekInfoMom = async ({
   const { data } = await nextServer.get(`/weeks/${weekNumber}/mom`);
   return data;
 };
-=======
+
 /////////////////////////ruslan//////////////////////////
 export const getGreeting = async (): Promise<GreetingData> => {
   const { data } = await nextServer.get<GreetingData>("/weeks/greeting");
@@ -253,4 +251,3 @@ export const getPublicGreeting = async (): Promise<GreetingData> => {
   return data;
 };
 /////////////////////////ruslan//////////////////////////
-

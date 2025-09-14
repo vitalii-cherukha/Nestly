@@ -5,11 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import css from "./Page.module.css";
 
-type JourneyPageProps = {
+type AuthPageProps = {
   params: Promise<{ authType?: string[] }>;
 };
 
-export default async function JourneyPage({ params }: JourneyPageProps) {
+export default async function AuthPage({ params }: AuthPageProps) {
   const { authType } = await params;
   const validTypes = ["login", "register"];
   if (!authType || !validTypes.includes(authType[0])) {
