@@ -1,3 +1,9 @@
+.tasksReminderCard {
+  border-radius: 32px;
+  background: var(--color-scheme-foreground);
+  padding: 24px;
+  margin-bottom: 32px;
+}
 .titleWrapper {
   display: flex;
   flex-direction: row;
@@ -96,5 +102,26 @@
   }
   .taskName.done {
     font-size: 16px;
+  }
+  .tasksReminderCard {
+    width: 390px;
+    height: 499px;
+  }
+  .taskList {
+    overflow-y: auto;
+    max-height: 404px;
+  }
+  .taskList::-webkit-scrollbar {
+    width: 10px;
+  }
+  .taskList::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  .taskList::-webkit-scrollbar-thumb {
+    background: #ffcbd3;
+    border-radius: 4px;
   }
 }

@@ -56,7 +56,7 @@ export default function TasksReminderCard() {
   };
 
   return (
-    <>
+    <div className={css.tasksReminderCard}>
       <div className={css.titleWrapper}>
         <h2 className={css.title}>Важливі завдання </h2>
         <button type="button" className={css.addButton}>
@@ -103,6 +103,6 @@ export default function TasksReminderCard() {
           })}
       </ul>
       {/* {modalOpen && <AddTaskModal setModal={setModal} />} */}
-    </>
+    </div>
   );
 }

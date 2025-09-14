@@ -1,0 +1,41 @@
+.momTipCard {
+  border-radius: 32px;
+  background: var(--color-scheme-foreground);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.momTipCard_title {
+  font-weight: 700;
+  font-size: 20px;
+  font-family: var(--font-comfortaa);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--color-scheme-text);
+  margin-bottom: 4px;
+}
+.momTipCard_text {
+  font-weight: 400;
+  font-size: 14px;
+
+  line-height: 1.6;
+  font-family: var(--font-lato);
+  color: var(--color-scheme-text);
+}
+@media only screen and (min-width: 768px) {
+  .momTipCard {
+    margin-bottom: 48px;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  .momTipCard {
+    width: 642px;
+    height: 138px;
+    margin-bottom: 0px;
+  }
+  .momTipCard_title {
+    font-size: 24px;
+  }
+  .momTipCard_text {
+    font-size: 16px;
+  }
+}

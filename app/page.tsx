@@ -1,7 +1,13 @@
-import ApiTestComponent from "@/components/ApiTestComponent/ApiTestComponent";
+// import ApiTestComponent from "@/components/ApiTestComponent/ApiTestComponent";
+
+import DashboardClient from "./dashboard.client";
 
 const Page = () => {
-  return <div>Page</div>;
+  return (
+    <div>
+      <DashboardClient />
+    </div>
+  );
 };
 
 export default Page;
