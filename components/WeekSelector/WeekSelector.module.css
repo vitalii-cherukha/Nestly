@@ -1,0 +1,17 @@
+.list {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  user-select: none;
+  -ms-overflow-style: none;
+  padding-bottom: 32px;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+.list-item {
+  flex-shrink: 0;
+  list-style: none;
+}
