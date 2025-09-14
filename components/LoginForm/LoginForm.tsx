@@ -64,14 +64,14 @@ const LoginForm = () => {
           Увійти
         </button>
 
-        <button
-          type="button"
-          onClick={handleGoogleLogin}
-          className={css.googleButton}
-        >
-          <span className={css.googleIcon}>G</span>
-          Увійти через Google
-        </button>
+        {/* <button */}
+        {/*   type="button" */}
+        {/*   onClick={handleGoogleLogin} */}
+        {/*   className={css.googleButton} */}
+        {/* > */}
+        {/*   <span className={css.googleIcon}>G</span> */}
+        {/*   Увійти через Google */}
+        {/* </button> */}
 
         {error && (
           <span
