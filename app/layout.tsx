@@ -24,7 +24,8 @@ export const metadata: Metadata = {
     type: "website",
   },
 };
-
+// font-family: var(--font-lato);
+//     font-family: var(--font-comfortaa);
 const lato = Lato({
   subsets: ["latin"],
   weight: ["400", "700"],

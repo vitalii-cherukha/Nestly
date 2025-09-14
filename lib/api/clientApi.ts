@@ -2,6 +2,7 @@ import { nextServer } from "./api";
 import { User } from "@/types/user";
 import { DiaryEntry, GetDiaryEntriesRep } from "@/types/note";
 import type { Task } from "@/types/task";
+import { GreetingData } from "@/types/greeting";
 
 interface GetTasksRep {
   tasks: Task[];
@@ -218,3 +219,13 @@ export const getEmotions = async (params?: {
   const { data } = await nextServer.get("/emotions", { params });
   return data;
 };
+/////////////////////////ruslan//////////////////////////
+export const getGreeting = async (): Promise<GreetingData> => {
+  const { data } = await nextServer.get<GreetingData>("/weeks/greeting");
+  return data;
+};
+export const getPublicGreeting = async (): Promise<GreetingData> => {
+  const { data } = await nextServer.get<GreetingData>("/weeks/greeting/public");
+  return data;
+};
+/////////////////////////ruslan//////////////////////////
