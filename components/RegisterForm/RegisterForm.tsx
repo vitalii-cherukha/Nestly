@@ -35,12 +35,14 @@ const RegisterForm = () => {
       .matches(
         /^[a-zA-Zа-яА-ЯёЁ\s]+$/,
         "Ім'я може містити лише букви та пробіли"
-      ),
+      )
+      .trim(),
 
     email: Yup.string()
       .required("Email обов'язковий")
       .email("Введіть коректний email")
-      .max(100, "Email не повинен перевищувати 100 символів"),
+      .max(100, "Email не повинен перевищувати 100 символів")
+      .trim(),
 
     password: Yup.string()
       .required("Пароль обов'язковий")
@@ -49,7 +51,8 @@ const RegisterForm = () => {
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
         "Пароль повинен містити хоча б одну малу літеру, одну велику літеру та одну цифру"
-      ),
+      )
+      .trim(),
   });
 
   const handleSubmit = async (
