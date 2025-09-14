@@ -16,17 +16,10 @@ export default function DiaryClient() {
     <main>
       {isDesktop ? (
         <>
-          <section>
-            {/* <GreetingBlock /> */}
-            <DiaryList onSelectEntry={setSelectedEntry} />
-          </section>
-          <section>
-            {selectedEntry ? (
-              <DiaryEntryDetails entry={selectedEntry} />
-            ) : (
-              <div>Наразі записи у щоденнику відсутні</div>
-            )}
-          </section>
+          {/* <GreetingBlock /> */}
+          <DiaryList onSelectEntry={setSelectedEntry} />
+
+          {selectedEntry ? <DiaryEntryDetails entry={selectedEntry} /> : <></>}
         </>
       ) : (
         // На мобілці лише список
