@@ -1,0 +1,92 @@
+:global(.react-datepicker__month-dropdown-container select),
+:global(.react-datepicker__year-dropdown-container select),
+:global(.react-datepicker__month-text),
+:global(.react-datepicker__month-option),
+:global(.react-datepicker__current-month) {
+    text-transform: capitalize;
+}
+
+
+
+.label {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--font-color);
+}
+
+.datepickerWrapper :global(.react-datepicker-wrapper) {
+    width: 100%;
+}
+
+.datepickerWrapper :global(.react-datepicker__input-container input) {
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 12px;
+    background: var(--input-color);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--font-color);
+    transition: var(--primary-transition);
+    box-sizing: border-box;
+}
+
+.datepickerWrapper :global(.react-datepicker__input-container input:hover) {
+    border-color: var(--input-hover);
+}
+
+.datepickerWrapper :global(.react-datepicker__input-container input:focus) {
+    outline: none;
+    border-color: var(--input-hover);
+}
+
+.datepickerWrapper :global(.react-datepicker__input-container input::placeholder) {
+    color: var(--placeholder-color);
+}
+
+.datepickerWrapper :global(.react-datepicker) {
+    background: var(--input-color);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.datepickerWrapper :global(.react-datepicker__header) {
+    background: var(--input-color);
+    border-bottom: 1px solid var(--input-border);
+    border-radius: 4px 4px 0 0;
+}
+
+.datepickerWrapper :global(.react-datepicker__current-month),
+.datepickerWrapper :global(.react-datepicker__day-name),
+.datepickerWrapper :global(.react-datepicker__day) {
+    color: var(--font-color);
+    text-transform: capitalize;
+}
+
+.datepickerWrapper :global(.react-datepicker__day:hover) {
+    background-color: var(--input-hover);
+}
+
+.datepickerWrapper :global(.react-datepicker__day--selected) {
+    background-color: var(--input-hover);
+    color: var(--font-color);
+}
+
+.datepickerWrapper :global(.react-datepicker__month-dropdown),
+.datepickerWrapper :global(.react-datepicker__year-dropdown) {
+    background: var(--input-color);
+    border: 1px solid var(--input-border);
+}
+
+.datepickerWrapper :global(.react-datepicker__month-option),
+.datepickerWrapper :global(.react-datepicker__year-option) {
+    color: var(--font-color);
+    text-transform: capitalize;
+}
+
+.datepickerWrapper :global(.react-datepicker__month-option:hover),
+.datepickerWrapper :global(.react-datepicker__year-option:hover) {
+    background-color: var(--input-hover);
+}

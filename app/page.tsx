@@ -1,7 +1,8 @@
 import ApiTestComponent from "@/components/ApiTestComponent/ApiTestComponent";
+import EditProfilePage from "./(private routes)/profile/edit/page";
 
 const Page = () => {
-  return <div>Page</div>;
+  return <EditProfilePage />;
 };
 
 export default Page;
