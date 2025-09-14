@@ -4,6 +4,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTask } from "../../lib/api/clientApi";
 import css from "./AddTaskForm.module.css";
 import { useState } from "react";
+import { SlArrowDown } from "react-icons/sl";
+import { SlArrowUp } from "react-icons/sl";
+import { BsXLg } from "react-icons/bs";
+import { BsCheckSquareFill } from "react-icons/bs";
+import { GiPlainSquare } from "react-icons/gi";
 
 interface AddTaskFormProps {
   onCloseModal: () => void;
@@ -59,6 +64,7 @@ const initialValues: FormValues = {
 
 const AddTaskForm = ({ onCloseModal }: AddTaskFormProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createTask,
@@ -82,6 +88,8 @@ const AddTaskForm = ({ onCloseModal }: AddTaskFormProps) => {
 
   return (
     <>
+      <BsXLg className={css.closeButton} onClick={onCloseModal} />
+
       <h1 className={css.title}>Новий запис</h1>
       <Formik
         validationSchema={ValidationSchema}
@@ -126,15 +134,22 @@ const AddTaskForm = ({ onCloseModal }: AddTaskFormProps) => {
                     </span>
                   ))
                 )}
-                <span className={css.arrow}>{isDropdownOpen ? "▲" : "▼"}</span>
+                <span className={css.arrow}>
+                  {isDropdownOpen ? <SlArrowDown /> : <SlArrowUp />}
+                </span>
               </div>
 
               {isDropdownOpen && (
                 <div className={css.dropdownMenu}>
                   {categories.map((category) => (
                     <label key={category} className={css.checkboxLabel}>
+                      {values.categories.includes(category) ? (
+                        <BsCheckSquareFill className={css.checkboxIcon} />
+                      ) : (
+                        <GiPlainSquare className={css.checkboxIcon} />
+                      )}
                       <input
-                        className={css.checkbox}
+                        className={css.hiddenCheckbox}
                         type="checkbox"
                         checked={values.categories.includes(category)}
                         onChange={(e) => {
