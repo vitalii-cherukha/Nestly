@@ -11,6 +11,7 @@
   height: 91px;
   background: #ffdae0;
   font-family: var(--font-lato);
+  cursor: pointer;
 }
 
 .diaryNoteTopWrapper {
