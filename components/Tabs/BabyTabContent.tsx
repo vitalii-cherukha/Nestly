@@ -10,7 +10,6 @@ type Props = {
 };
 
 const BabyTabContent: React.FC<Props> = ({ data }) => {
-  console.log("data", data);
   return (
     <div className={clsx(css["baby-container"])}>
       <div className={clsx(css["baby-img-cont"])}>
