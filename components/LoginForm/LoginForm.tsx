@@ -21,15 +21,11 @@ const LoginForm = () => {
 
       if (user) {
         setUser(user);
-        router.push("/my-day");
+        router.push("/");
       }
     } catch (error) {
       setError((error as ApiError).message ?? "Щось пішло не так");
     }
-  };
-
-  const handleGoogleLogin = () => {
-    console.log("Вхід через Google");
   };
 
   return (

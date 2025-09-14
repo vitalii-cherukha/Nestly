@@ -59,7 +59,7 @@ const RegisterForm = () => {
     try {
       console.log("Registration values:", values);
       await register(values);
-      router.push("/profile");
+      router.push("/profile/edit");
     } catch (error) {
       setError((error as ApiError).message ?? "Помилка реєстрації");
       actions.setFieldError("general", "Сталася помилка при реєстрації");
