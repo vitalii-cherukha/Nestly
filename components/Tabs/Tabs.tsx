@@ -11,7 +11,7 @@ import {
   TabProps,
 } from "react-tabs";
 
-import css from ".Tabs.module.css";
+import css from "./Tabs.module.css";
 import "react-tabs/style/react-tabs.css";
 import Loader from "../Loader/Loader";
 
