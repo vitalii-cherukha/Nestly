@@ -2,6 +2,7 @@ import { nextServer } from "./api";
 import { User } from "@/types/user";
 import { DiaryEntry, GetDiaryEntriesRep } from "@/types/note";
 import type { Task } from "@/types/task";
+import { BabyData, MomData } from "./serverApi";
 
 interface GetTasksRep {
   tasks: Task[];
@@ -216,5 +217,23 @@ export const getEmotions = async (params?: {
   limit?: number;
 }): Promise<GetEmotionsRep> => {
   const { data } = await nextServer.get("/emotions", { params });
+  return data;
+};
+
+export const getWeekInfoBaby = async ({
+  weekNumber,
+}: {
+  weekNumber: string;
+}): Promise<BabyData> => {
+  const { data } = await nextServer.get(`/weeks/${weekNumber}/baby`);
+  return data;
+};
+
+export const getWeekInfoMom = async ({
+  weekNumber,
+}: {
+  weekNumber: string;
+}): Promise<MomData> => {
+  const { data } = await nextServer.get(`/weeks/${weekNumber}/mom`);
   return data;
 };
