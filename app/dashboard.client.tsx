@@ -1,3 +1,4 @@
+"use client";
 import BabyTodayCard from "@/components/BabyTodayCard/BabyTodayCard";
 import MomTipCard from "@/components/MomTipCard/MomTipCard";
 import StatusBlock from "@/components/StatusBlock/StatusBlock";
