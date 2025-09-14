@@ -31,7 +31,7 @@ export default async function JourneyPage({ params }: JourneyPageProps) {
       <div className={css.imageSection}>
         <Image
           src="/sign-in-img.jpg"
-          alt="Яйца в гнезде"
+          alt="Яйця в гнiздi"
           width={820}
           height={900}
           priority
@@ -53,7 +53,7 @@ export default async function JourneyPage({ params }: JourneyPageProps) {
       <div className={css.imageSection}>
         <Image
           src="/sign-up-img.jpg"
-          alt="Аисты"
+          alt="Лелека"
           width={720}
           height={900}
           priority
