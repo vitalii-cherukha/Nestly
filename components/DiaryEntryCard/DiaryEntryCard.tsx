@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useMediaQuery } from "react-responsive";
 import type { DiaryEntry } from "@/types/note";
+import css from "./DiaryEntryCard.module.css";
 
 interface Props {
   entry: DiaryEntry;
@@ -22,16 +23,22 @@ export default function DiaryEntryCard({ entry, onClick }: Props) {
   };
 
   return (
-    <div onClick={handleClick}>
-      <h3>{entry.title}</h3>
-      <p>{new Date(entry.date).toLocaleDateString()}</p>
-      {/* <div>
-        {entry.emotions.map((emo) => (
-          <span key={emo} className="text-lg">
-            {emo}
-          </span>
-        ))}
-      </div> */}
+    <div className={css.diaryNoteWrapper} onClick={handleClick}>
+      <div className={css.diaryNoteTopWrapper}>
+        <h3 className={css.diaryNoteTitle}>{entry.title}</h3>
+        <p className={css.diaryNoteDate}>
+          {new Date(entry.date).toLocaleDateString()}
+        </p>
+      </div>
+      <div className={css.diaryEmotionsWrapper}>
+        <ul>
+          {entry.emotions.map((emo, index) => (
+            <li key={`${emo._id}-${index}`} className={css.emotionsItem}>
+              {emo.title}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

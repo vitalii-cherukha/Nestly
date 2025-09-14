@@ -1,0 +1,10 @@
+.diaryDetailsWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 32px;
+  padding: 32px 20px;
+  width: 375px;
+  background: #fff;
+}
