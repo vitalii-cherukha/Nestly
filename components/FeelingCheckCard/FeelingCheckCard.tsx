@@ -20,7 +20,7 @@ export default function FeelingCheckCard() {
   };
 
   return (
-    <div>
+    <div className={css.feelingCheckCard}>
       <h2 className={css.title}> Як ви себе почуваєте? </h2>
       <div className={css.recWrapper}>
         <h3 className={css.recTitle}>Рекомендація на сьогодні:</h3>

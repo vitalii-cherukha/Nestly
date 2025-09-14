@@ -1,3 +1,8 @@
+.feelingCheckCard {
+  border-radius: 32px;
+  background: var(--color-scheme-foreground);
+  padding: 24px;
+}
 .title {
   font-family: var(--font-comfortaa);
   font-weight: 700;
@@ -6,7 +11,7 @@
   letter-spacing: 0.01em;
   color: var(--font-color);
   margin-bottom: 8px;
-  max-width: 213px;
+  /* max-width: 213px; */
 }
 
 .recWrapper {
@@ -16,15 +21,17 @@
 }
 
 .recTitle {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
   line-height: 160%;
   color: var(--font-color);
+  font-family: var(--font-lato);
 }
 .recText {
   font-size: 14px;
   line-height: 150%;
   color: var(--font-color);
+  font-family: var(--font-lato);
 }
 .button {
   background: var(--btn-color);
@@ -33,10 +40,11 @@
   padding: 10px 24px;
   width: 225px;
   max-height: 42px;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 14px;
   line-height: 160%;
   color: var(--font-color);
+  font-family: var(--font-lato);
   transition:
     background var(--primary-transition),
     border-bottom var(--primary-transition);
@@ -51,14 +59,14 @@
   border-bottom: var(--btn-active-bottom);
 }
 @media screen and (min-width: 768px) {
-  .title {
+  /* .title {
     max-width: 100%;
-  }
+  } */
 }
 @media screen and (min-width: 1440px) {
   .title {
     font-size: 24px;
-    max-width: 213px;
+    /* max-width: 213px; */
   }
   .recTitle {
     font-size: 16px;
