@@ -31,6 +31,10 @@ const LoginForm = () => {
       .required("Email обов'язковий")
       .email("Введіть коректний email")
       .max(100, "Email не повинен перевищувати 100 символів")
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/,
+        "Email повинен закінчуватися на .com"
+      )
       .trim(),
 
     password: Yup.string()
@@ -57,7 +61,7 @@ const LoginForm = () => {
         router.push("/");
       }
     } catch (error) {
-      setError((error as ApiError).message ?? "Щось пішло не так");
+      setError("Щось пішло не так. Перевірте введені дані.");
     } finally {
       setSubmitting(false);
     }
@@ -74,7 +78,6 @@ const LoginForm = () => {
           <h1 className={css.title}>Вхід</h1>
 
           <div className={css.inputGroup}>
-            <label htmlFor="email">Пошта</label>
             <Field
               id="email"
               type="email"
@@ -82,11 +85,10 @@ const LoginForm = () => {
               placeholder="Пошта"
               className={css.input}
             />
-            <ErrorMessage name="email" component="div" />
+            <ErrorMessage name="email" component="span" className={css.error} />
           </div>
 
           <div className={css.inputGroup}>
-            <label htmlFor="password">Пароль</label>
             <Field
               id="password"
               type="password"
@@ -94,7 +96,11 @@ const LoginForm = () => {
               placeholder="Пароль"
               className={css.input}
             />
-            <ErrorMessage name="password" component="div" />
+            <ErrorMessage
+              name="password"
+              component="span"
+              className={css.error}
+            />
           </div>
 
           <button
@@ -105,21 +111,11 @@ const LoginForm = () => {
             {isSubmitting ? "Загрузка..." : "Увійти"}
           </button>
 
-          {error && (
-            <span
-              style={{
-                color: "#ef4444",
-                fontSize: "14px",
-                textAlign: "center",
-              }}
-            >
-              {error}
-            </span>
-          )}
+          {error && <span>{error}</span>}
 
-          <div className={css.registerPrompt}>
+          <div className={css.spanText}>
             <span>Немає аккаунту? </span>
-            <Link href="/auth/register" className={css.registerLink}>
+            <Link href="/auth/register" className={css.spanLink}>
               Зареєструватися
             </Link>
           </div>

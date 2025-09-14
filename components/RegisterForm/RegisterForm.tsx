@@ -42,6 +42,10 @@ const RegisterForm = () => {
       .required("Email обов'язковий")
       .email("Введіть коректний email")
       .max(100, "Email не повинен перевищувати 100 символів")
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/,
+        "Email повинен закінчуватися на .com"
+      )
       .trim(),
 
     password: Yup.string()
@@ -82,7 +86,7 @@ const RegisterForm = () => {
           <Form className={css.form}>
             <h1 className={css.title}>Реєстрація</h1>
             <div className={css.inputGroup}>
-              <p>Ім&apos;я*</p>
+              <p className={css.inputTitle}>Ім&apos;я*</p>
               <Field
                 type="text"
                 name="name"
@@ -136,23 +140,9 @@ const RegisterForm = () => {
 
             {error && <span className={css.error}>{error}</span>}
 
-            <div
-              style={{
-                marginTop: "24px",
-                textAlign: "center",
-                color: "#6b7280",
-                fontSize: "14px",
-              }}
-            >
+            <div className={css.spanText}>
               <span>Вже маєте аккаунт? </span>
-              <Link
-                href="/auth/login"
-                style={{
-                  color: "#f472b6",
-                  textDecoration: "none",
-                  fontWeight: 500,
-                }}
-              >
+              <Link href="/auth/login" className={css.spanLink}>
                 Увійти
               </Link>
             </div>
