@@ -1,24 +1,16 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { fetchDiaryById } from "@/lib/api/clientApi";
+import { getDiaryListServer } from "@/lib/api/serverApi";
 import DiaryEntryDetails from "@/components/DiaryEntryDetails/DiaryEntryDetails";
-import type { DiaryEntry } from "@/types/note";
 
-interface Props {
-  params: { entryId: string };
-}
+export default async function DiaryEntryPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const { diaryNotes } = await getDiaryListServer(); // <-- беремо масив
 
-export default function DiaryEntryPage({ params }: Props) {
-  const [entry, setEntry] = useState<DiaryEntry | null>(null);
+  const entry = diaryNotes.find((e) => e._id === params.id);
 
-  useEffect(() => {
-    fetchDiaryById(params.entryId).then(setEntry);
-  }, [params.entryId]);
-
-  if (!entry) {
-    return <div>Завантаження...</div>;
-  }
+  if (!entry) return <p>Запис не знайдено</p>;
 
   return <DiaryEntryDetails entry={entry} />;
 }

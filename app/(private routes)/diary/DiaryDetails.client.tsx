@@ -6,6 +6,7 @@ import DiaryList from "@/components/DiaryList/DiaryList";
 import DiaryEntryDetails from "@/components/DiaryEntryDetails/DiaryEntryDetails";
 import { useState } from "react";
 import type { DiaryEntry } from "@/types/note";
+import css from "./DiaryDetails.module.css";
 
 export default function DiaryDetailsClient() {
   const isDesktop = useMediaQuery({ minWidth: 1024 });
@@ -13,7 +14,7 @@ export default function DiaryDetailsClient() {
   const [selectedEntry, setSelectedEntry] = useState<DiaryEntry | null>(null);
 
   return (
-    <main>
+    <main className={css.diaryMainWrapper}>
       {isDesktop ? (
         <>
           {/* <GreetingBlock /> */}
