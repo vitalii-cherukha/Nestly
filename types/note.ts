@@ -48,3 +48,5 @@ export interface GetDiaryEntriesRep {
   totalPages: number;
   page: number;
 }
+
+export type SortOrder = "asc" | "desc";
