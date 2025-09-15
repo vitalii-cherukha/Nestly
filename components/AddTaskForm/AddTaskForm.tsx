@@ -1,24 +1,13 @@
+"use client";
 import { Field, Form, Formik, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTask } from "../../lib/api/clientApi";
 import css from "./AddTaskForm.module.css";
-import { useState } from "react";
-import { SlArrowDown } from "react-icons/sl";
-import { SlArrowUp } from "react-icons/sl";
 import { BsXLg } from "react-icons/bs";
-import { BsCheckSquareFill } from "react-icons/bs";
-import { GiPlainSquare } from "react-icons/gi";
 
 interface AddTaskFormProps {
   onCloseModal: () => void;
-}
-
-interface FormValues {
-  name: string;
-  categories: string[];
-  description: string;
-  date: string;
 }
 
 interface NewTask {
@@ -28,43 +17,23 @@ interface NewTask {
 
 const ValidationSchema = Yup.object().shape({
   name: Yup.string()
-    .min(3, "Заголовок повинен містити мінімум 3 символи")
-    .max(50, "Заголовок не може містити більше 50 символів")
-    .required("Заголовок є обов'язковим"),
-  description: Yup.string().max(
-    500,
-    "Опис не може містити більше 500 символів"
-  ),
-  categories: Yup.array()
-    .min(1, "Оберіть хоча б одну категорію")
-    .required("Категорія є обов'язковою"),
+    .min(3, "Завдання має містити мінімум 3 символи")
+    .max(50, "Завдання не може містити більше 50 символів")
+    .required("Назва завдання є обов'язковою"),
+  date: Yup.string().required("Дата є обов'язковою"),
 });
 
-const categories = [
-  "Натхнення",
-  "Вдячність",
-  "Тривога",
-  "Дивні бажання",
-  "Нудота",
-  "Радість",
-  "Хвилювання",
-  "Занепокоєння",
-  "Плаксивість",
-  "Щастя",
-  "Нетерпіння",
-  "Сум",
-];
+const getCurrentDate = (): string => {
+  const now = new Date();
+  return now.toISOString().split("T")[0];
+};
 
-const initialValues: FormValues = {
+const initialValues: NewTask = {
   name: "",
-  categories: [],
-  description: "",
-  date: "",
+  date: getCurrentDate(),
 };
 
 const AddTaskForm = ({ onCloseModal }: AddTaskFormProps) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createTask,
@@ -72,17 +41,13 @@ const AddTaskForm = ({ onCloseModal }: AddTaskFormProps) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       onCloseModal();
     },
+    onError: (error) => {
+      console.error("Помилка:", error);
+    },
   });
 
-  const handleSubmit = (
-    values: FormValues,
-    actions: FormikHelpers<FormValues>
-  ) => {
-    const taskData = {
-      ...values,
-      category: values.categories.join(", "),
-    };
-    mutation.mutate(taskData as NewTask);
+  const handleSubmit = (values: NewTask, actions: FormikHelpers<NewTask>) => {
+    mutation.mutate(values);
     actions.resetForm();
   };
 
@@ -90,17 +55,17 @@ const AddTaskForm = ({ onCloseModal }: AddTaskFormProps) => {
     <>
       <BsXLg className={css.closeButton} onClick={onCloseModal} />
 
-      <h1 className={css.title}>Новий запис</h1>
+      <h1 className={css.title}>Нове завдання</h1>
       <Formik
         validationSchema={ValidationSchema}
         initialValues={initialValues}
         onSubmit={handleSubmit}
       >
-        {({ values, setFieldValue, errors, touched }) => (
+        {({ errors, touched }) => (
           <Form className={css.form}>
             <div className={css.formGroup}>
               <label className={css.label} htmlFor="name">
-                Заголовок
+                Назва завдання
               </label>
               <Field
                 className={`${css.input} ${
@@ -109,90 +74,24 @@ const AddTaskForm = ({ onCloseModal }: AddTaskFormProps) => {
                 id="name"
                 type="text"
                 name="name"
-                placeholder="Введіть заголовок запису"
+                placeholder="Прийняти вітаміни"
               />
               <ErrorMessage name="name" component="div" className={css.error} />
             </div>
 
             <div className={css.formGroup}>
-              <label className={css.label}>Категорії</label>
-
-              <div
-                className={`${css.dropdown} ${
-                  errors.categories && touched.categories
-                    ? css.dropdownError
-                    : ""
-                }  ${isDropdownOpen ? css.dropdownOpen : ""}`}
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                {values.categories.length === 0 ? (
-                  <span className={css.placeholder}>Оберіть категорію</span>
-                ) : (
-                  values.categories.map((cat) => (
-                    <span key={cat} className={css.tag}>
-                      {cat}
-                    </span>
-                  ))
-                )}
-                <span className={css.arrow}>
-                  {isDropdownOpen ? <SlArrowDown /> : <SlArrowUp />}
-                </span>
-              </div>
-
-              {isDropdownOpen && (
-                <div className={css.dropdownMenu}>
-                  {categories.map((category) => (
-                    <label key={category} className={css.checkboxLabel}>
-                      {values.categories.includes(category) ? (
-                        <BsCheckSquareFill className={css.checkboxIcon} />
-                      ) : (
-                        <GiPlainSquare className={css.checkboxIcon} />
-                      )}
-                      <input
-                        className={css.hiddenCheckbox}
-                        type="checkbox"
-                        checked={values.categories.includes(category)}
-                        onChange={(e) => {
-                          const newCategories = e.target.checked
-                            ? [...values.categories, category]
-                            : values.categories.filter((c) => c !== category);
-                          setFieldValue("categories", newCategories);
-                        }}
-                      />
-                      {category}
-                    </label>
-                  ))}
-                </div>
-              )}
-
-              <ErrorMessage
-                name="categories"
-                component="div"
-                className={css.error}
-              />
-            </div>
-
-            <div className={css.formGroup}>
-              <label className={css.label} htmlFor="description">
-                Запис
+              <label className={css.label} htmlFor="date">
+                Дата
               </label>
               <Field
-                as="textarea"
-                id="description"
-                name="description"
-                rows={8}
-                className={`${css.textarea} ${
-                  errors.description && touched.description
-                    ? css.textareaError
-                    : ""
+                className={`${css.input} ${
+                  errors.date && touched.date ? css.inputError : ""
                 }`}
-                placeholder="Запишіть, як ви себе відчуваєте"
+                id="date"
+                type="date"
+                name="date"
               />
-              <ErrorMessage
-                name="description"
-                component="div"
-                className={css.error}
-              />
+              <ErrorMessage name="date" component="div" className={css.error} />
             </div>
 
             <div className={css.actions}>

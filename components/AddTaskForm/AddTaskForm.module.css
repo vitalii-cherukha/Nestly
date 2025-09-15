@@ -6,9 +6,9 @@
 }
 
 .closeButton {
-  fill: #fff;
+  fill: var(--btn-hover);
   stroke-width: 1px;
-  stroke: #000;
+  stroke: var(--font-color);
   width: 15px;
   height: 15px;
   margin-left: 272px;
@@ -18,14 +18,17 @@
 }
 
 .title {
-  font-family: "Comfortaa", sans-serif;
+  margin-bottom: 48px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 187px;
+  font-family: var(--font-comfortaa), sans-serif;
   font-weight: 700;
   font-size: 36px;
   line-height: 120%;
   letter-spacing: 0.01em;
   text-align: center;
-  color: #000;
-  margin-bottom: 20px;
+  color: var(--font-color);
 }
 
 .fieldGroup {
@@ -33,18 +36,18 @@
 }
 
 .label {
-  font-family: "Lato", sans-serif;
+  font-family: var(--font-lato), sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
-  color: #000;
+  color: var(--font-color);
 }
 
 .input {
   width: 100%;
-  font-family: "Comfortaa", sans-serif;
+  font-family: var(--font-comfortaa), sans-serif;
   transition: all 0.2s ease;
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--secondary-btn-disabled);
   resize: none;
   border: 2px solid rgba(255, 255, 255, 0);
   border-radius: 12px;
@@ -52,33 +55,10 @@
   width: 294px;
   height: 37px;
   margin-top: 8px;
-  color: #000;
+  color: var(--font-color);
 }
 input::placeholder {
-  font-family: "Lato", sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 150%;
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.textarea {
-  width: 100%;
-  font-family: "Comfortaa", sans-serif;
-  transition: all 0.2s ease;
-  background: rgba(0, 0, 0, 0.05);
-  resize: none;
-  border: 2px solid rgba(255, 255, 255, 0);
-  border-radius: 12px;
-  padding: 8px 12px;
-  width: 294px;
-  height: 250px;
-  margin-top: 8px;
-  color: #000;
-}
-
-textarea::placeholder {
-  font-family: "Lato", sans-serif;
+  font-family: var(--font-lato), sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
@@ -86,22 +66,19 @@ textarea::placeholder {
 }
 
 .input:focus,
-.input:hover,
-.textarea:hover,
-.textarea:focus {
-  border: 2px solid #ffcbd3;
+.input:hover {
+  border: 2px solid var(--accent-color);
   outline: none;
 }
 
-.input::placeholder,
-.textarea::placeholder {
+.input::placeholder {
   color: #999;
-  font-family: "Comfortaa", sans-serif;
+  font-family: var(--font-comfortaa), sans-serif;
 }
 
 .error {
   color: #c60000;
-  font-family: "Lato", sans-serif;
+  font-family: var(--font-lato), sans-serif;
   font-weight: 400;
   font-size: 12px;
   line-height: 160%;
@@ -115,14 +92,6 @@ textarea::placeholder {
   color: #c60000;
 }
 
-.textareaError {
-  border: 2px solid #c60000;
-}
-
-.dropdownError {
-  border: 2px solid #c60000;
-}
-
 .actions {
   display: flex;
   gap: 12px;
@@ -134,168 +103,55 @@ textarea::placeholder {
   padding: 14px 20px;
   border: none;
   cursor: pointer;
-  font-family: "Lato", sans-serif;
+  font-family: var(--font-lato), sans-serif;
   font-weight: 500;
   font-size: 14px;
   line-height: 160%;
-  color: #000;
+  color: var(--font-color);
   transition: all 0.2s ease;
-  border-bottom: 4px solid #ffcbd3;
+  border-bottom: 4px solid var(--accent-color);
   border-radius: 100px;
   padding: 10px 24px;
   width: 294px;
   height: 42px;
   margin-bottom: 28px;
-  background: #ffdae0;
+  background: var(--third-bg-color);
   transition: all 0.2s ease;
 }
 
 .submitButton:hover,
 .submitButton:focus {
   border-bottom: 4px solid rgba(0, 0, 0, 0.15);
-  background: #fff;
+  background: var(--btn-hover);
 }
 
-.dropdown {
-  min-height: 48px;
-  width: 100%;
-  cursor: pointer;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  position: relative;
-  background: #f2f2f2;
-  border: 1px solid rgba(255, 255, 255, 0);
-  border-radius: 12px;
-  padding: 8px 12px;
-  width: 294px;
-  margin-top: 8px;
-  transition: all 0.2s ease;
+@media screen and (min-width: 768px) {
+  .title {
+    width: 640px;
+    height: 43px;
+  }
+  .closeButton {
+    margin-left: 612px;
+  }
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .input {
+    width: 640px;
+    height: 37px;
+  }
+  .actions {
+    margin: auto;
+  }
 }
 
-.dropdownOpen {
-  border-radius: 12px 12px 0 0;
-}
-.dropdown:hover {
-  border: 2px solid #ffcbd3;
-  outline: none;
-}
-.placeholder {
-  color: #9ca3af;
-  font-size: 14px;
-  font-family: "Lato", sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 150%;
-}
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0);
-  border-radius: 100px;
-  padding: 4px 10px;
-  width: 90px;
-  height: 29px;
-  font-family: "Lato", sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 150%;
-  color: #000;
-}
-
-.arrow {
-  position: absolute;
-  right: 12px;
-  color: #9ca3af;
-  font-size: 12px;
-}
-
-.dropdownMenu {
-  position: absolute;
-  z-index: 10;
-  background: #f2f2f2;
-  max-height: 220px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0 0 12px 12px;
-  padding: 8px 0px;
-  width: 295px;
-}
-
-.dropdownMenu::-webkit-scrollbar {
-  width: 6px;
-  margin-right: 14px;
-}
-
-.dropdownMenu::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  width: 6px;
-  max-height: 204px;
-}
-
-.dropdownMenu::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-  width: 10px;
-  max-height: 56px;
-  background: #ffcbd3;
-}
-
-.dropdownMenu::-webkit-scrollbar-thumb:hover {
-  background: #ffb6c1;
-}
-
-.checkboxLabel {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  cursor: pointer;
-  font-size: 14px;
-  border-bottom: 1px solid #f3f4f6;
-  border-radius: 8px;
-  padding: 8px 12px;
-  width: 294px;
-  height: 37px;
-  font-family: "Lato", sans-serif;
-  font-weight: 400;
-  color: #000;
-  margin-bottom: 8px;
-  transition: all 0.2s ease;
-}
-
-.checkboxLabel:hover {
-  background: #f9fafb;
-}
-
-.checkboxLabel input {
-  margin-right: 8px;
-}
-
-.hiddenCheckbox {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-  fill: #000;
-}
-
-.checkboxIcon {
-  width: 18px;
-  height: 18px;
-  margin-right: 8px;
-  flex-shrink: 0;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.05);
-  fill: rgba(0, 0, 0, 0.05);
-}
-
-.checkboxIcon:checked {
-  fill: #000;
+@media screen and (min-width: 1440px) {
+  .closeButton {
+    margin-left: 644px;
+  }
+  .input {
+    height: 40px;
+  }
 }
