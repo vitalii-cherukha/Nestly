@@ -10,7 +10,7 @@ import { useSidebar } from "@/lib/store/sidebarStore";
 export default function Header() {
   const { open, toggle } = useSidebar();
   return (
-    <div>
+    <div className={css.header}>
       <Container>
         <nav className={css.headerNav}>
           <Link href="/">

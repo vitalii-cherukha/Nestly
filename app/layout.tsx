@@ -10,6 +10,7 @@ import AuthProvider from "@/components/AuthProvider/AuthProvider";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import AuthInterceptor from "@/components/AuthInterceptor/AuthInterceptor";
+import css from "./layout.module.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_DOMAIN),
@@ -52,10 +53,14 @@ export default function RootLayout({
           <AuthProvider>
             <AuthInterceptor />
             <Header />
-            <Breadcrumbs />
-            <div className="layout-shell">
-              <Sidebar />
-              <main className="main-content">{children}</main>
+            <div className={css.layout}>
+              <div className={css.sidebarWrapper}>
+                <Sidebar />
+              </div>
+              <main className={css.main}>
+                <Breadcrumbs />
+                {children}
+              </main>
             </div>
             {/* {modal} */}
           </AuthProvider>

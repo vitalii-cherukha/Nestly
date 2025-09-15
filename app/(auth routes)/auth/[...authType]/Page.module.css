@@ -18,7 +18,7 @@
   height: 100%;
   object-fit: cover;
 }
-
+/* Desktop */
 @media (max-width: 1439px) {
   .imageSection {
     display: none;
