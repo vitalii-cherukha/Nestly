@@ -2,7 +2,14 @@
 
 import { DiaryEntry, Emotion, CreateNote } from "@/types/note";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage,
+  FormikHelpers,
+  FieldProps,
+} from "formik";
 import * as Yup from "yup";
 import { nextServer } from "@/lib/api/api";
 import toast from "react-hot-toast";
@@ -10,6 +17,7 @@ import css from "./DiaryEntryForm.module.css";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
 import { createDiaryEntry, updateDiaryEntry } from "@/lib/api/clientApi";
+import { useCreateNewNoteFormStore } from "@/lib/store/noteStore";
 
 type EmotionsResponse =
   | Emotion[]
@@ -58,11 +66,15 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const initialValues: CreateNote = {
-    title: entry?.title || "",
-    description: entry?.description || "",
-    emotions: entry?.emotions?.map((emotion) => emotion._id) || [],
-  };
+  const { draft, setDraft, clearDraft } = useCreateNewNoteFormStore();
+
+  const initialValues: CreateNote = entry
+    ? {
+        title: entry.title || "",
+        description: entry.description || "",
+        emotions: entry.emotions?.map((emotion) => emotion._id) || [],
+      }
+    : draft;
 
   const getErrorMessage = (err: unknown): string => {
     if (typeof err === "string") return err;
@@ -185,6 +197,7 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
       } else {
         console.log("[form] createDiaryEntry -> POST /diary");
         await createDiaryEntry(values);
+        clearDraft();
       }
 
       toast.success(
@@ -259,19 +272,28 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        enableReinitialize
+        enableReinitialize={!!entry}
       >
         {({ values, setFieldValue, isSubmitting }) => (
           <Form className={css.form}>
             <label htmlFor="title" className={css.formGroup}>
               Заголовок
-              <Field
-                id="title"
-                name="title"
-                type="text"
-                className={css.input}
-                placeholder="Введіть заголовок запису"
-              />
+              <Field name="title">
+                {({ field, form }: FieldProps<string, CreateNote>) => (
+                  <input
+                    {...field}
+                    id="title"
+                    type="text"
+                    className={css.input}
+                    placeholder="Введіть заголовок запису"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      field.onChange(e);
+                      if (!entry)
+                        setDraft({ ...form.values, title: e.target.value });
+                    }}
+                  />
+                )}
+              </Field>
               <div className={css.errorSlot}>
                 <ErrorMessage
                   name="title"
@@ -406,6 +428,11 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
                                   next: newEmotions,
                                 });
                                 setFieldValue("emotions", newEmotions);
+                                if (!entry)
+                                  setDraft({
+                                    ...values,
+                                    emotions: newEmotions,
+                                  });
                               }}
                             >
                               <div className={css.checkbox}>
@@ -439,14 +466,25 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
 
             <label htmlFor="description" className={css.formGroup}>
               Запис
-              <Field
-                id="description"
-                name="description"
-                as="textarea"
-                className={css.textarea}
-                placeholder="Запишіть, як ви себе відчуваєте"
-                rows={5}
-              />
+              <Field name="description">
+                {({ field, form }: FieldProps<string, CreateNote>) => (
+                  <textarea
+                    {...field}
+                    id="description"
+                    className={css.textarea}
+                    placeholder="Запишіть, як ви себе відчуваєте"
+                    rows={5}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                      field.onChange(e);
+                      if (!entry)
+                        setDraft({
+                          ...form.values,
+                          description: e.target.value,
+                        });
+                    }}
+                  />
+                )}
+              </Field>
               <div className={css.errorSlot}>
                 <ErrorMessage
                   name="description"
