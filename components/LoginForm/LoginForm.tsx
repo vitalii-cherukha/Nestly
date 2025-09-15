@@ -5,7 +5,6 @@ import css from "./LoginForm.module.css";
 import { useState } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
 import { login } from "@/lib/api/clientApi";
-import { ApiError } from "next/dist/server/api-utils";
 import { LoginData } from "@/types/user";
 import Link from "next/link";
 import { Formik, Form, Field, type FormikHelpers, ErrorMessage } from "formik";

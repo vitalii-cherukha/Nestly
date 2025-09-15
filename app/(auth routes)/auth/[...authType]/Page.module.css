@@ -4,24 +4,6 @@
   position: relative;
 }
 
-/* .logo {
-  position: absolute;
-  top: 21px;
-  left: 68px;
-}
-
-.logoLink {
-  display: flex;
-  gap: 12px;
-}
-
-.logoText {
-  font-size: 24px;
-  font-weight: 700;
-  white-space: nowrap;
-  letter-spacing: 2px;
-} */
-
 .formSection {
   flex: 1;
   display: flex;
@@ -37,7 +19,7 @@
   object-fit: cover;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1439px) {
   .imageSection {
     display: none;
   }

@@ -1,7 +1,6 @@
 import LoginForm from "@/components/LoginForm/LoginForm";
 import { notFound } from "next/navigation";
 import RegisterForm from "@/components/RegisterForm/RegisterForm";
-import Link from "next/link";
 import Image from "next/image";
 import css from "./Page.module.css";
 import Logo from "@/components/Logo/Logo";

@@ -16,3 +16,16 @@
   white-space: nowrap;
   letter-spacing: 2px;
 }
+
+@media (max-width: 1439px) {
+  .logo {
+    top: 13px;
+    left: 32px;
+  }
+}
+@media (max-width: 767px) {
+  .logo {
+    top: 13px;
+    left: 20px;
+  }
+}
