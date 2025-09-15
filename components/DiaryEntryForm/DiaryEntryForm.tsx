@@ -2,7 +2,14 @@
 
 import { DiaryEntry, Emotion, CreateNote } from "@/types/note";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage,
+  FormikHelpers,
+  useFormikContext, // [DRAFT-ONLY-NEW ADDED]
+} from "formik";
 import * as Yup from "yup";
 import { nextServer } from "@/lib/api/api";
 import toast from "react-hot-toast";
@@ -10,6 +17,7 @@ import css from "./DiaryEntryForm.module.css";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
 import { createDiaryEntry, updateDiaryEntry } from "@/lib/api/clientApi";
+import { useCreateNewNoteFormStore } from "@/lib/store/noteStore"; // ← твій store
 
 type EmotionsResponse =
   | Emotion[]
@@ -58,11 +66,17 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const initialValues: CreateNote = {
-    title: entry?.title || "",
-    description: entry?.description || "",
-    emotions: entry?.emotions?.map((emotion) => emotion._id) || [],
-  };
+  // [DRAFT-ONLY-NEW ADDED] беремо лише глобальний draft для створення
+  const { draft, setDraft, clearDraft } = useCreateNewNoteFormStore();
+
+  // [DRAFT-ONLY-NEW ADDED] для створення підставляємо draft, для редагування — entry
+  const initialValues: CreateNote = entry
+    ? {
+        title: entry.title || "",
+        description: entry.description || "",
+        emotions: entry.emotions?.map((e) => e._id) || [],
+      }
+    : draft;
 
   const getErrorMessage = (err: unknown): string => {
     if (typeof err === "string") return err;
@@ -109,7 +123,6 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
     arr.filter(
       (emotion): emotion is Emotion =>
         emotion &&
-        typeof emotion._id === "string" &&
         emotion._id.length > 0 &&
         (typeof emotion.name === "string" || typeof emotion.title === "string")
     );
@@ -187,6 +200,12 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
         await createDiaryEntry(values);
       }
 
+      // [DRAFT-ONLY-NEW ADDED] чистимо чернетку лише після УСПІШНОГО створення нового
+      if (!entry) {
+        clearDraft();
+        console.log("[draft] cleared after successful create");
+      }
+
       toast.success(
         entry ? "Запис успішно оновлено!" : "Запис успішно створено!"
       );
@@ -201,7 +220,7 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
 
   const retryLoadEmotions = async () => {
     try {
-      console.log("[emotions] retry load");
+      console.log("[emotions] retry load]");
       setEmotionsError(null);
       setEmotionsLoading(true);
       await fetchPage(1, false);
@@ -253,218 +272,237 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
     };
   };
 
+  // [DRAFT-ONLY-NEW ADDED]
+  // Внутрішній компонент, щоб коректно юзати useFormikContext для автосейву
+  const DiaryEntryInnerForm: React.FC<{ isCreate: boolean }> = ({
+    isCreate,
+  }) => {
+    const { values, setFieldValue, isSubmitting } =
+      useFormikContext<CreateNote>();
+
+    // Автозбереження чернетки тільки для режиму "створення"
+    useEffect(() => {
+      if (!isCreate || isSubmitting) return;
+      const id = setTimeout(() => {
+        setDraft(values);
+        console.log("[draft] autosaved:", values);
+      }, 300);
+      return () => clearTimeout(id);
+    }, [values, isCreate, isSubmitting]);
+
+    return (
+      <Form className={css.form}>
+        <label htmlFor="title" className={css.formGroup}>
+          Заголовок
+          <Field
+            id="title"
+            name="title"
+            type="text"
+            className={css.input}
+            placeholder="Введіть заголовок запису"
+          />
+          <div className={css.errorSlot}>
+            <ErrorMessage
+              name="title"
+              component="div"
+              className={css.errorMessage}
+            />
+          </div>
+        </label>
+
+        <div className={css.formGroup}>
+          <label htmlFor="emotions-trigger" className={css.formLabel}>
+            Категорії
+          </label>
+
+          {emotionsLoading ? (
+            <div className={css.loadingContainer}>
+              <div className={css.spinner}></div>
+            </div>
+          ) : emotionsError ? (
+            <div className={css.errorContainer}>
+              <div className={css.errorMessage}>Помилка: {emotionsError}</div>
+              <button
+                type="button"
+                onClick={retryLoadEmotions}
+                className={css.retryButton}
+              >
+                Спробувати знову
+              </button>
+            </div>
+          ) : emotions.length === 0 ? (
+            <div className={css.noDataContainer}>
+              <span>Емоції не знайдено</span>
+              <button
+                type="button"
+                onClick={retryLoadEmotions}
+                className={css.retryButton}
+              >
+                Оновити
+              </button>
+            </div>
+          ) : (
+            <div className={css.customSelect} ref={dropdownRef}>
+              <button
+                id="emotions-trigger"
+                type="button"
+                className={`${css.selectTrigger} ${isDropdownOpen ? css.selectTriggerOpen : ""}`}
+                aria-haspopup="listbox"
+                aria-expanded={isDropdownOpen}
+                aria-controls="emotions-listbox"
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  const next = !isDropdownOpen;
+                  console.log("[dropdown] trigger pointerdown -> toggle", {
+                    next,
+                  });
+                  setIsDropdownOpen(next);
+                  if (next) {
+                    justOpenedRef.current = true;
+                    setInteractive(false);
+                    requestAnimationFrame(() => {
+                      setInteractive(true);
+                      justOpenedRef.current = false;
+                      console.log("[dropdown] interactive restored");
+                    });
+                  }
+                }}
+              >
+                <div className={css.selectContent}>
+                  {values.emotions.length === 0 ? (
+                    <span className={css.selectPlaceholder}>
+                      Оберіть категорію
+                    </span>
+                  ) : (
+                    <div className={css.selectedTags}>
+                      {getSelectedEmotionsDisplay(values.emotions).tags.map(
+                        (tag) => (
+                          <span key={tag.id} className={css.selectedTag}>
+                            {tag.name}
+                          </span>
+                        )
+                      )}
+                    </div>
+                  )}
+                </div>
+                <span
+                  className={`${css.selectArrow} ${isDropdownOpen ? css.selectArrowOpen : ""}`}
+                >
+                  <IoIosArrowDown />
+                </span>
+              </button>
+
+              {isDropdownOpen && (
+                <div className={css.selectDropdown}>
+                  <div
+                    id="emotions-listbox"
+                    role="listbox"
+                    aria-multiselectable="true"
+                    ref={listRef}
+                    className={css.selectDropdownInner}
+                    onScroll={handleScroll}
+                    style={{ pointerEvents: interactive ? "auto" : "none" }}
+                  >
+                    {emotions.map((emotion) => {
+                      const isSelected = values.emotions.includes(emotion._id);
+                      return (
+                        <button
+                          key={emotion._id}
+                          type="button"
+                          role="option"
+                          aria-selected={isSelected}
+                          className={`${css.selectOption} ${isSelected ? css.selectOptionSelected : ""}`}
+                          onClick={() => {
+                            if (justOpenedRef.current) {
+                              console.log(
+                                "[option] click ignored (just opened)"
+                              );
+                              return;
+                            }
+                            const newEmotions = isSelected
+                              ? values.emotions.filter(
+                                  (id) => id !== emotion._id
+                                )
+                              : [...values.emotions, emotion._id];
+                            console.log("[option] toggle", {
+                              id: emotion._id,
+                              name: emotion.name || emotion.title,
+                              wasSelected: isSelected,
+                              next: newEmotions,
+                            });
+                            setFieldValue("emotions", newEmotions);
+                          }}
+                        >
+                          <div className={css.checkbox}>
+                            {isSelected && <FaCheck />}
+                          </div>
+                          <span>
+                            {
+                              (emotion.name ||
+                                emotion.title ||
+                                "Без назви") as string
+                            }
+                          </span>
+                        </button>
+                      );
+                    })}
+
+                    {loadingMore && <div className={css.spinner}></div>}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          <div className={css.errorSlot}>
+            <ErrorMessage
+              name="emotions"
+              component="div"
+              className={css.errorMessage}
+            />
+          </div>
+        </div>
+
+        <label htmlFor="description" className={css.formGroup}>
+          Запис
+          <Field
+            id="description"
+            name="description"
+            as="textarea"
+            className={css.textarea}
+            placeholder="Запишіть, як ви себе відчуваєте"
+            rows={5}
+          />
+          <div className={css.errorSlot}>
+            <ErrorMessage
+              name="description"
+              component="div"
+              className={css.errorMessage}
+            />
+          </div>
+        </label>
+
+        <button
+          type="submit"
+          disabled={emotionsLoading || isSubmitting}
+          className={css.buttonSubmit}
+        >
+          Зберегти
+        </button>
+      </Form>
+    );
+  };
+
   return (
     <div className={css.container}>
       <Formik
+        key={entry ? `edit-${entry._id}` : "create-new"} // [DRAFT-ONLY-NEW ADDED] чистий інстанс при зміні режиму
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ values, setFieldValue, isSubmitting }) => (
-          <Form className={css.form}>
-            <label htmlFor="title" className={css.formGroup}>
-              Заголовок
-              <Field
-                id="title"
-                name="title"
-                type="text"
-                className={css.input}
-                placeholder="Введіть заголовок запису"
-              />
-              <div className={css.errorSlot}>
-                <ErrorMessage
-                  name="title"
-                  component="div"
-                  className={css.errorMessage}
-                />
-              </div>
-            </label>
-
-            <div className={css.formGroup}>
-              <label htmlFor="emotions-trigger" className={css.formLabel}>
-                Категорії
-              </label>
-
-              {emotionsLoading ? (
-                <div className={css.loadingContainer}>
-                  <div className={css.spinner}></div>
-                </div>
-              ) : emotionsError ? (
-                <div className={css.errorContainer}>
-                  <div className={css.errorMessage}>
-                    Помилка: {emotionsError}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={retryLoadEmotions}
-                    className={css.retryButton}
-                  >
-                    Спробувати знову
-                  </button>
-                </div>
-              ) : emotions.length === 0 ? (
-                <div className={css.noDataContainer}>
-                  <span>Емоції не знайдено</span>
-                  <button
-                    type="button"
-                    onClick={retryLoadEmotions}
-                    className={css.retryButton}
-                  >
-                    Оновити
-                  </button>
-                </div>
-              ) : (
-                <div className={css.customSelect} ref={dropdownRef}>
-                  <button
-                    id="emotions-trigger"
-                    type="button"
-                    className={`${css.selectTrigger} ${isDropdownOpen ? css.selectTriggerOpen : ""}`}
-                    aria-haspopup="listbox"
-                    aria-expanded={isDropdownOpen}
-                    aria-controls="emotions-listbox"
-                    onPointerDown={(e) => {
-                      e.preventDefault();
-                      const next = !isDropdownOpen;
-                      console.log("[dropdown] trigger pointerdown -> toggle", {
-                        next,
-                      });
-                      setIsDropdownOpen(next);
-                      if (next) {
-                        justOpenedRef.current = true;
-                        setInteractive(false);
-                        requestAnimationFrame(() => {
-                          setInteractive(true);
-                          justOpenedRef.current = false;
-                          console.log("[dropdown] interactive restored");
-                        });
-                      }
-                    }}
-                  >
-                    <div className={css.selectContent}>
-                      {values.emotions.length === 0 ? (
-                        <span className={css.selectPlaceholder}>
-                          Оберіть категорію
-                        </span>
-                      ) : (
-                        <div className={css.selectedTags}>
-                          {getSelectedEmotionsDisplay(values.emotions).tags.map(
-                            (tag) => (
-                              <span key={tag.id} className={css.selectedTag}>
-                                {tag.name}
-                              </span>
-                            )
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    <span
-                      className={`${css.selectArrow} ${isDropdownOpen ? css.selectArrowOpen : ""}`}
-                    >
-                      <IoIosArrowDown />
-                    </span>
-                  </button>
-
-                  {isDropdownOpen && (
-                    <div className={css.selectDropdown}>
-                      <div
-                        id="emotions-listbox"
-                        role="listbox"
-                        aria-multiselectable="true"
-                        ref={listRef}
-                        className={css.selectDropdownInner}
-                        onScroll={handleScroll}
-                        style={{ pointerEvents: interactive ? "auto" : "none" }}
-                      >
-                        {emotions.map((emotion) => {
-                          const isSelected = values.emotions.includes(
-                            emotion._id
-                          );
-                          return (
-                            <button
-                              key={emotion._id}
-                              type="button"
-                              role="option"
-                              aria-selected={isSelected}
-                              className={`${css.selectOption} ${isSelected ? css.selectOptionSelected : ""}`}
-                              onClick={() => {
-                                if (justOpenedRef.current) {
-                                  console.log(
-                                    "[option] click ignored (just opened)"
-                                  );
-                                  return;
-                                }
-                                const newEmotions = isSelected
-                                  ? values.emotions.filter(
-                                      (id) => id !== emotion._id
-                                    )
-                                  : [...values.emotions, emotion._id];
-                                console.log("[option] toggle", {
-                                  id: emotion._id,
-                                  name: emotion.name || emotion.title,
-                                  wasSelected: isSelected,
-                                  next: newEmotions,
-                                });
-                                setFieldValue("emotions", newEmotions);
-                              }}
-                            >
-                              <div className={css.checkbox}>
-                                {isSelected && <FaCheck />}
-                              </div>
-                              <span>
-                                {
-                                  (emotion.name ||
-                                    emotion.title ||
-                                    "Без назви") as string
-                                }
-                              </span>
-                            </button>
-                          );
-                        })}
-
-                        {loadingMore && <div className={css.spinner}></div>}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-              <div className={css.errorSlot}>
-                <ErrorMessage
-                  name="emotions"
-                  component="div"
-                  className={css.errorMessage}
-                />
-              </div>
-            </div>
-
-            <label htmlFor="description" className={css.formGroup}>
-              Запис
-              <Field
-                id="description"
-                name="description"
-                as="textarea"
-                className={css.textarea}
-                placeholder="Запишіть, як ви себе відчуваєте"
-                rows={5}
-              />
-              <div className={css.errorSlot}>
-                <ErrorMessage
-                  name="description"
-                  component="div"
-                  className={css.errorMessage}
-                />
-              </div>
-            </label>
-
-            <button
-              type="submit"
-              disabled={emotionsLoading || isSubmitting}
-              className={css.buttonSubmit}
-            >
-              Зберегти
-            </button>
-          </Form>
-        )}
+        {/* [DRAFT-ONLY-NEW ADDED] чернетка лише для створення */}
+        <DiaryEntryInnerForm isCreate={!entry} />
       </Formik>
     </div>
   );
