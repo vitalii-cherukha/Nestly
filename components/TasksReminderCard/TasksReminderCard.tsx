@@ -4,22 +4,23 @@ import { useEffect, useState } from "react";
 import css from "./TasksReminderCard.module.css";
 
 import "izitoast/dist/css/iziToast.min.css";
-import {getTasks } from "@/lib/api/clientApi";
+import { getTasks } from "@/lib/api/clientApi";
 import { Task } from "@/types/task";
 import { updateTaskById } from "@/lib/api/clientApi";
-// import { AddTaskModal } from '@/components/AddDiaryEntryModal'
 
 // ! ІКОНКА ДОДАВАННЯ + ЧЕКБОКС, ЗАМІНИТИ ПРИ ПОТРЕБІ, ІКОНКА ВІД САШІ ЗАМАЛА.
 import { FiPlusCircle } from "react-icons/fi";
 import { FaCheck } from "react-icons/fa";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useRouter } from "next/navigation";
+import AddTaskModal from "@/components/AddTaskModal/AddTaskModal";
+import AddTaskForm from "@/components/AddTaskForm/AddTaskForm";
 
 export default function TasksReminderCard() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [tasksCollection, setTasks] = useState<Task[]>([]);
   const [modalOpen, setModal] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -57,62 +58,66 @@ export default function TasksReminderCard() {
     }
   };
 
-  const onClick = () => {
-    if (isAuthenticated) {
-      setModal(true);
-    } else {
-      router.push("/auth/register");
-    }
-  };
+  const handleCloseModal = () => {
+    setModal(false);
 
+    const onClick = () => {
+      if (isAuthenticated) {
+        setModal(true);
+      } else {
+        router.push("/auth/register");
+      }
+    };
 
-  return (
-    <div className={css.tasksReminderCard}>
-      <div className={css.titleWrapper}>
-        <h2 className={css.title}>Важливі завдання </h2>
-        <button type="button" className={css.addButton} onClick={onClick}>
-          <FiPlusCircle
-            className="addButtonIcon"
-            size={22}
-          />{" "}
-        </button>
-      </div>
-      <ul className={css.taskList}>
-        {tasksCollection &&
-          tasksCollection.map(({ _id, name, date, isDone }) => {
-            return (
-              <li key={_id}>
-                <div className={css.dateWrapper}>{date}</div>
+    return (
+      <div className={css.tasksReminderCard}>
+        <div className={css.titleWrapper}>
+          <h2 className={css.title}>Важливі завдання </h2>
+          <button type="button" className={css.addButton} onClick={onClick}>
+            <FiPlusCircle className="addButtonIcon" size={22} />{" "}
+          </button>
+        </div>
+        <ul className={css.taskList}>
+          {tasksCollection &&
+            tasksCollection.map(({ _id, name, date, isDone }) => {
+              return (
+                <li key={_id}>
+                  <div className={css.dateWrapper}>{date}</div>
 
-                <label className={css.taskLabel}>
-                  <div
-                    className={`${css.customCheckbox} ${isDone ? css.customCheckboxChecked : ""}`}
-                  >
-                    <FaCheck
-                      className={css.checkIcon}
-                      size={12}
-                      fill={isDone ? "#FFFFFF" : "transparent"}
+                  <label className={css.taskLabel}>
+                    <div
+                      className={`${css.customCheckbox} ${isDone ? css.customCheckboxChecked : ""}`}
+                    >
+                      <FaCheck
+                        className={css.checkIcon}
+                        size={12}
+                        fill={isDone ? "#FFFFFF" : "transparent"}
+                      />
+                    </div>
+                    <input
+                      className={css.taskCheck}
+                      type="checkbox"
+                      checked={isDone}
+                      onChange={() => {
+                        onCheck(_id, { isDone: !isDone });
+                      }}
                     />
-                  </div>
-                  <input
-                    className={css.taskCheck}
-                    type="checkbox"
-                    checked={isDone}
-                    onChange={() => {
-                      onCheck(_id, { isDone: !isDone });
-                    }}
-                  />
-                  <span
-                    className={`${css.taskName} ${isDone ? css.taskNameChecked : ""}`}
-                  >
-                    {name}
-                  </span>
-                </label>
-              </li>
-            );
-          })}
-      </ul>
-      {/* {modalOpen && <AddTaskModal setModal={setModal} />} */}
-    </div>
-  );
+                    <span
+                      className={`${css.taskName} ${isDone ? css.taskNameChecked : ""}`}
+                    >
+                      {name}
+                    </span>
+                  </label>
+                </li>
+              );
+            })}
+        </ul>
+        {modalOpen && (
+          <AddTaskModal onClose={handleCloseModal}>
+            <AddTaskForm onCloseModal={handleCloseModal} />
+          </AddTaskModal>
+        )}
+      </div>
+    );
+  };
 }

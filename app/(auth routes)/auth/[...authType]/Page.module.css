@@ -4,28 +4,6 @@
   position: relative;
 }
 
-.logo {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
-}
-
-.logoLink {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  transition: transform 0.2s ease;
-}
-
-.logoText {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1f2937;
-  white-space: nowrap;
-}
-
 .formSection {
   flex: 1;
   display: flex;
@@ -33,17 +11,6 @@
   justify-content: center;
   align-items: center;
   background: white;
-  padding: 80px 40px 40px;
-}
-
-.imageSection {
-  width: 720px;
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
 }
 
 .imageSection img {
@@ -52,16 +19,8 @@
   object-fit: cover;
 }
 
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-
+@media (max-width: 1439px) {
   .imageSection {
-    min-height: 300px;
-  }
-
-  .formSection {
-    padding: 100px 20px 40px;
+    display: none;
   }
 }

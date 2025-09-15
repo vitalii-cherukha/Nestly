@@ -1,9 +1,9 @@
 import LoginForm from "@/components/LoginForm/LoginForm";
 import { notFound } from "next/navigation";
 import RegisterForm from "@/components/RegisterForm/RegisterForm";
-import Link from "next/link";
 import Image from "next/image";
 import css from "./Page.module.css";
+import Logo from "@/components/Logo/Logo";
 
 type AuthPageProps = {
   params: Promise<{ authType?: string[] }>;
@@ -18,12 +18,8 @@ export default async function AuthPage({ params }: AuthPageProps) {
 
   return authType[0] === "login" ? (
     <div className={css.container}>
-      <div className={css.logo}>
-        <Link href="/" aria-label="Home" className={css.logoLink}>
-          <Image src="/logo.png" alt="Лелека" width={30} height={30} priority />
-          <span className={css.logoText}>Лелека</span>
-        </Link>
-      </div>
+      <Logo />
+
       <div className={css.formSection}>
         <LoginForm />
       </div>
@@ -32,7 +28,7 @@ export default async function AuthPage({ params }: AuthPageProps) {
         <Image
           src="/sign-in-img.jpg"
           alt="Яйця в гнiздi"
-          width={820}
+          width={720}
           height={900}
           priority
         />
@@ -40,12 +36,7 @@ export default async function AuthPage({ params }: AuthPageProps) {
     </div>
   ) : (
     <div className={css.container}>
-      <div className={css.logo}>
-        <Link href="/" aria-label="Home" className={css.logoLink}>
-          <Image src="/logo.png" alt="Лелека" width={30} height={30} priority />
-          <span className={css.logoText}>Лелека</span>
-        </Link>
-      </div>
+      <Logo />
       <div className={css.formSection}>
         <RegisterForm />
       </div>
