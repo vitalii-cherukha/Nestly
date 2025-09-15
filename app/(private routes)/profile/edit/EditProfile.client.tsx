@@ -3,11 +3,11 @@ import AvatarPicker from "@/components/Onboarding/AvatarPicker/AvatarPicker";
 import BirthDatePicker from "@/components/Onboarding/BirthDatePicker/BirthDatePicker";
 import ChildStatusSelect from "@/components/Onboarding/ChildStatusSelect/ChildStatusSelect";
 import css from "./EditProfilePage.module.css";
-import { useOnboardingStore } from "@/lib/store/userStore";
+import { useUserStore } from "@/lib/store/userStore";
 import { updateProfile } from "@/lib/api/clientApi";
 
 export default function EditProfileClient() {
-  const { dueDate, babyGender, avatarUrl } = useOnboardingStore();
+  const { dueDate, babyGender, avatarUrl } = useUserStore();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
