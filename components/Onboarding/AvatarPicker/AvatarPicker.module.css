@@ -1,0 +1,27 @@
+.avatarWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.avatar {
+    border-radius: 100%;
+    width: 164px;
+    height: 164px;
+}
+
+.button {
+    border-bottom: 4px solid #00000026;
+    border-radius: 100px;
+    padding: 8px 20px;
+    width: 179px;
+    height: 42px;
+    background: var(--input-color);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 160%;
+    color: var(--font-color);
+}
+
+.input {
+    display: none;
+}
