@@ -53,9 +53,7 @@ export default function RootLayout({
             <Header />
             <Breadcrumbs />
             <div className="layout-shell">
-              <aside className="sidebar">
-                <Sidebar />
-              </aside>
+              <Sidebar />
               <main className="main-content">{children}</main>
             </div>
             {/* {modal} */}
