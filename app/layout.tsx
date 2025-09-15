@@ -50,6 +50,7 @@ export default function RootLayout({
       <body className={`${lato.variable} ${comfortaa.variable}`}>
         <TanStackProvider>
           <AuthProvider>
+            <AuthInterceptor />
             <Header />
             <Breadcrumbs />
             <div className="layout-shell">
@@ -58,7 +59,6 @@ export default function RootLayout({
             </div>
             {/* {modal} */}
           </AuthProvider>
-          <AuthInterceptor />
         </TanStackProvider>
       </body>
     </html>

@@ -8,6 +8,8 @@ import css from "./DiaryList.module.css";
 import type { DiaryEntry } from "@/types/note";
 import DiaryEntryCard from "../DiaryEntryCard/DiaryEntryCard";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { useAuthStore } from "@/lib/store/authStore";
+import { ApiError } from "next/dist/server/api-utils";
 
 interface Props {
   onSelectEntry?: (entry: DiaryEntry) => void;
@@ -16,7 +18,8 @@ interface Props {
 export default function DiaryList({ onSelectEntry }: Props) {
   const [entries, setEntries] = useState<DiaryEntry[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const clearIsAuthenticated = useAuthStore;
+  // DiaryList.tsx
   useEffect(() => {
     getDiaryEntries().then((data) => setEntries(data.diaryNotes));
   }, []);
