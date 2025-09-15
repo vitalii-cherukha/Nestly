@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import css from "./ChildStatusSelect.module.css";
-import { useOnboardingStore } from "@/lib/store/onboardingStore";
+import { useUserStore } from "@/lib/store/userStore";
 
 export default function ChildStatusSelect() {
-  const babyGender = useOnboardingStore((state) => state.babyGender);
-  const setBabyGender = useOnboardingStore((state) => state.setBabyGender);
+  const babyGender = useUserStore((state) => state.babyGender);
+  const setBabyGender = useUserStore((state) => state.setBabyGender);
   const [isOpen, setIsOpen] = useState(false);
 
   const options = [
