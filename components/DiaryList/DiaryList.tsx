@@ -3,11 +3,10 @@
 import { useEffect, useState } from "react";
 import { getDiaryEntries } from "@/lib/api/clientApi";
 import css from "./DiaryList.module.css";
-
-// import AddDiaryEntryModal from "../AddDiaryEntryModal";
 import type { DiaryEntry } from "@/types/note";
 import DiaryEntryCard from "../DiaryEntryCard/DiaryEntryCard";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { DiaryEntryModal } from "../DiaryEntryModal/DiaryEntryModal";
 
 interface Props {
   onSelectEntry?: (entry: DiaryEntry) => void;
@@ -16,6 +15,10 @@ interface Props {
 export default function DiaryList({ onSelectEntry }: Props) {
   const [entries, setEntries] = useState<DiaryEntry[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalConfirm = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     getDiaryEntries().then((data) => setEntries(data.diaryNotes));
@@ -49,9 +52,16 @@ export default function DiaryList({ onSelectEntry }: Props) {
           </div>
         )}
 
-        {/* {isModalOpen && (
-        <AddDiaryEntryModal onClose={() => setIsModalOpen(false)} />
-      )} */}
+        {isModalOpen && (
+          <DiaryEntryModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onSuccess={() => {
+              handleModalConfirm();
+              getDiaryEntries().then((data) => setEntries(data.diaryNotes));
+            }}
+          />
+        )}
       </div>
     </div>
   );
