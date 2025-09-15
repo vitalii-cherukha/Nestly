@@ -63,7 +63,7 @@ const RegisterForm = () => {
     actions: FormikHelpers<RegisterData>
   ) => {
     try {
-      console.log("Registration values:", values);
+      //      console.log("Registration values:", values);
       await register(values);
       router.push("/profile/edit");
     } catch (error) {

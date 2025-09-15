@@ -4,11 +4,10 @@ import { User } from "@/types/user";
 import css from "./ProfileEditForm.module.css";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { getServerMe } from "@/lib/api/serverApi";
 
-interface ProfileEditFormProps {
-  user: User;
-}
+import { useAuthStore } from "@/lib/store/authStore";
+import { updateProfile } from "@/lib/api/clientApi";
+import { useState } from "react";
 
 interface InitialValues {
   name: string;
@@ -17,23 +16,35 @@ interface InitialValues {
   dueDate: string;
 }
 
-const validationSchema = Yup.object({
+const validationSchema = Yup.object().shape({
   name: Yup.string().required("Введіть ім’я"),
   email: Yup.string().email("Некоректна пошта").required("Введіть пошту"),
-  gender: Yup.string().required("Оберіть стать").oneOf(["boy", "girl"]),
+  babyGender: Yup.string().required("Оберіть стать").oneOf(["boy", "girl"]),
   dueDate: Yup.date().required("Оберіть дату"),
 });
 
-const ProfileEditForm = ({ user }: ProfileEditFormProps) => {
+const ProfileEditForm = () => {
+  const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
+  const [error, setError] = useState("");
+  if (!user) {
+    return <p>Завантаження профілю...</p>;
+  }
+
   const handleSubmit = async (
     values: InitialValues,
     actions: FormikHelpers<InitialValues>
   ) => {
     try {
-      console.log("Form data:", values);
+      const updatedUser = await updateProfile(values);
+      setUser({
+        ...user,
+        ...updatedUser,
+      });
+    } catch (err) {
+      setError("Не вдалось оновити профіль");
     } finally {
-      console.log("actions:", actions);
-      // actions.setSubmitting(false);
+      actions.setSubmitting(false);
     }
   };
 

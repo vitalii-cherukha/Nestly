@@ -4,11 +4,13 @@ import StatusBlock from "@/components/StatusBlock/StatusBlock";
 import css from "./dashboard.module.css";
 import TasksReminderCard from "@/components/TasksReminderCard/TasksReminderCard";
 import FeelingCheckCard from "@/components/FeelingCheckCard/FeelingCheckCard";
+import GreetingBlock from "@/components/GreetingBlock/GreetingBlock";
 
-const DashboardClient = async () => {
+const DashboardClient = () => {
   return (
     <div className={css.dbcontainer}>
       <div>
+        <GreetingBlock />
         <StatusBlock />
         <BabyTodayCard />
         <MomTipCard />
