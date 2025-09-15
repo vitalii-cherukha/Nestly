@@ -1,0 +1,41 @@
+/* Grid container */
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  /* <- TWO COLUMNS */
+  column-gap: 24px;
+  min-height: 100dvh;
+  align-items: start;
+  /* don’t stretch rows oddly */
+}
+
+/* Sidebar column (keep it in normal flow on desktop) */
+.sidebarWrap {
+  grid-column: 1;
+  align-self: start;
+  /* If your Sidebar used to be a drawer with fixed positioning,
+     make sure it’s NOT fixed on desktop: */
+}
+
+.main {
+  grid-column: 2;
+  padding: 24px;
+}
+
+/* Mobile / tablet: sidebar becomes hidden or overlaid drawer */
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+    /* single column */
+  }
+
+  .sidebarWrap {
+    display: none;
+    /* the drawer variant is handled inside <Sidebar/> */
+  }
+
+  .main {
+    grid-column: 1;
+    padding: 16px;
+  }
+}
