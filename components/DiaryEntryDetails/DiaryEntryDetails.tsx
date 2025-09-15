@@ -7,6 +7,7 @@ import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import css from "./DiaryEntryDetails.module.css";
 import { TbEdit } from "react-icons/tb";
 import { MdOutlineDeleteForever } from "react-icons/md";
+import { DiaryEntryModal } from "../DiaryEntryModal/DiaryEntryModal";
 
 interface Props {
   entry: DiaryEntry;
@@ -17,9 +18,11 @@ export default function DiaryEntryDetails({ entry }: Props) {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   const handleDeleteConfirm = () => {
-    // тут можна викликати API для видалення entry
-    console.log("Deleting entry with id:", entry._id);
     setIsDeleteModal(false);
+  };
+
+  const handleEditConfirm = () => {
+    setIsEditModal(false);
   };
 
   return (
@@ -57,28 +60,15 @@ export default function DiaryEntryDetails({ entry }: Props) {
               ))}
             </ul>
           </div>
-          {/* 
-          <div className={css.diaryDetailsDescBtnWrapper}>
-            <button
-              onClick={() => setIsEditModal(true)}
-              className={css.diaryDetailsDescEditBtn}
-            >
-              Редагувати
-            </button>
-            <button
-              onClick={() => setIsDeleteModal(true)}
-              className={css.diaryDetailsDescDeleteBtn}
-            >
-              Видалити
-            </button>
-          </div> */}
 
-          {/* {isEditModal && (
-        <AddDiaryEntryModal
-          entry={entry}
-          onClose={() => setIsEditModal(false)}
-        />
-      )} */}
+          {isEditModal && (
+            <DiaryEntryModal
+              isOpen={isEditModal}
+              entry={entry}
+              onClose={() => setIsEditModal(false)}
+              onSuccess={handleEditConfirm}
+            />
+          )}
           {/* Модалка підтвердження видалення */}
           {isDeleteModal && (
             <ConfirmationModal

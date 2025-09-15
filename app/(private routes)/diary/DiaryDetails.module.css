@@ -1,4 +1,16 @@
-.diaryMainWrapper {
-  display: flex;
-  gap: 32px;
+@media screen {
+  .diaryMainWrapper {
+    display: flex;
+    gap: 32px;
+  }
+
+  .greetingBlock {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 256px;
+    width: 335px;
+    height: 34px;
+  }
 }
