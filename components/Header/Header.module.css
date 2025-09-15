@@ -8,8 +8,14 @@
 }
 
 .burgerBtn {
-  padding: 0;
   display: inline-flex;
   justify-content: center;
+  align-items: center;
+  padding: 0;
   background: none;
+}
+
+.burgerIcon {
+  width: 32px;
+  height: 32px;
 }
