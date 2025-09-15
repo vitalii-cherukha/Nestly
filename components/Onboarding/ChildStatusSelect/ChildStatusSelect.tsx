@@ -11,7 +11,7 @@ export default function ChildStatusSelect() {
   const options = [
     { value: "boy", label: "Хлопчик" },
     { value: "girl", label: "Дiвчинка" },
-    { value: "none", label: "Ще не знаю" },
+    { value: "unknown", label: "Ще не знаю" },
   ];
 
   const selectedOption = options.find((opt) => opt.value === babyGender);

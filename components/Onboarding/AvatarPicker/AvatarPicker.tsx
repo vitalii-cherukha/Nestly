@@ -39,6 +39,7 @@ export default function AvatarPicker() {
         console.error(error);
         setError("Помилка завантаження фото");
       } finally {
+        console.log("Загружаем файл:", file.name, file.size, file.type);
         setIsUploading(false);
       }
     }

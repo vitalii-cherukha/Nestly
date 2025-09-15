@@ -7,13 +7,11 @@ import Image from "next/image";
 export default function EditProfilePage() {
   return (
     <Section>
-      <div className={css.onBoardingWrapper}>
-        <Container>
-          <div className={css.form}>
-            <h1 className={css.title}>Давайте познаймимось ближче</h1>
-            <EditProfileClient />
-          </div>
-        </Container>
+      <Container>
+        <div className={css.form}>
+          <h1 className={css.title}>Давайте познаймимось ближче</h1>
+          <EditProfileClient />
+        </div>
         <Image
           className={css.image}
           src={"/sign-up-add.jpg"}
@@ -21,7 +19,7 @@ export default function EditProfilePage() {
           width={720}
           height={900}
         />
-      </div>
+      </Container>
     </Section>
   );
 }
