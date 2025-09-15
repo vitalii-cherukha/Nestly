@@ -3,13 +3,15 @@ import { useState } from "react";
 import css from "./AvatarPicker.module.css";
 import Image from "next/image";
 import { useOnboardingStore } from "@/lib/store/onboardingStore";
+import { updateAvatar } from "@/lib/api/clientApi";
 
 export default function AvatarPicker() {
   const [error, setError] = useState("");
-  const avatar = useOnboardingStore((state) => state.avatar);
+  const [isUploading, setIsUploading] = useState(false);
+  const avatar = useOnboardingStore((state) => state.avatarUrl);
   const setAvatar = useOnboardingStore((state) => state.setAvatar);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     setError("");
 
@@ -17,16 +19,28 @@ export default function AvatarPicker() {
       if (!file.type.startsWith("image/")) {
         setError("Only Images");
         return;
-      } else if (file.size > 5 * 1024 * 1024) {
-        setError("Max file size 5MB");
+      } else if (file.size > 1 * 1024 * 1024) {
+        setError("Max file size 1MB");
         return;
       }
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatar(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      try {
+        setIsUploading(true);
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setAvatar(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+
+        const updatedUser = await updateAvatar(file);
+        setAvatar(updatedUser.avatarUrl);
+      } catch (error) {
+        console.error(error);
+        setError("Помилка завантаження фото");
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -40,12 +54,13 @@ export default function AvatarPicker() {
         height={300}
       />
       <label className={css.button}>
-        Завантажити фото
+        {isUploading ? "Завантажується..." : "Завантажити фото"}
         <input
           type="file"
           accept="image/*"
           onChange={handleFileChange}
           className={css.input}
+          disabled={isUploading}
         />
       </label>
       {error && <div className={css.error}>{error}</div>}

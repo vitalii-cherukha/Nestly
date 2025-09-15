@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 interface OnboardingUser {
   dueDate: string;
   babyGender: string;
-  avatar: string;
+  avatarUrl: string;
 
   setDueDate: (date: string) => void;
   setBabyGender: (gender: string) => void;
@@ -16,11 +16,11 @@ export const useOnboardingStore = create<OnboardingUser>()(
     (set) => ({
       dueDate: "",
       babyGender: "",
-      avatar: "https://ftp.goit.study/img/common/women-default-avatar.jpg",
+      avatarUrl: "https://ftp.goit.study/img/common/women-default-avatar.jpg",
 
       setDueDate: (date: string) => set(() => ({ dueDate: date })),
       setBabyGender: (gender: string) => set(() => ({ babyGender: gender })),
-      setAvatar: (userPhoto: string) => set(() => ({ avatar: userPhoto })),
+      setAvatar: (userPhoto: string) => set(() => ({ avatarUrl: userPhoto })),
     }),
     {
       name: "onboarding-storage",
