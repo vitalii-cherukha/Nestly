@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { DiaryEntry } from "@/types/note";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
-// import AddDiaryEntryModal from "../AddDiaryEntryModal";
 import css from "./DiaryEntryDetails.module.css";
 import { TbEdit } from "react-icons/tb";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { DiaryEntryModal } from "../DiaryEntryModal/DiaryEntryModal";
+import { deleteDiaryEntry } from "@/lib/api/clientApi";
+import { useMutation } from "@tanstack/react-query";
 
 interface Props {
   entry: DiaryEntry;
@@ -16,13 +18,25 @@ interface Props {
 export default function DiaryEntryDetails({ entry }: Props) {
   const [isEditModal, setIsEditModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const router = useRouter();
+
+  // Мутація видалення
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => deleteDiaryEntry(id),
+    onSuccess: () => {
+      setIsDeleteModal(false);
+      router.push("/diary"); // перенаправляєм на загальний список
+    },
+    onError: (err) => console.error("Помилка при видаленні:", err),
+  });
 
   const handleDeleteConfirm = () => {
-    setIsDeleteModal(false);
+    deleteMutation.mutate(entry._id);
   };
 
   const handleEditConfirm = () => {
     setIsEditModal(false);
+    router.push("/diary"); // перенаправляєм на загальний список
   };
 
   return (
@@ -38,6 +52,7 @@ export default function DiaryEntryDetails({ entry }: Props) {
               <TbEdit className={css.editBtn} />
             </button>
           </div>
+
           <div className={css.diaryDetailsDataWrapper}>
             <p className={css.diaryDetailsDataText}>
               {new Date(entry.date).toLocaleDateString()}
@@ -49,6 +64,7 @@ export default function DiaryEntryDetails({ entry }: Props) {
               <MdOutlineDeleteForever className={css.deleteBtn} />
             </button>
           </div>
+
           <p className={css.diaryDetailsDescription}>{entry.description}</p>
 
           <div className={css.diaryEmotionsWrapper}>
@@ -69,7 +85,7 @@ export default function DiaryEntryDetails({ entry }: Props) {
               onSuccess={handleEditConfirm}
             />
           )}
-          {/* Модалка підтвердження видалення */}
+
           {isDeleteModal && (
             <ConfirmationModal
               title="Ви впевнені, що хочете видалити запис?"
