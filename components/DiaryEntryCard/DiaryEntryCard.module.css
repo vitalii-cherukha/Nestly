@@ -1,0 +1,76 @@
+@media screen {
+  .diaryNoteWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 24px;
+    border: 1px solid #ffdae0;
+    border-radius: 16px;
+    padding: 16px;
+    width: 303px;
+    background: #ffdae0;
+    font-family: var(--font-lato);
+    cursor: pointer;
+    flex-wrap: wrap;
+  }
+
+  .diaryNoteTopWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 0px;
+    width: 271px;
+    height: 26px;
+  }
+
+  .diaryNoteTitle {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #000;
+  }
+
+  .diaryNoteDate {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #000;
+  }
+
+  .diaryEmotionsWrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .emotionsItem {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 0px;
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 100px;
+    padding: 2px 12px;
+    background: #fff4f6;
+  }
+}
+
+/* TABLET STYLES */
+@media screen and (min-width: 768px) {
+  .diaryNoteWrapper {
+    width: 672px;
+  }
+
+  .diaryNoteTopWrapper {
+    width: 640px;
+  }
+}
+
+/* DESC STYLES */
+@media screen and (min-width: 1163px) {
+}

@@ -9,6 +9,7 @@ import { OG_IMAGE, SITE_DOMAIN } from "@/config/metadata";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import AuthInterceptor from "@/components/AuthInterceptor/AuthInterceptor";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_DOMAIN),
@@ -39,7 +40,7 @@ const comfortaa = Comfortaa({
 });
 export default function RootLayout({
   children,
-  modal,
+  //  modal,
 }: Readonly<{
   children: ReactNode;
   modal: ReactNode;
@@ -52,13 +53,12 @@ export default function RootLayout({
             <Header />
             <Breadcrumbs />
             <div className="layout-shell">
-              <aside className="sidebar">
-                <Sidebar />
-              </aside>
+              <Sidebar />
               <main className="main-content">{children}</main>
             </div>
-            {modal}
+            {/* {modal} */}
           </AuthProvider>
+          <AuthInterceptor />
         </TanStackProvider>
       </body>
     </html>

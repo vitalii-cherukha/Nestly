@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   });
 
   const isPrivateRoute = privateRoutes.some((route) =>
-    pathname.startsWith(route),
+    pathname.startsWith(route)
   );
 
   if (!accessToken) {
@@ -74,5 +74,10 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/profile/:path*", "/journey/:path*", "/auth/:path*", "/diary"],
+  matcher: [
+    "/profile/:path*",
+    "/journey/:path*",
+    "/auth/:path*",
+    "/diary/:path*",
+  ],
 };

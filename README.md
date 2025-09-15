@@ -60,5 +60,6 @@
 | 16  | Arrow Left   | `import { MdKeyboardArrowLeft } from "react-icons/md";`  |
 | 17  | Arrow Right  | `import { MdKeyboardArrowRight } from "react-icons/md";` |
 | 18  | SignIn       | `import { GoSignIn } from "react-icons/go";`             |
+| 19  | Star         | `import { GiStarFormation } from "react-icons/gi";`      |
 
 ---

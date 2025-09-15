@@ -1,16 +1,16 @@
 import Container from "@/components/Container/Container";
-//import ProfileAvatar from "@/components/ProfileAvatar/ProfileAvatar";
-//import ProfileEditForm from "@/components/ProfileEditForm/ProfileEditForm";
+import ProfileAvatar from "@/components/ProfileAvatar/ProfileAvatar";
+
+import ProfileEditForm from "@/components/ProfileEditForm/ProfileEditForm";
 import Section from "@/components/Section/Section";
 
-const ProfilePage = () => {
+const ProfilePage = async () => {
   return (
     <main>
       <Section>
         <Container>
-          Hello
-          {/* <ProfileAvatar /> */}
-          {/* <ProfileEditForm /> */}
+          <ProfileAvatar />
+          <ProfileEditForm />
         </Container>
       </Section>
     </main>

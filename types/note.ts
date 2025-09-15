@@ -55,3 +55,4 @@ export interface Emotion {
   name?: string;
   title?: string;
 }
+export type SortOrder = "asc" | "desc";

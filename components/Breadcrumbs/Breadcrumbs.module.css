@@ -1,0 +1,15 @@
+.breadcrumbs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font: var(--text-small-normal);
+  color: var(--font-color);
+  border: 0.5px dashed orange;
+}
+
+.breadcrumbsTextLast {
+  /* color: var(--color-neutral); */
+  color: var(--color-neutral);
+
+}
