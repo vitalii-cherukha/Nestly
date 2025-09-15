@@ -13,6 +13,8 @@ import { FiPlusCircle } from "react-icons/fi";
 import { FaCheck } from "react-icons/fa";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useRouter } from "next/navigation";
+import AddTaskModal from "@/components/AddTaskModal/AddTaskModal";
+import AddTaskForm from "@/components/AddTaskForm/AddTaskForm";
 
 export default function TasksReminderCard() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -56,67 +58,66 @@ export default function TasksReminderCard() {
     }
   };
 
-
   const handleCloseModal = () => {
     setModal(false);
-  const onClick = () => {
-    if (isAuthenticated) {
-      setModal(true);
-    } else {
-      router.push("/auth/register");
-    }
-  };
 
-  return (
-    <div className={css.tasksReminderCard}>
-      <div className={css.titleWrapper}>
-        <h2 className={css.title}>Важливі завдання </h2>
-        <button type="button" className={css.addButton} onClick={onClick}>
-          <FiPlusCircle className="addButtonIcon" size={22} />{" "}
-        </button>
-      </div>
-      <ul className={css.taskList}>
-        {tasksCollection &&
-          tasksCollection.map(({ _id, name, date, isDone }) => {
-            return (
-              <li key={_id}>
-                <div className={css.dateWrapper}>{date}</div>
+    const onClick = () => {
+      if (isAuthenticated) {
+        setModal(true);
+      } else {
+        router.push("/auth/register");
+      }
+    };
 
-                <label className={css.taskLabel}>
-                  <div
-                    className={`${css.customCheckbox} ${isDone ? css.customCheckboxChecked : ""}`}
-                  >
-                    <FaCheck
-                      className={css.checkIcon}
-                      size={12}
-                      fill={isDone ? "#FFFFFF" : "transparent"}
+    return (
+      <div className={css.tasksReminderCard}>
+        <div className={css.titleWrapper}>
+          <h2 className={css.title}>Важливі завдання </h2>
+          <button type="button" className={css.addButton} onClick={onClick}>
+            <FiPlusCircle className="addButtonIcon" size={22} />{" "}
+          </button>
+        </div>
+        <ul className={css.taskList}>
+          {tasksCollection &&
+            tasksCollection.map(({ _id, name, date, isDone }) => {
+              return (
+                <li key={_id}>
+                  <div className={css.dateWrapper}>{date}</div>
+
+                  <label className={css.taskLabel}>
+                    <div
+                      className={`${css.customCheckbox} ${isDone ? css.customCheckboxChecked : ""}`}
+                    >
+                      <FaCheck
+                        className={css.checkIcon}
+                        size={12}
+                        fill={isDone ? "#FFFFFF" : "transparent"}
+                      />
+                    </div>
+                    <input
+                      className={css.taskCheck}
+                      type="checkbox"
+                      checked={isDone}
+                      onChange={() => {
+                        onCheck(_id, { isDone: !isDone });
+                      }}
                     />
-                  </div>
-                  <input
-                    className={css.taskCheck}
-                    type="checkbox"
-                    checked={isDone}
-                    onChange={() => {
-                      onCheck(_id, { isDone: !isDone });
-                    }}
-                  />
-                  <span
-                    className={`${css.taskName} ${isDone ? css.taskNameChecked : ""}`}
-                  >
-                    {name}
-                  </span>
-                </label>
-              </li>
-            );
-          })}
-      </ul>
-      {modalOpen && (
-        <AddTaskModal onClose={handleCloseModal}>
-          <AddTaskForm onCloseModal={handleCloseModal} />
-        </AddTaskModal>
-      )}
-    </>
-      {/* {modalOpen && <AddTaskModal setModal={setModal} />} */}
-    </div>
-  );
+                    <span
+                      className={`${css.taskName} ${isDone ? css.taskNameChecked : ""}`}
+                    >
+                      {name}
+                    </span>
+                  </label>
+                </li>
+              );
+            })}
+        </ul>
+        {modalOpen && (
+          <AddTaskModal onClose={handleCloseModal}>
+            <AddTaskForm onCloseModal={handleCloseModal} />
+          </AddTaskModal>
+        )}
+      </div>
+    );
+  };
 }
