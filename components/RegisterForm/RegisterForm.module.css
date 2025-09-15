@@ -12,7 +12,6 @@
   max-width: 335px;
   align-items: center;
   width: 100%;
-  align-items: left;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -42,7 +41,7 @@
   font-weight: 400;
   line-height: 150%;
   background: var(--secondary-btn-disabled);
-  border: 2px solid var(--secondary-btn-disabled);
+  border: 2px solid transparent;
   border-radius: 12px;
   padding: 8px 12px;
   font-size: 14px;
@@ -114,7 +113,6 @@
   }
   .input {
     width: 480px;
-    font-size: 14px;
     font-size: 16px;
 
     height: 37px;
