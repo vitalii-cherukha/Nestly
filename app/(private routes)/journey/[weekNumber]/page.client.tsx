@@ -30,7 +30,6 @@ export default function JourneyDetails() {
 
   const {
     data: babyData,
-    error: errorBaby,
     isPending: isPendingBaby,
     isError: isErrorBaby,
   } = useQuery({
@@ -42,7 +41,6 @@ export default function JourneyDetails() {
 
   const {
     data: momData,
-    error: errorMom,
     isPending: isPendingMom,
     isError: isErrorMom,
   } = useQuery({
@@ -61,9 +59,6 @@ export default function JourneyDetails() {
       title: "Розвиток малюка",
       node: babyData && <BabyTabContent data={babyData} />,
       isLoading: isPendingBaby,
-      // errorMessage: errorBaby?.message,
-      // isLoading: true,
-      // errorMessage: 'here is error',
       errorMessage: "Щось пішло не так",
       isError: isErrorBaby,
     },
