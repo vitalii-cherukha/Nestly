@@ -60,6 +60,7 @@ export default function TasksReminderCard() {
 
   const handleCloseModal = () => {
     setModal(false);
+  }
 
     const onClick = () => {
       if (isAuthenticated) {
@@ -79,8 +80,7 @@ export default function TasksReminderCard() {
         </div>
         <ul className={css.taskList}>
           {tasksCollection &&
-            tasksCollection.map(({ _id, name, date, isDone }) => {
-              return (
+            tasksCollection.map(({ _id, name, date, isDone }) => 
                 <li key={_id}>
                   <div className={css.dateWrapper}>{date}</div>
 
@@ -109,8 +109,7 @@ export default function TasksReminderCard() {
                     </span>
                   </label>
                 </li>
-              );
-            })}
+            )}
         </ul>
         {modalOpen && (
           <AddTaskModal onClose={handleCloseModal}>
@@ -120,4 +119,4 @@ export default function TasksReminderCard() {
       </div>
     );
   };
-}
+
