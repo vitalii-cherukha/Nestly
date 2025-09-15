@@ -5,7 +5,7 @@ import css from "./dashboard.module.css";
 import TasksReminderCard from "@/components/TasksReminderCard/TasksReminderCard";
 import FeelingCheckCard from "@/components/FeelingCheckCard/FeelingCheckCard";
 
-const DashboardClient = async () => {
+const DashboardClient = () => {
   return (
     <div className={css.dbcontainer}>
       <div>

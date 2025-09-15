@@ -26,7 +26,6 @@ const Page = async () => {
       queryFn: isAuth ? getGreeting : getPublicGreeting,
     }),
   ]);
-  //00
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <DashboardClient />
