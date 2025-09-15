@@ -7,7 +7,7 @@ export interface Note {
 export interface CreateNote {
   title: string;
   description: string;
-  emotions: [string];
+  emotions: string[];
 }
 
 const emotionsList: string[] = [
@@ -27,8 +27,9 @@ export default emotionsList;
 export const initialDraft: CreateNote = {
   title: "",
   description: "",
-  emotions: [""],
+  emotions: [],
 };
+
 export type NoteFormZustandStore = {
   draft: CreateNote;
   setDraft: (draft: CreateNote) => void;
@@ -47,4 +48,10 @@ export interface GetDiaryEntriesRep {
   totalCount: number;
   totalPages: number;
   page: number;
+}
+
+export interface Emotion {
+  _id: string;
+  name?: string;
+  title?: string;
 }
