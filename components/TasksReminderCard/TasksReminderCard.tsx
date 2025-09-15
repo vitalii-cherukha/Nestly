@@ -7,8 +7,6 @@ import "izitoast/dist/css/iziToast.min.css";
 import { getTasks } from "@/lib/api/clientApi";
 import { Task } from "@/types/task";
 import { updateTaskById } from "@/lib/api/clientApi";
-import AddTaskModal from "../AddTaskModal/AddTaskModal";
-import AddTaskForm from "../AddTaskForm/AddTaskForm";
 
 // ! ІКОНКА ДОДАВАННЯ + ЧЕКБОКС, ЗАМІНИТИ ПРИ ПОТРЕБІ, ІКОНКА ВІД САШІ ЗАМАЛА.
 import { FiPlusCircle } from "react-icons/fi";
