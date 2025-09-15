@@ -64,30 +64,13 @@
 @media screen and (min-width: 768px) {
   .diaryNoteWrapper {
     width: 672px;
-    height: 91px;
   }
 
   .diaryNoteTopWrapper {
     width: 640px;
   }
+}
 
-  .diaryEmotionsWrapper {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-direction: row;
-    gap: 8px;
-  }
-
-  .emotionsItem {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-direction: row;
-    gap: 0px;
-    border: 1px solid rgba(255, 255, 255, 0);
-    border-radius: 100px;
-    padding: 2px 12px;
-    background: #fff4f6;
-  }
+/* DESC STYLES */
+@media screen and (min-width: 1163px) {
 }
