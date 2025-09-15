@@ -104,12 +104,20 @@
   margin-top: 4px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1439px) {
+  .input {
+    height: 37px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 767px) {
   .title {
     font-size: 36px;
   }
   .input {
     font-size: 14px;
+    width: 335px;
   }
   .form {
     max-width: 335px;
