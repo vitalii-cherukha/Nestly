@@ -58,6 +58,9 @@ export default function TasksReminderCard() {
     }
   };
 
+
+  const handleCloseModal = () => {
+    setModal(false);
   const onClick = () => {
     if (isAuthenticated) {
       setModal(true);
@@ -109,6 +112,12 @@ export default function TasksReminderCard() {
             );
           })}
       </ul>
+      {modalOpen && (
+        <AddTaskModal onClose={handleCloseModal}>
+          <AddTaskForm onCloseModal={handleCloseModal} />
+        </AddTaskModal>
+      )}
+    </>
       {/* {modalOpen && <AddTaskModal setModal={setModal} />} */}
     </div>
   );
