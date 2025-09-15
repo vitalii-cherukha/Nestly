@@ -1,0 +1,18 @@
+.logo {
+  position: absolute;
+  top: 21px;
+  left: 68px;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoText {
+  font-size: 24px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 2px;
+}

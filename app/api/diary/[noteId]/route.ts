@@ -1,13 +1,12 @@
-import { NextResponse } from 'next/server';
-import { api } from '../../api';
-import { cookies } from 'next/headers';
-import { logErrorResponse } from '../../_utils/utils';
-import { isAxiosError } from 'axios';
+import { NextResponse } from "next/server";
+import { api } from "../../api";
+import { cookies } from "next/headers";
+import { logErrorResponse } from "../../_utils/utils";
+import { isAxiosError } from "axios";
 
 type Props = {
   params: Promise<{ noteId: string }>;
 };
-
 
 export async function PATCH(request: Request, { params }: Props) {
   try {
@@ -30,10 +29,12 @@ export async function PATCH(request: Request, { params }: Props) {
       );
     }
     logErrorResponse({ message: (error as Error).message });
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
-
 
 export async function DELETE(request: Request, { params }: Props) {
   try {
@@ -55,6 +56,9 @@ export async function DELETE(request: Request, { params }: Props) {
       );
     }
     logErrorResponse({ message: (error as Error).message });
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

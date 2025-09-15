@@ -66,3 +66,49 @@ export const getServerMe = async (): Promise<User> => {
   });
   return data;
 };
+
+export type BabyData = {
+  analogy: string;
+  image: string;
+  description: string[];
+  interestingFact: string;
+};
+
+export const getWeekInfoBaby = async ({
+  weekNumber,
+}: {
+  weekNumber: string;
+}): Promise<BabyData> => {
+  const cookieStore = await cookies();
+  const { data } = await nextServer.get(`/weeks/${weekNumber}/baby`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+
+export type MomData = {
+  feelings: {
+    states: string[];
+    sensationDescr: string;
+  };
+  comfortTips: {
+    category: string;
+    tip: string;
+  }[];
+};
+
+export const getWeekInfoMom = async ({
+  weekNumber,
+}: {
+  weekNumber: string;
+}): Promise<MomData> => {
+  const cookieStore = await cookies();
+  const { data } = await nextServer.get(`/weeks/${weekNumber}/mom`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};

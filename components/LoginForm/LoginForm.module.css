@@ -1,112 +1,122 @@
 .title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 32px;
-    text-align: center;
+  font-family: var(--font-comfortaa);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 120%;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: var(--color-scheme-text);
 }
 
 .form {
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0 auto;
+  justify-content: center;
+  height: 100vh;
 }
-
+.inputTitle {
+  font-family: var(--font-lato);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--color-scheme-text);
+}
 .inputGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.inputGroup label {
-    font-size: 14px;
-    font-weight: 500;
-    color: #374151;
+.inputGroup p {
+  font-size: 14px;
+  margin: 0;
 }
 
 .input {
-    padding: 16px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 16px;
-    background: #f9fafb;
-    transition: all 0.2s;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  background: var(--secondary-btn-disabled);
+  border: 2px solid var(--opacity-transparent);
+  border-radius: 12px;
+  padding: 8px 12px;
+  width: 480px;
+  height: 40px;
 }
 
-.input:focus {
-    outline: none;
-    border-color: #f472b6;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.1);
+.input:focus,
+.input:hover {
+  border: 2px solid var(--accent-color);
+  border-radius: 12px;
+  border-color: var(--accent-color);
+  outline: none;
+}
+
+.spanText {
+  text-align: center;
+  font-family: var(--font-lato);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 160%;
+}
+.spanLink {
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+}
+.spanLink:active {
+  color: var(--accent-color);
 }
 
 .submitButton {
-    padding: 16px;
-    background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-top: 8px;
+  background: var(--btn-color);
+  border-bottom: var(--btn-color-bottom);
+  border-radius: 100px;
+  padding: 10px 24px;
+  width: 480px;
+  height: 46px;
+  transition:
+    background var(--primary-transition),
+    border-bottom var(--primary-transition);
+  cursor: pointer;
 }
-
-.submitButton:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+.submitButton:hover,
+.submitButton:focus {
+  pointer-events: all;
+  background: var(--btn-hover);
+  border-bottom: var(--btn-hover-bottom);
 }
-
+.submitButton:active {
+  background: var(--btn-active);
+  border-bottom: var(--btn-active-bottom);
+}
 .submitButton:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
-.googleButton {
-    padding: 16px;
-    background: #f3f4f6;
-    color: #374151;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.2s;
+.error {
+  color: var(--error-color);
+  font-size: 14px;
+  margin-top: 4px;
 }
 
-.googleButton:hover {
-    background: #e5e7eb;
-    transform: translateY(-1px);
-}
-
-.googleIcon {
-    width: 20px;
-    height: 20px;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.registerPrompt {
-    margin-top: 24px;
-    text-align: center;
-    color: #6b7280;
+@media (max-width: 768px) {
+  .title {
+    font-size: 36px;
+  }
+  .input {
     font-size: 14px;
-}
-
-.registerLink {
-    color: #f472b6;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s;
-}
-
-.registerLink:hover {
-    color: #ec4899;
+  }
+  .form {
+    max-width: 335px;
+    align-items: center;
+  }
+  .submitButton {
+    width: 335px;
+    height: 42px;
+  }
 }
