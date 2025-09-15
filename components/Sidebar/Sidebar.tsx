@@ -46,7 +46,7 @@ export default function Sidebar() {
         <ul className={css.menuList}>
           <li className={css.menuListItem}>
             <BsCalendar2Event size={24} />
-            Мій день
+            <Link href="/">Мій день</Link>
           </li>
           <li className={css.menuListItem}>
             <LuRoute size={24} />
