@@ -7,7 +7,7 @@ import DiaryEntryDetails from "@/components/DiaryEntryDetails/DiaryEntryDetails"
 import { useState } from "react";
 import type { DiaryEntry } from "@/types/note";
 
-export default function DiaryClient() {
+export default function DiaryDetailsClient() {
   const isDesktop = useMediaQuery({ minWidth: 1024 });
 
   const [selectedEntry, setSelectedEntry] = useState<DiaryEntry | null>(null);

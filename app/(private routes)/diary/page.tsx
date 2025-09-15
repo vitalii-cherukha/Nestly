@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 
 import { getDiaryListServer } from "@/lib/api/serverApi";
-import DiaryClient from "./DiaryDetails.client";
+import DiaryDetailsClient from "./DiaryDetails.client";
 
 export default async function DiaryPage() {
   const queryClient = new QueryClient();
@@ -19,7 +19,7 @@ export default async function DiaryPage() {
     <section>
       <div>
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <DiaryClient />
+          <DiaryDetailsClient />
         </HydrationBoundary>
       </div>
     </section>
