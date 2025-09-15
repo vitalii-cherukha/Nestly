@@ -3,6 +3,10 @@ import { User } from "@/types/user";
 import { DiaryEntry, GetDiaryEntriesRep } from "@/types/note";
 import type { Task } from "@/types/task";
 
+import { BabyData, MomData } from "./serverApi";
+
+import { GreetingData } from "@/types/greeting";
+
 interface GetTasksRep {
   tasks: Task[];
   totalCount: number;
@@ -160,7 +164,7 @@ export const getDiaryEntries = async (params?: {
 
 export const updateDiaryEntry = async (
   noteId: string,
-  body: { title?: string; description?: string; emotions?: string[] }
+  body: { title: string; description: string; emotions: string[] }
 ): Promise<DiaryEntry> => {
   const { data } = await nextServer.patch<DiaryEntry>(`/diary/${noteId}`, body);
   return data;
@@ -173,8 +177,8 @@ export const deleteDiaryEntry = async (
   );
   return data;
 };
-export async function fetchDiaryById(id: string): Promise<DiaryEntry> {
-  const { data } = await nextServer.get<DiaryEntry>(`/diary/${id}`);
+export async function fetchDiaryById(noteId: string): Promise<DiaryEntry> {
+  const { data } = await nextServer.get<DiaryEntry>(`/diary/${noteId}`);
   return data;
 }
 // ? Weeks endpoints
@@ -191,24 +195,6 @@ export const getWeekGreetingPublic = async (): Promise<GetWeekGreetingRep> => {
   return data;
 };
 
-export const getWeekBabyInfo = async (
-  weekNumber: string
-): Promise<GetWeekBabyInfoRep> => {
-  const { data } = await nextServer.get<GetWeekBabyInfoRep>(
-    `/weeks/${weekNumber}/baby`
-  );
-  return data;
-};
-
-export const getWeekMomInfo = async (
-  weekNumber: string
-): Promise<GetWeekMomInfoRep> => {
-  const { data } = await nextServer.get<GetWeekMomInfoRep>(
-    `/weeks/${weekNumber}/mom`
-  );
-  return data;
-};
-
 // ? Emotions endpoints
 
 export const getEmotions = async (params?: {
@@ -218,3 +204,32 @@ export const getEmotions = async (params?: {
   const { data } = await nextServer.get("/emotions", { params });
   return data;
 };
+
+export const getWeekInfoBaby = async ({
+  weekNumber,
+}: {
+  weekNumber: string;
+}): Promise<BabyData> => {
+  const { data } = await nextServer.get(`/weeks/${weekNumber}/baby`);
+  return data;
+};
+
+export const getWeekInfoMom = async ({
+  weekNumber,
+}: {
+  weekNumber: string;
+}): Promise<MomData> => {
+  const { data } = await nextServer.get(`/weeks/${weekNumber}/mom`);
+  return data;
+};
+
+/////////////////////////ruslan//////////////////////////
+export const getGreeting = async (): Promise<GreetingData> => {
+  const { data } = await nextServer.get<GreetingData>("/weeks/greeting");
+  return data;
+};
+export const getPublicGreeting = async (): Promise<GreetingData> => {
+  const { data } = await nextServer.get<GreetingData>("/weeks/greeting/public");
+  return data;
+};
+/////////////////////////ruslan//////////////////////////

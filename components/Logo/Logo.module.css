@@ -1,0 +1,31 @@
+.logo {
+  position: absolute;
+  top: 21px;
+  left: 68px;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoText {
+  font-size: 24px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 1439px) {
+  .logo {
+    top: 13px;
+    left: 32px;
+  }
+}
+@media (max-width: 767px) {
+  .logo {
+    top: 13px;
+    left: 20px;
+  }
+}
