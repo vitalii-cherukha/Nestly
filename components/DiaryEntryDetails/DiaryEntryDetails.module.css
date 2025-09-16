@@ -73,6 +73,11 @@
     height: 22px;
   }
 
+  .editBtn:hover,
+  .editBtn:focus {
+    opacity: 0.5;
+  }
+
   .diaryDetailsDataWrapper {
     display: flex;
     align-items: center;
@@ -99,6 +104,11 @@
   .deleteBtn {
     width: 24px;
     height: 24px;
+  }
+
+  .deleteBtn:hover,
+  .deleteBtn:focus {
+    opacity: 0.5;
   }
 
   .diaryDetailsDataText {
