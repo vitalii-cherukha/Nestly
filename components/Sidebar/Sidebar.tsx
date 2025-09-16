@@ -2,7 +2,7 @@
 
 import { useSidebar } from "@/lib/store/sidebarStore";
 import css from "./Sidebar.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { IoIosClose } from "react-icons/io";
@@ -10,9 +10,20 @@ import { BsCalendar2Event } from "react-icons/bs";
 import { LuRoute } from "react-icons/lu";
 import { TbBook2 } from "react-icons/tb";
 import { RxAvatar } from "react-icons/rx";
+import { useAuthStore } from "@/lib/store/authStore";
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import { logout } from "@/lib/api/clientApi";
+import { useRouter } from "next/navigation";
+import { LuLogOut } from "react-icons/lu";
+import { GoSignIn } from "react-icons/go";
 
 export default function Sidebar() {
   const { open, close } = useSidebar();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
+  const [modal, setModal] = useState(false);
+  const router = useRouter();
+  const isLoggedout = useAuthStore((state) => state.clearIsAuthenticated);
 
   // Lock scroll for mobile modal mode
   useEffect(() => {
@@ -22,6 +33,12 @@ export default function Sidebar() {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  const onLogout = async () => {
+    await logout();
+    isLoggedout();
+    router.push("/auth/register");
+  };
 
   return (
     <>
@@ -49,42 +66,71 @@ export default function Sidebar() {
             <IoIosClose size={32} />
           </button>
         </div>
-        <ul className={css.menuList}>
-          <li className={css.menuListItem}>
-            <BsCalendar2Event size={24} />
-            <Link href="/">Мій день</Link>
-          </li>
-          <li className={css.menuListItem}>
-            <LuRoute size={24} />
-            <Link href="/journey">Подорож</Link>
-          </li>
-          <li className={css.menuListItem}>
-            <TbBook2 size={24} />
-            <Link href="/diary">Щоденник</Link>
-          </li>
-          <li className={css.menuListItem}>
-            <RxAvatar size={24} />
-            <Link href="/profile">Профіль</Link>
-          </li>
-        </ul>
-
-        <div className={css.sidebarFooterComponent}>
-          <ul className={css.sidebarFooterList}>
-            <li className={css.sidebarFooterItem}>
-              <Link href="/auth/login">Увійти</Link>
+        <div className={css.sidebarContent}>
+          <ul className={css.menuList}>
+            <li className={css.menuListItem}>
+              <BsCalendar2Event size={24} />
+              <Link href="/">Мій день</Link>
             </li>
-            <li className={css.sidebarFooterItem}>
-              <Link href="/auth/register">Зареєструватись</Link>
+            <li className={css.menuListItem}>
+              <LuRoute size={24} />
+              <Link href={`/journey/${user?.curWeekNumber}`}>Подорож</Link>
+            </li>
+            <li className={css.menuListItem}>
+              <TbBook2 size={24} />
+              <Link href="/diary">Щоденник</Link>
+            </li>
+            <li className={css.menuListItem}>
+              <RxAvatar size={24} />
+              <Link href="/profile">Профіль</Link>
             </li>
           </ul>
-        </div>
-        <div>
-          <p>User Avatar</p>
-          <div>
-            <p>User Name</p>
-            <p>User Email</p>
+          <div className={css.sidebarFooter}>
+            {!isAuthenticated ? (
+              <div className={css.sidebarFooterWrapper}>
+                <ul className={css.sidebarFooterPublic}>
+                  <li className={css.sidebarFooterItem}>
+                    <GoSignIn size={24} />
+                    <Link href="/auth/login">Вхід</Link>
+                  </li>
+                  <li className={css.sidebarFooterItem}>
+                    <RxAvatar size={24} />
+                    <Link href="/auth/register">Реєстрація</Link>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <div className={css.sidebarFooterAuthUser}>
+                <div className={css.sidebarFooterUserData}>
+                  <Image
+                    src={user?.avatarUrl ?? "/default-avatar.png"}
+                    width={40}
+                    height={40}
+                    alt="Avatar"
+                    priority
+                    className={css.sidebarAvatar}
+                  />
+                  <div>
+                    <p className={css.sidebarFooterUserName}>{user?.name}</p>
+                    <p className={css.sidebarFooterUserEmail}>{user?.email}</p>
+                  </div>
+                </div>
+                <button
+                  className={css.sidebarFooterBtn}
+                  type="button"
+                  onClick={() => setModal(true)}
+                >
+                  <LuLogOut size={24} />
+                </button>
+                {modal && (
+                  <ConfirmationModal
+                    onConfirm={onLogout}
+                    onCancel={() => setModal(false)}
+                  />
+                )}
+              </div>
+            )}
           </div>
-          <button>Logout button</button>
         </div>
       </aside>
     </>
