@@ -34,3 +34,8 @@
     grid-column: 1;
   }
 }
+@media (max-width: 1440px) {
+  .layout {
+    display: grid;
+  }
+}
