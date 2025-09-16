@@ -1,7 +1,13 @@
 @media screen {
   .diaryMainWrapper {
     display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
     gap: 32px;
+    padding: 32px;
+    width: 1128px;
+    height: 791px;
   }
 
   .greetingBlock {
