@@ -6,7 +6,6 @@ import { useRef, useState } from "react";
 import { updateAvatar } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 import { ApiError } from "next/dist/server/api-utils";
-import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
 const ProfileAvatar = () => {
@@ -17,7 +16,7 @@ const ProfileAvatar = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   if (!user) {
-    return <p>Завантаження профілю...</p>;
+    return <p>Завантаження...</p>;
   }
 
   const handleClick = () => {
