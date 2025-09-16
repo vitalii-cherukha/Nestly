@@ -67,10 +67,8 @@ const RegisterForm = () => {
       //      console.log("Registration values:", values);
       await register(values);
       router.push("/profile/edit");
-    } catch (error) {
-      setError(
-        "Щось пішло не так, спробуйте ще раз" ?? (error as ApiError).message
-      );
+    } catch {
+      setError("Щось пішло не так, спробуйте ще раз");
       import("izitoast").then((iziToast) => {
         iziToast.default.error({
           title: "Помилка",
