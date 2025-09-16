@@ -40,8 +40,20 @@ const AddTaskForm = ({ onCloseModal }: AddTaskFormProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       onCloseModal();
+      import("izitoast").then((iziToast) => {
+        iziToast.default.success({
+          title: "Супер",
+          message: "Завдання збережено",
+        });
+      });
     },
     onError: (error) => {
+      import("izitoast").then((iziToast) => {
+        iziToast.default.error({
+          title: "Помилка",
+          message: "Щось пішло не так, спробуйте, будь ласка, ще раз",
+        });
+      });
       console.error("Помилка:", error);
     },
   });
