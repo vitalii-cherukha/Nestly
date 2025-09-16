@@ -33,23 +33,22 @@ interface GetWeekGreetingRep {
   momHint: string;
 }
 
-interface GetWeekBabyInfoRep {
-  analogy: string;
-  image: string;
-  description: string[];
-  interestingFact: string;
-}
+//interface GetWeekBabyInfoRep {
+//  analogy: string;
+//  image: string;
+//  description: string[];
+//  interestingFact: string;
+//}
+//interface GetWeekMomInfoRep {
+//  feelings: { states: string[]; sensationDescr: string };
+//  comfortTips: { category: string; tip: string }[];
+//}
 interface GetEmotionsRep {
   emotions: { _id: string; name: string }[];
   totalCount: number;
   totalPages: number;
   page: number;
   limit: number;
-}
-
-interface GetWeekMomInfoRep {
-  feelings: { states: string[]; sensationDescr: string };
-  comfortTips: { category: string; tip: string }[];
 }
 
 // ? AUTH ENDPOINTS
