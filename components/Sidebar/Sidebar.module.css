@@ -48,6 +48,8 @@
     max-width: none;
     box-shadow: none;
     z-index: 1;
+    overflow: hidden;
+
   }
 
   .backdrop {
@@ -160,9 +162,3 @@
 .sidebarFooterTitle {
   font: var(--text-small-medium)
 }
-
-/* .sidebarFooterWrapper {
-  display: block;
-  padding: 24px 0;
-  font: var(--text-small-medium);
-} */

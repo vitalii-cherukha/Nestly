@@ -70,19 +70,27 @@ export default function Sidebar() {
           <ul className={css.menuList}>
             <li className={css.menuListItem}>
               <BsCalendar2Event size={24} />
-              <Link href="/">Мій день</Link>
+              <Link onClick={close} href="/">
+                Мій день
+              </Link>
             </li>
             <li className={css.menuListItem}>
               <LuRoute size={24} />
-              <Link href={`/journey/${user?.curWeekNumber}`}>Подорож</Link>
+              <Link onClick={close} href={`/journey/${user?.curWeekNumber}`}>
+                Подорож
+              </Link>
             </li>
             <li className={css.menuListItem}>
               <TbBook2 size={24} />
-              <Link href="/diary">Щоденник</Link>
+              <Link onClick={close} href="/diary">
+                Щоденник
+              </Link>
             </li>
             <li className={css.menuListItem}>
               <RxAvatar size={24} />
-              <Link href="/profile">Профіль</Link>
+              <Link onClick={close} href="/profile">
+                Профіль
+              </Link>
             </li>
           </ul>
           <div className={css.sidebarFooter}>
@@ -91,11 +99,15 @@ export default function Sidebar() {
                 <ul className={css.sidebarFooterPublic}>
                   <li className={css.sidebarFooterItem}>
                     <GoSignIn size={24} />
-                    <Link href="/auth/login">Вхід</Link>
+                    <Link onClick={close} href="/auth/login">
+                      Вхід
+                    </Link>
                   </li>
                   <li className={css.sidebarFooterItem}>
                     <RxAvatar size={24} />
-                    <Link href="/auth/register">Реєстрація</Link>
+                    <Link onClick={close} href="/auth/register">
+                      Реєстрація
+                    </Link>
                   </li>
                 </ul>
               </div>
