@@ -8,6 +8,8 @@ import { Formik, Form, Field, type FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import { RegisterData } from "@/types/user";
+import "izitoast/dist/css/iziToast.min.css";
+import { ApiError } from "next/dist/server/api-utils";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -65,9 +67,17 @@ const RegisterForm = () => {
       //      console.log("Registration values:", values);
       await register(values);
       router.push("/profile/edit");
-    } catch {
-      setError("Помилка реєстрації");
-      actions.setFieldError("general", "Сталася помилка при реєстрації");
+    } catch (error) {
+      setError(
+        "Щось пішло не так, спробуйте ще раз" ?? (error as ApiError).message
+      );
+      import("izitoast").then((iziToast) => {
+        iziToast.default.error({
+          title: "Помилка",
+          message: "Сталася помилка при реєстрації",
+          position: "topRight",
+        });
+      });
     } finally {
       actions.setSubmitting(false);
     }
