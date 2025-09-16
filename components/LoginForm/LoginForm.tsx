@@ -60,11 +60,8 @@ const LoginForm = () => {
         setUser(user);
         router.push("/");
       }
-    } catch (error) {
-      setError(
-        "Щось пішло не так. Перевірте введені дані." ??
-          (error as ApiError).message
-      );
+    } catch {
+      setError("Щось пішло не так. Перевірте введені дані.");
     } finally {
       setSubmitting(false);
     }
