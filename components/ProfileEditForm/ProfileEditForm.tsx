@@ -1,13 +1,11 @@
 "use client";
 
-//import { User } from "@/types/user";
 import css from "./ProfileEditForm.module.css";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 
 import { useAuthStore } from "@/lib/store/authStore";
 import { updateProfile } from "@/lib/api/clientApi";
-import { useState } from "react";
 
 interface InitialValues {
   name: string;
@@ -26,7 +24,6 @@ const validationSchema = Yup.object().shape({
 const ProfileEditForm = () => {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
-  const [error, setError] = useState("");
   if (!user) {
     return <p>Завантаження профілю...</p>;
   }
@@ -41,8 +38,8 @@ const ProfileEditForm = () => {
         ...user,
         ...updatedUser,
       });
-    } catch (error) {
-      setError("Не вдалось оновити профіль");
+    } catch {
+      console.log("error");
     } finally {
       actions.setSubmitting(false);
     }
@@ -80,7 +77,7 @@ const ProfileEditForm = () => {
             </label>
             <label className={css.label}>
               Стать дитини
-              <Field as="select" name="babyGender" className={css.input}>
+              <Field as="select" name="babyGender" className={css.select}>
                 <option value="">Оберіть стать</option>
                 <option value="girl">Дівчинка</option>
                 <option value="boy">Хлопчик</option>
