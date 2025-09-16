@@ -6,12 +6,13 @@
   position: fixed;
   inset: 0 auto 0 0;
   width: 80vw;
-  max-width: 320px;
+  max-width: 300px;
   transform: translateX(-100%);
   transition: transform 200ms ease;
   background: #fff;
   z-index: 40;
   box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+  border-right: 1px solid var(--color-scheme-border);
 }
 
 .open {
@@ -21,7 +22,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, .35);
+  background: var(--opacity-neutral-darkest-50);
   opacity: 0;
   pointer-events: none;
   transition: opacity 200ms ease;
@@ -34,14 +35,14 @@
 }
 
 /* DESKTOP: sidebar becomes fixed column; backdrop disappears */
-@media (min-width: 1024px) {
+@media (min-width: 1440px) {
   .sidebar {
     position: sticky;
     /* stays put while scrolling */
     top: 0;
     height: 100dvh;
-    transform: none !important;
-    width: 280px;
+    transform: none;
+    width: 312px;
     max-width: none;
     box-shadow: none;
     z-index: 1;
@@ -67,6 +68,8 @@
   justify-content: space-between;
   align-items: center;
   min-width: 252px;
+  margin: 16px 0;
+  padding: 0 8px;
 }
 
 .sidebarCloseBtn {
@@ -75,4 +78,24 @@
   align-items: center;
   padding: 0;
   background: none;
+}
+
+@media (min-width: 1440px) {
+  .sidebarCloseBtn {
+    display: none;
+  }
+}
+
+.menuListItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  font: var(--text-regular-normal);
+  border-radius: 8px;
+}
+
+.menuListItem:hover {
+  background: var(--color-scheme-foreground);
+
 }
