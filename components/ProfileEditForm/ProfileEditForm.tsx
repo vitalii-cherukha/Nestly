@@ -8,6 +8,7 @@ import { updateProfile } from "@/lib/api/clientApi";
 import { ApiError } from "next/dist/server/api-utils";
 import { useState } from "react";
 import CustomSelect from "../CustomSelect/CustomSelect";
+import Loader from "../Loader/Loader";
 
 interface InitialValues {
   name: string;
@@ -35,7 +36,7 @@ const ProfileEditForm = () => {
   const setUser = useAuthStore((state) => state.setUser);
   const [error, setError] = useState("");
   if (!user) {
-    return <p>Завантаження профілю...</p>;
+    return <p>Завантаження...</p>;
   }
 
   const handleSubmit = async (
