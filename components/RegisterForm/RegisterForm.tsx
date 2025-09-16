@@ -9,7 +9,6 @@ import * as Yup from "yup";
 import Link from "next/link";
 import { RegisterData } from "@/types/user";
 import "izitoast/dist/css/iziToast.min.css";
-import { ApiError } from "next/dist/server/api-utils";
 
 const RegisterForm = () => {
   const router = useRouter();
