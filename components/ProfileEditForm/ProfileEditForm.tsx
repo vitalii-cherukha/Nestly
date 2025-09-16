@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/types/user";
+//import { User } from "@/types/user";
 import css from "./ProfileEditForm.module.css";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
@@ -41,7 +41,7 @@ const ProfileEditForm = () => {
         ...user,
         ...updatedUser,
       });
-    } catch (err) {
+    } catch (error) {
       setError("Не вдалось оновити профіль");
     } finally {
       actions.setSubmitting(false);
