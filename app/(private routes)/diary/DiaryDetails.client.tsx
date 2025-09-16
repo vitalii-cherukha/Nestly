@@ -8,6 +8,8 @@ import DiaryEntryDetails from "@/components/DiaryEntryDetails/DiaryEntryDetails"
 import GreetingBlock from "@/components/GreetingBlock/GreetingBlock";
 import type { DiaryEntry } from "@/types/note";
 import css from "./DiaryDetails.module.css";
+import Container from "@/components/Container/Container";
+import Section from "@/components/Section/Section";
 
 export default function DiaryDetailsClient() {
   const isDesktop = useMediaQuery({ minWidth: 1440 });
@@ -30,14 +32,21 @@ export default function DiaryDetailsClient() {
 
   return (
     <>
-      <GreetingBlock />
-      <main className={css.diaryDescWrapper}>
-        <DiaryList onSelectEntry={handleSelectEntry} />
+      <Section>
+        <Container>
+          <GreetingBlock />
+          <main className={css.diaryDescWrapper}>
+            <DiaryList onSelectEntry={handleSelectEntry} />
 
-        {isDesktop && selectedEntry && (
-          <DiaryEntryDetails entry={selectedEntry} onUpdate={handleUpdate} />
-        )}
-      </main>
+            {isDesktop && selectedEntry && (
+              <DiaryEntryDetails
+                entry={selectedEntry}
+                onUpdate={handleUpdate}
+              />
+            )}
+          </main>
+        </Container>
+      </Section>
     </>
   );
 }

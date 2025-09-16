@@ -1,5 +1,5 @@
 @media screen {
-  .diarySection {
+  /* .diarySection {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -7,7 +7,7 @@
     gap: 32px;
     width: 375px;
     background-color: #fff;
-  }
+  } */
 
   .diaryContainer {
     display: flex;
