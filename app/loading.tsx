@@ -1,5 +1,4 @@
 "use client";
-// import Loader from "@/components/Loader/Loader";
 import css from "./loading.module.css";
 import Lottie from "lottie-react";
 import BabyLoader from "./baby.json";
