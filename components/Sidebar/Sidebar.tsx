@@ -37,7 +37,13 @@ export default function Sidebar() {
       >
         <div className={css.sidebarHeader}>
           <Link href="/">
-            <Image src="/logo.svg" width={105} height={45} alt="Logo" />
+            <Image
+              src="/logo.svg"
+              width={105}
+              height={45}
+              alt="Logo"
+              priority
+            />
           </Link>
           <button className={css.sidebarCloseBtn} type="button" onClick={close}>
             <IoIosClose size={32} />
@@ -50,17 +56,36 @@ export default function Sidebar() {
           </li>
           <li className={css.menuListItem}>
             <LuRoute size={24} />
-            Подорож
+            <Link href="/journey">Подорож</Link>
           </li>
           <li className={css.menuListItem}>
             <TbBook2 size={24} />
-            Щоденник
+            <Link href="/diary">Щоденник</Link>
           </li>
           <li className={css.menuListItem}>
             <RxAvatar size={24} />
-            Профіль
+            <Link href="/profile">Профіль</Link>
           </li>
         </ul>
+
+        <div className={css.sidebarFooterComponent}>
+          <ul className={css.sidebarFooterList}>
+            <li className={css.sidebarFooterItem}>
+              <Link href="/auth/login">Увійти</Link>
+            </li>
+            <li className={css.sidebarFooterItem}>
+              <Link href="/auth/register">Зареєструватись</Link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p>User Avatar</p>
+          <div>
+            <p>User Name</p>
+            <p>User Email</p>
+          </div>
+          <button>Logout button</button>
+        </div>
       </aside>
     </>
   );
