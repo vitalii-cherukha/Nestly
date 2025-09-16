@@ -53,6 +53,7 @@ const ProfileEditForm = () => {
         iziToast.default.success({
           title: "Супер",
           message: "Дані збережено",
+          position: "topRight",
         });
       });
     } catch (error) {
@@ -61,6 +62,7 @@ const ProfileEditForm = () => {
         iziToast.default.error({
           title: "Помилка",
           message: "Щось пішло не так, спробуйте ще раз",
+          position: "topRight",
         });
       });
     } finally {
