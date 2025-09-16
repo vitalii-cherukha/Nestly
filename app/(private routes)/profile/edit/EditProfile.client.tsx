@@ -14,6 +14,11 @@ export default function EditProfileClient() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!babyGender) {
+      console.log("Оберіть стать дитини");
+      return;
+    }
+
     const formData = {
       dueDate:
         dueDate && dueDate.includes(".")
