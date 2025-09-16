@@ -7,7 +7,7 @@ import { BabyData, MomData } from "./serverApi";
 
 import { GreetingData } from "@/types/greeting";
 
-interface GetTasksRep {
+export interface GetTasksRep {
   tasks: Task[];
   totalCount: number;
   totalPages: number;
@@ -111,12 +111,8 @@ export const updateAvatar = async (avatar: File): Promise<User> => {
 
 // ? TASK ENDPOINTS
 
-export const getTasks = async (params?: {
-  page?: number;
-  limit?: number;
-  sortOrder?: "asc" | "desc";
-}): Promise<GetTasksRep> => {
-  const { data } = await nextServer.get<GetTasksRep>("/tasks", { params });
+export const getTasks = async (): Promise<GetTasksRep> => {
+  const { data } = await nextServer.get<GetTasksRep>("/tasks");
   return data;
 };
 
