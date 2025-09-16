@@ -88,9 +88,7 @@ export default function JourneyDetails() {
                 Math.ceil(pregnantData.daysBeforePregnant / 7)
               }
             />
-          ) : (
-            <Loader styles={{ margin: "auto" }} />
-          )}
+          ) : null}
 
           <CustomTabs
             items={tabData}
