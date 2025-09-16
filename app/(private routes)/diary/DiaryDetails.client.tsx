@@ -10,16 +10,14 @@ import css from "./DiaryDetails.module.css";
 import GreetingBlock from "@/components/GreetingBlock/GreetingBlock";
 
 export default function DiaryDetailsClient() {
-  const isDesktop = useMediaQuery({ minWidth: 1024 });
+  const isDesktop = useMediaQuery({ minWidth: 1440 });
 
   const [selectedEntry, setSelectedEntry] = useState<DiaryEntry | null>(null);
 
   return (
     <>
-      <div className={css.greetingBlock}>
-        <GreetingBlock />
-      </div>
-      <main className={css.diaryMainWrapper}>
+      <GreetingBlock />
+      <main className={css.diaryDescWrapper}>
         {isDesktop ? (
           <>
             <DiaryList onSelectEntry={setSelectedEntry} />
