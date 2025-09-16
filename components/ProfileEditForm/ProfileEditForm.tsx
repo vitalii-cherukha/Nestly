@@ -3,9 +3,11 @@
 import css from "./ProfileEditForm.module.css";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
-
 import { useAuthStore } from "@/lib/store/authStore";
 import { updateProfile } from "@/lib/api/clientApi";
+import { ApiError } from "next/dist/server/api-utils";
+import { useState } from "react";
+import CustomSelect from "../CustomSelect/CustomSelect";
 
 interface InitialValues {
   name: string;
@@ -18,12 +20,18 @@ const validationSchema = Yup.object().shape({
   name: Yup.string().required("Введіть ім’я"),
   email: Yup.string().email("Некоректна пошта").required("Введіть пошту"),
   babyGender: Yup.string().required("Оберіть стать").oneOf(["boy", "girl"]),
-  dueDate: Yup.date().required("Оберіть дату"),
+  dueDate: Yup.date()
+    .required("Оберіть дату")
+    .min(
+      new Date(new Date().setHours(0, 0, 0, 0)),
+      "Дата не може бути раніше сьогоднішнього дня"
+    ),
 });
 
 const ProfileEditForm = () => {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
+  const [error, setError] = useState("");
   if (!user) {
     return <p>Завантаження профілю...</p>;
   }
@@ -38,8 +46,8 @@ const ProfileEditForm = () => {
         ...user,
         ...updatedUser,
       });
-    } catch {
-      console.log("error");
+    } catch (error) {
+      setError((error as ApiError).message);
     } finally {
       actions.setSubmitting(false);
     }
@@ -59,16 +67,24 @@ const ProfileEditForm = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ handleReset }) => (
+        {({ handleReset, errors, touched, values, setFieldValue }) => (
           <Form className={css.form}>
             <label className={css.label}>
               Ім’я
-              <Field name="name" type="text" className={css.input} />
+              <Field
+                name="name"
+                type="text"
+                className={`${css.input} ${touched.name && errors.name ? css.inputError : ""}`}
+              />
               <ErrorMessage name="name" component="div" className={css.error} />
             </label>
             <label className={css.label}>
               Пошта
-              <Field name="email" type="email" className={css.input} />
+              <Field
+                name="email"
+                type="email"
+                className={`${css.input} ${touched.email && errors.email ? css.inputError : ""}`}
+              />
               <ErrorMessage
                 name="email"
                 component="div"
@@ -77,11 +93,16 @@ const ProfileEditForm = () => {
             </label>
             <label className={css.label}>
               Стать дитини
-              <Field as="select" name="babyGender" className={css.select}>
-                <option value="">Оберіть стать</option>
-                <option value="girl">Дівчинка</option>
-                <option value="boy">Хлопчик</option>
-              </Field>
+              <CustomSelect
+                options={[
+                  { value: "girl", label: "Дівчинка" },
+                  { value: "boy", label: "Хлопчик" },
+                ]}
+                value={values.babyGender}
+                onChange={(value) => setFieldValue("babyGender", value)}
+                placeholder="Оберіть стать"
+                error={!!(touched.babyGender && errors.babyGender)}
+              />
               <ErrorMessage
                 name="babyGender"
                 component="div"
@@ -91,7 +112,11 @@ const ProfileEditForm = () => {
 
             <label className={css.label}>
               Планова дата пологів
-              <Field name="dueDate" type="date" className={css.input} />
+              <Field
+                name="dueDate"
+                type="date"
+                className={`${css.input} ${touched.dueDate && errors.dueDate ? css.inputError : ""}`}
+              />
               <ErrorMessage
                 name="dueDate"
                 component="div"
@@ -110,6 +135,7 @@ const ProfileEditForm = () => {
               <button type="submit" className={css.btnSave}>
                 Зберегти зміни
               </button>
+              {error && <p>{error}</p>}
             </div>
           </Form>
         )}

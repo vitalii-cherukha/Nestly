@@ -3,9 +3,10 @@
 import css from "./ProfileAvatar.module.css";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { ApiError } from "next/dist/server/api-utils";
 import { updateAvatar } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
+import iziToast from "izitoast";
+import { ApiError } from "next/dist/server/api-utils";
 
 const ProfileAvatar = () => {
   const user = useAuthStore((state) => state.user);
@@ -51,6 +52,7 @@ const ProfileAvatar = () => {
         });
       } catch (error) {
         setError((error as ApiError).message);
+        console.log(error);
       } finally {
         setIsUploading(false);
       }
