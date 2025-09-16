@@ -19,7 +19,9 @@ interface InitialValues {
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Введіть ім’я"),
   email: Yup.string().email("Некоректна пошта").required("Введіть пошту"),
-  babyGender: Yup.string().required("Оберіть стать").oneOf(["boy", "girl"]),
+  babyGender: Yup.string()
+    .required("Оберіть стать")
+    .oneOf(["boy", "girl", "unknown"]),
   dueDate: Yup.date()
     .required("Оберіть дату")
     .min(
@@ -33,7 +35,7 @@ const ProfileEditForm = () => {
   const setUser = useAuthStore((state) => state.setUser);
   const [error, setError] = useState("");
   if (!user) {
-    return <p>Завантаження профілю...</p>;
+    return <p>Завантаження...</p>;
   }
 
   const handleSubmit = async (
@@ -46,8 +48,22 @@ const ProfileEditForm = () => {
         ...user,
         ...updatedUser,
       });
+      import("izitoast").then((iziToast) => {
+        iziToast.default.success({
+          title: "Супер",
+          message: "Дані збережено",
+          position: "topRight",
+        });
+      });
     } catch (error) {
       setError((error as ApiError).message);
+      import("izitoast").then((iziToast) => {
+        iziToast.default.error({
+          title: "Помилка",
+          message: "Щось пішло не так, спробуйте ще раз",
+          position: "topRight",
+        });
+      });
     } finally {
       actions.setSubmitting(false);
     }
@@ -97,6 +113,7 @@ const ProfileEditForm = () => {
                 options={[
                   { value: "girl", label: "Дівчинка" },
                   { value: "boy", label: "Хлопчик" },
+                  { value: "unknown", label: "Ще не знаю" },
                 ]}
                 value={values.babyGender}
                 onChange={(value) => setFieldValue("babyGender", value)}

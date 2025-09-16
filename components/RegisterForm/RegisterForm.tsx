@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import css from "./RegisterForm.module.css";
 import { register } from "@/lib/api/clientApi";
 import { useState } from "react";
-import { ApiError } from "next/dist/server/api-utils";
 import { Formik, Form, Field, type FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
