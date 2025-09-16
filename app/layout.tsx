@@ -58,7 +58,7 @@ export default function RootLayout({
                 <Sidebar />
               </div>
               <main className={css.main}>
-                {/* <Breadcrumbs /> */}
+                <Breadcrumbs />
                 {children}
               </main>
             </div>
