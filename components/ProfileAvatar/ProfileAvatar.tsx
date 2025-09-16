@@ -5,8 +5,9 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { updateAvatar } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
-import iziToast from "izitoast";
 import { ApiError } from "next/dist/server/api-utils";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 const ProfileAvatar = () => {
   const user = useAuthStore((state) => state.user);
@@ -50,9 +51,20 @@ const ProfileAvatar = () => {
           ...user,
           ...updatedUser,
         });
+        import("izitoast").then((iziToast) => {
+          iziToast.default.success({
+            title: "Супер",
+            message: "Дані збережено",
+          });
+        });
       } catch (error) {
         setError((error as ApiError).message);
-        console.log(error);
+        import("izitoast").then((iziToast) => {
+          iziToast.default.error({
+            title: "Помилка",
+            message: "Щось пішло не так, спробуйте ще раз",
+          });
+        });
       } finally {
         setIsUploading(false);
       }

@@ -13,6 +13,8 @@
 }
 
 .avatarUser {
+  width: 132px;
+  height: 132px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -41,14 +43,16 @@
 }
 
 .btn {
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 160%;
   padding: 8px 10px;
   width: 100%;
   border-radius: 100px;
   border-bottom: 4px solid var(--opacity-neutral-darkest-15);
   background: var(--opacity-neutral-darkest-5);
-  font-size: 14px;
-  font-weight: 500;
-  color: #111;
+  color: var(--color-scheme-text);
   transition:
     background 500ms linear,
     border-color 500ms linear,
@@ -86,5 +90,13 @@
 
   .btn {
     width: 218px;
+  }
+}
+
+/* desktop */
+
+@media screen and (min-width: 1440px) {
+  .btn {
+    font-size: 16px;
   }
 }
