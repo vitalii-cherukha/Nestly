@@ -1,3 +1,6 @@
+/* EditProfilePage.module.css */
+
+/* Основной контейнер занимает всю ширину и высоту экрана */
 .pageContainer {
     display: flex;
     min-height: 100vh;
@@ -5,6 +8,7 @@
     position: relative;
 }
 
+/* Левая панель - 50% экрана */
 .leftPanel {
     width: 50%;
     display: flex;
@@ -16,14 +20,14 @@
     box-sizing: border-box;
 }
 
-
+/* Правая панель - 50% экрана */
 .rightPanel {
     width: 50%;
     position: relative;
     overflow: hidden;
 }
 
-
+/* Обертка для формы */
 .formWrapper {
     width: 100%;
     max-width: 480px;
@@ -72,32 +76,25 @@
     background: var(--color-scheme-foreground-alt);
 }
 
-/* Стили для изображения */
 .image {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center !important;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
-/* Медиа-запросы для адаптивности */
 @media screen and (max-width: 1439px) {
     .pageContainer {
-        flex-direction: column;
-    }
-
-    .leftPanel,
-    .rightPanel {
-        width: 100%;
+        justify-content: center;
     }
 
     .leftPanel {
-        min-height: 60vh;
+        width: 100%;
         padding: 20px;
     }
 
     .rightPanel {
-        min-height: 40vh;
+        display: none;
     }
 
     .title {
@@ -109,11 +106,10 @@
 @media screen and (max-width: 768px) {
     .leftPanel {
         padding: 16px;
-        min-height: 70vh;
     }
 
     .rightPanel {
-        min-height: 30vh;
+        display: none;
     }
 
     .title {

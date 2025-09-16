@@ -8,6 +8,12 @@
 }
 
 .greetingBlock {
+  padding-top: 24px;
+  width: 100%;
+}
+.greetingBlock {
+  width: 100%;
+  max-width: 1128px;
   margin-bottom: 16px;
   margin-top: 16px;
 }
