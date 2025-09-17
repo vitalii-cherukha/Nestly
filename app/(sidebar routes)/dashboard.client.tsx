@@ -4,7 +4,7 @@ import StatusBlock from "@/components/StatusBlock/StatusBlock";
 import TasksReminderCard from "@/components/TasksReminderCard/TasksReminderCard";
 import FeelingCheckCard from "@/components/FeelingCheckCard/FeelingCheckCard";
 import GreetingBlock from "@/components/GreetingBlock/GreetingBlock";
-import Container from "../components/Container/Container";
+import Container from "../../components/Container/Container";
 import css from "./dashboard.module.css";
 
 const DashboardClient = () => {

@@ -3,14 +3,10 @@ import { Lato, Comfortaa } from "next/font/google";
 import "modern-normalize/modern-normalize.css";
 import "./globals.css";
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
-import Header from "@/components/Header/Header";
 import { ReactNode } from "react";
 import { OG_IMAGE, SITE_DOMAIN } from "@/config/metadata";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
-import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import Sidebar from "@/components/Sidebar/Sidebar";
 import AuthInterceptor from "@/components/AuthInterceptor/AuthInterceptor";
-import css from "./layout.module.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_DOMAIN),
@@ -44,29 +40,12 @@ export default function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const isAuthProfilePage = false;
-
   return (
     <html lang="en">
       <body className={`${lato.variable} ${comfortaa.variable}`}>
         <TanStackProvider>
           <AuthInterceptor />
-          <AuthProvider>
-            <Header />
-            {!isAuthProfilePage ? (
-              <div className={css.layout}>
-                <div className={css.sidebarWrapper}>
-                  <Sidebar />
-                </div>
-                <main className={css.main}>
-                  <Breadcrumbs />
-                  {children}
-                </main>
-              </div>
-            ) : (
-              <main>{children}</main>
-            )}
-          </AuthProvider>
+          <AuthProvider>{children}</AuthProvider>
         </TanStackProvider>
       </body>
     </html>

@@ -1,23 +1,23 @@
-.authLayout {
+/* .authLayout {
   display: flex;
   flex-direction: column;
   justify-content: center;
   /* vertical centering */
-  align-items: center;
-  /* horizontal centering */
-  min-height: 100dvh;
-  /* full viewport height, supports mobile */
-  padding: 16px;
-  /* safe padding for small screens */
-  background-color: var(--color-scheme-background, #fff);
-}
+/* align-items: center; */
+/* horizontal centering */
+/* min-height: 100dvh; */
+/* full viewport height, supports mobile */
+/* padding: 16px; */
+/* safe padding for small screens */
+/* background-color: var(--color-scheme-background, #fff); */
+/* } */
 
-.authLayout main {
-  width: 100%;
-  max-width: 400px;
-  /* typical form width */
-  background: #fff;
+/* .authLayout main { */
+/* width: 100%;
+  max-width: 400px; */
+/* typical form width */
+/* background: #fff;
   border-radius: 8px;
   padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
+/* } */
