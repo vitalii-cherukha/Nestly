@@ -1,4 +1,5 @@
 "use client";
+
 import AvatarPicker from "@/components/Onboarding/AvatarPicker/AvatarPicker";
 import BirthDatePicker from "@/components/Onboarding/BirthDatePicker/BirthDatePicker";
 import ChildStatusSelect from "@/components/Onboarding/ChildStatusSelect/ChildStatusSelect";
@@ -32,27 +33,25 @@ export default function EditProfileClient() {
       await updateProfile(formData);
       router.replace("/");
 
-      import("izitoast").then((iziToast) => {
-        iziToast.default.success({
-          title: "Супер",
-          message: "Дані збережено",
-          position: "topRight",
-        });
+      const { default: iziToast } = await import("izitoast");
+      iziToast.success({
+        title: "Супер",
+        message: "Дані збережено",
+        position: "topRight",
       });
     } catch (error) {
-      import("izitoast").then((iziToast) => {
-        iziToast.default.error({
-          title: "Помилка",
-          message: "Щось пішло не так, спробуйте ще раз",
-          position: "topRight",
-        });
+      const { default: iziToast } = await import("izitoast");
+      iziToast.error({
+        title: "Помилка",
+        message: "Щось пішло не так, спробуйте ще раз",
+        position: "topRight",
       });
     }
   };
 
   return (
     <div>
-      <form className={css.form} action="submit" onSubmit={handleSubmit}>
+      <form className={css.form} onSubmit={handleSubmit}>
         <AvatarPicker />
         <div className={css.selectWrapper}>
           <ChildStatusSelect />
