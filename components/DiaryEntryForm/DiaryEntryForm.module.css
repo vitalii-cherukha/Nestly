@@ -22,14 +22,14 @@
 .input,
 .textarea {
   padding: 8px 12px;
-  border: 2px solid rgba(255, 255, 255, 0);
+  border: 2px solid var(--opacity-transparent);
   border-radius: 12px;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.5;
   font-family: var(--font-lato);
   resize: none;
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--opacity-neutral-darkest-5);
   width: 100%;
   box-sizing: border-box;
   height: 37px;
@@ -58,9 +58,9 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--opacity-transparent);
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--opacity-neutral-darkest-5);
   cursor: pointer;
   user-select: none;
   position: relative;
@@ -86,7 +86,7 @@
 .selectedTag {
   display: inline-block;
   padding: 4px 12px;
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--opacity-neutral-darkest-5);
   color: var(--font-color);
   border-radius: 16px;
   font-size: 0.875rem;
@@ -94,22 +94,18 @@
   white-space: nowrap;
 }
 
-.selectTrigger:hover {
-  border-color: #d1d5db;
-}
-
 .selectTriggerOpen {
   border-radius: 12px 12px 0px 0px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--opacity-neutral-darkest-15);
 }
 
 .selectPlaceholder {
-  color: #6b7280;
+  color: var(--placeholder-color);
   font-size: 1rem;
 }
 
 .selectArrow {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--opacity-neutral-darkest-60);
   transition: transform 0.2s;
   line-height: 0;
   flex-shrink: 0;
@@ -129,13 +125,13 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: rgb(242, 242, 242);
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: var(--color-neutral-lightest);
+  border: 1px solid var(--opacity-neutral-darkest-15);
   border-top: none;
   border-radius: 0px 0px 12px 12px;
   box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    0 10px 15px -3px var(--opacity-neutral-darkest-10),
+    0 4px 6px -2px var(--opacity-neutral-darkest-5);
   z-index: 9999;
   max-height: 200px;
   overflow: hidden;
@@ -182,9 +178,9 @@
   justify-content: center;
   gap: 12px;
   padding: 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--opacity-transparent);
   border-radius: 12px;
-  background-color: #f9fafb;
+  background-color: var(--opacity-neutral-darkest-5);
   width: 100%;
 }
 
@@ -196,8 +192,8 @@
 .loadingSpinner {
   width: 16px;
   height: 16px;
-  border: 2px solid #e5e7eb;
-  border-top: 2px solid #ffdae0;
+  border: 2px solid var(--opacity-transparent);
+  border-top: 2px solid var(--accent-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -206,6 +202,15 @@
   width: 20px;
   height: 20px;
   margin-right: 8px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes dropdownFadeIn {
@@ -231,24 +236,24 @@
   background: none;
   width: 100%;
   text-align: left;
-  color: #374151;
+  color: var(--color-neutral-darkest);
 }
 
 .selectOption:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--opacity-neutral-darkest-5);
   border-radius: 8px;
 }
 
 .selectOption:focus {
   outline: none;
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: var(--opacity-neutral-darkest-10);
 }
 
 .checkbox {
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--opacity-neutral-darkest-5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -263,7 +268,7 @@
 
 .checkbox svg {
   display: block;
-  fill: white;
+  fill: var(--color-white);
   stroke-width: 3.6px;
 }
 
@@ -274,7 +279,7 @@
 }
 
 .selectOptionSelected:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--opacity-neutral-darkest-5);
 }
 
 .modal .customSelect {
