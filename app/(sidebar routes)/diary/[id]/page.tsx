@@ -37,9 +37,9 @@ export const generateMetadata = async ({
       url: `https://nestly-alpha.vercel.app/diary/${id}`,
       images: [
         {
-          url: "../../../public/logo.png",
-          width: 120,
-          height: 120,
+          url: "../../../../public/sign-up-img.jpg",
+          width: 480,
+          height: 600,
           alt: note.title,
         },
       ],
