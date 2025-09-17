@@ -9,4 +9,7 @@
     flex-direction: row;
     column-gap: 32px;
   }
+  .topPadding {
+    padding-top: 16px;
+  }
 }

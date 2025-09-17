@@ -47,10 +47,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${lato.variable} ${comfortaa.variable}`}>
-        <AuthInterceptor />
         <TanStackProvider>
+          <AuthInterceptor />
           <AuthProvider>
-            <AuthInterceptor />
             <Header />
             <div className={css.layout}>
               <div className={css.sidebarWrapper}>

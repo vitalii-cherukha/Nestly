@@ -17,7 +17,7 @@ const DashboardClient = () => {
           <BabyTodayCard />
           <MomTipCard />
         </div>
-        <div>
+        <div className={css.topPadding}>
           <TasksReminderCard />
           <FeelingCheckCard />
         </div>
