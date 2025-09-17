@@ -19,7 +19,7 @@
 }
 
 /* Mobile / tablet */
-@media (max-width: 1024px) {
+@media (max-width: 1439px) {
   .layout {
     grid-template-columns: 1fr;
     /* single column */
@@ -32,10 +32,5 @@
 
   .main {
     grid-column: 1;
-  }
-}
-@media (max-width: 1440px) {
-  .layout {
-    display: grid;
   }
 }

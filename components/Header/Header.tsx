@@ -11,8 +11,7 @@ import { usePathname } from "next/navigation";
 export default function Header() {
   const { open, toggle } = useSidebar();
   const pathURL = usePathname();
-  if (!pathURL || pathURL.startsWith("/auth") || pathURL.startsWith("/profile"))
-    return null;
+  if (!pathURL || pathURL.startsWith("/auth")) return null;
   return (
     <div className={css.header}>
       <Container>
