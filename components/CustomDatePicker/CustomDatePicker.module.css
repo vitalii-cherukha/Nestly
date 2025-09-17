@@ -88,3 +88,162 @@
     font-size: 16px;
   }
 }
+
+/* Календар дропдаун */
+.dropdown {
+  position: absolute;
+  top: -500%;
+  left: 10%;
+  z-index: 1000;
+  width: 260px;
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  animation: fadeInScale 0.15s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.calendar {
+  padding: 12px;
+}
+
+/* Хедер календаря */
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.monthYear {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  min-width: 110px;
+  text-align: center;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  color: #666666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navButton:hover {
+  background-color: #f5f5f5;
+  color: #333333;
+}
+
+.navButton:active {
+  background-color: #eeeeee;
+}
+
+/* Дні тижня */
+.weekDays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.weekDay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #666666;
+  text-transform: uppercase;
+}
+
+/* Сітка днів */
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+
+.emptyDay {
+  height: 20px;
+}
+
+.day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 25px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.day:hover:not(.dayDisabled) {
+  background-color: #f0f9ff;
+  color: #0ea5e9;
+}
+
+.day:active:not(.dayDisabled) {
+  background-color: #e0f2fe;
+}
+
+/* Сьогоднішній день */
+.dayToday {
+  background-color: var(--color-scheme-accent);
+  color: white;
+  font-weight: 600;
+}
+
+.dayToday:hover {
+  background-color: var(--color-scheme-accent);
+  color: white;
+}
+
+/* Вибрана дата */
+.daySelected {
+  background-color: var(--color-scheme-accent);
+  color: white;
+  font-weight: 600;
+}
+
+.daySelected:hover {
+  background-color: var(--color-scheme-accent);
+  color: white;
+}
+
+/* Заборонені дати */
+.dayDisabled {
+  color: #cccccc;
+  cursor: not-allowed;
+  background: transparent !important;
+}
+
+.dayDisabled:hover {
+  color: #cccccc;
+  background: transparent;
+}

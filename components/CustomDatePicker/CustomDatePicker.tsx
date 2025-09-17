@@ -20,6 +20,9 @@ const CustomDatePicker = ({
 }: CustomDatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [displayValue, setDisplayValue] = useState("");
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -35,11 +38,22 @@ const CustomDatePicker = ({
     return `${day}.${month}.${year}`;
   };
 
+  // Форматування дати для input (YYYY-MM-DD)
+  const formatInputDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   useEffect(() => {
     if (value) {
       setDisplayValue(formatDisplayDate(value));
+      setSelectedDate(new Date(value));
+      setCurrentDate(new Date(value));
     } else {
       setDisplayValue("");
+      setSelectedDate(null);
     }
   }, [value]);
 
@@ -64,18 +78,152 @@ const CustomDatePicker = ({
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
-    if (!isOpen) {
-      setTimeout(() => {
-        inputRef.current?.focus();
-        inputRef.current?.showPicker?.();
-      }, 0);
-    }
   };
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedDate = event.target.value;
     onChange(selectedDate);
     setIsOpen(false);
+  };
+
+  const handleDateSelect = (date: Date) => {
+    const formattedDate = formatInputDate(date);
+    onChange(formattedDate);
+    setIsOpen(false);
+  };
+
+  const handlePrevMonth = () => {
+    setCurrentDate(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
+    );
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+    );
+  };
+
+  const isDateDisabled = (date: Date) => {
+    if (!minDate) return false;
+    return date < minDate;
+  };
+
+  const isDateSelected = (date: Date) => {
+    if (!selectedDate) return false;
+    return date.toDateString() === selectedDate.toDateString();
+  };
+
+  const isToday = (date: Date) => {
+    const today = new Date();
+    return date.toDateString() === today.toDateString();
+  };
+
+  const renderCalendar = () => {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDayOfWeek = firstDay.getDay();
+
+    const days = [];
+    const monthNames = [
+      "Січень",
+      "Лютий",
+      "Березень",
+      "Квітень",
+      "Травень",
+      "Червень",
+      "Липень",
+      "Серпень",
+      "Вересень",
+      "Жовтень",
+      "Листопад",
+      "Грудень",
+    ];
+
+    const dayNames = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"];
+
+    // Пусті клітинки для днів попереднього місяця
+    for (
+      let i = 0;
+      i < (startingDayOfWeek === 0 ? 6 : startingDayOfWeek - 1);
+      i++
+    ) {
+      days.push(<div key={`empty-${i}`} className={css.emptyDay}></div>);
+    }
+
+    // Дні поточного місяця
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(year, month, day);
+      const disabled = isDateDisabled(date);
+      const selected = isDateSelected(date);
+      const today = isToday(date);
+
+      days.push(
+        <button
+          key={day}
+          type="button"
+          className={`${css.day} ${disabled ? css.dayDisabled : ""} ${selected ? css.daySelected : ""} ${today ? css.dayToday : ""}`}
+          onClick={() => !disabled && handleDateSelect(date)}
+          disabled={disabled}
+        >
+          {day}
+        </button>
+      );
+    }
+
+    return (
+      <div className={css.calendar}>
+        <div className={css.calendarHeader}>
+          <button
+            type="button"
+            className={css.navButton}
+            onClick={handlePrevMonth}
+          >
+            <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
+              <path
+                d="M7 1L2 6L7 11"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          <span className={css.monthYear}>
+            {monthNames[month]} {year}
+          </span>
+          <button
+            type="button"
+            className={css.navButton}
+            onClick={handleNextMonth}
+          >
+            <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
+              <path
+                d="M1 1L6 6L1 11"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div className={css.weekDays}>
+          {dayNames.map((dayName) => (
+            <div key={dayName} className={css.weekDay}>
+              {dayName}
+            </div>
+          ))}
+        </div>
+
+        <div className={css.daysGrid}>{days}</div>
+      </div>
+    );
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -119,6 +267,10 @@ const CustomDatePicker = ({
         </svg>
       </div>
 
+      {/* Кастомний календар */}
+      {isOpen && <div className={css.dropdown}>{renderCalendar()}</div>}
+
+      {/* Fallback нативний input (прихований) */}
       <input
         ref={inputRef}
         type="date"

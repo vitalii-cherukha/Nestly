@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import css from "./CastomSelect.module.css";
+import css from "./CustomSelect.module.css";
 
 export interface Option {
   label: string;
@@ -29,32 +29,53 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   const selectRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleOutside = (e: Event) => {
       if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("pointerdown", handleOutside);
+    document.addEventListener("mousedown", handleOutside);
+
+    return () => {
+      document.removeEventListener("pointerdown", handleOutside);
+      document.removeEventListener("mousedown", handleOutside);
+    };
   }, []);
 
-  const handleSelect = (option: Option) => {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  const handleToggle = () => {
+    if (!disabled) setIsOpen((s) => !s);
+  };
+
+  const handleSelect = (option: Option, e: React.PointerEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     onChange(option.value);
     setIsOpen(false);
   };
 
-  const selectedOption = options.find((option) => option.value === value);
+  const selectedOption = options.find((o) => o.value === value);
 
   return (
     <div ref={selectRef} className={css.customSelect}>
       <button
         type="button"
-        onClick={() => !disabled && setIsOpen(!isOpen)}
+        onClick={handleToggle}
         disabled={disabled}
-        className={`${css.selectButton} 
-          ${error ? css.selectError : ""} 
-          ${disabled ? css.selectDisabled : ""}`}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        className={`${css.selectButton} ${error ? css.selectError : ""} ${
+          disabled ? css.selectDisabled : ""
+        }`}
       >
         <span
           className={selectedOption ? css.selectText : css.selectPlaceholder}
@@ -67,6 +88,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          aria-hidden
         >
           <path
             strokeLinecap="round"
@@ -78,14 +100,16 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       </button>
 
       {isOpen && (
-        <div className={css.selectDropdown}>
+        <div role="listbox" className={css.selectDropdown}>
           {options.map((option) => (
             <button
               key={option.value}
               type="button"
-              onClick={() => handleSelect(option)}
-              className={`${css.selectOption} 
-                ${value === option.value ? css.selectOptionSelected : ""}`}
+              role="option"
+              aria-selected={value === option.value}
+              onPointerDown={(e) => handleSelect(option, e)}
+              onClick={(e) => e.preventDefault()}
+              className={`${css.selectOption} ${value === option.value ? css.selectOptionSelected : ""}`}
             >
               {option.label}
             </button>

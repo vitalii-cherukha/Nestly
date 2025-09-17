@@ -58,7 +58,6 @@
 
   /* Optionally layout the main content next to it */
   :global(body) {
-    display: grid;
     grid-template-columns: 280px 1fr;
   }
 
