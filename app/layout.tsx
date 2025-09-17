@@ -47,6 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${lato.variable} ${comfortaa.variable}`}>
+        <AuthInterceptor />
         <TanStackProvider>
           <AuthProvider>
             <AuthInterceptor />

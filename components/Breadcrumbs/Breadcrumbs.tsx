@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
 import css from "./Breadcrumbs.module.css";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import Container from "../Container/Container";
 
 const labelMap: Record<string, string> = {
   "/": "Лелека",
@@ -45,28 +46,30 @@ export default function Breadcrumbs() {
   }
 
   return (
-    <div
-      className={css.breadcrumbsWrapper}
-      role="navigation"
-      aria-label="Breadcrumb"
-    >
-      <ul className={css.breadcrumbsList}>
-        {segments.map((segment, i) => {
-          const isLast = i === segments.length - 1;
-          return isLast ? (
-            <li key={i} className={css.breadcrumbsItem} aria-current="page">
-              {segment.label}
-            </li>
-          ) : (
-            <li key={i} className={css.breadcrumbsItem1}>
-              <Link className={css.breadcrumbsLink} href={segment.href}>
+    <Container>
+      <div
+        className={css.breadcrumbsWrapper}
+        role="navigation"
+        aria-label="Breadcrumb"
+      >
+        <ul className={css.breadcrumbsList}>
+          {segments.map((segment, i) => {
+            const isLast = i === segments.length - 1;
+            return isLast ? (
+              <li key={i} className={css.breadcrumbsItem} aria-current="page">
                 {segment.label}
-              </Link>
-              <MdKeyboardArrowRight size={24} />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+              </li>
+            ) : (
+              <li key={i} className={css.breadcrumbsItem1}>
+                <Link className={css.breadcrumbsLink} href={segment.href}>
+                  {segment.label}
+                </Link>
+                <MdKeyboardArrowRight size={24} />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </Container>
   );
 }
