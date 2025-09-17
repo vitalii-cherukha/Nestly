@@ -44,8 +44,7 @@ export default function Sidebar() {
     router.push("/auth/register");
   };
 
-  if (!pathURL || pathURL.startsWith("/auth") || pathURL.startsWith("/profile"))
-    return null;
+  if (!pathURL || pathURL.startsWith("/auth")) return null;
 
   return (
     <>
