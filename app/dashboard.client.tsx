@@ -5,18 +5,19 @@ import TasksReminderCard from "@/components/TasksReminderCard/TasksReminderCard"
 import FeelingCheckCard from "@/components/FeelingCheckCard/FeelingCheckCard";
 import GreetingBlock from "@/components/GreetingBlock/GreetingBlock";
 import Container from "../components/Container/Container";
+import css from "./dashboard.module.css";
 
 const DashboardClient = () => {
   return (
     <Container>
-      <div>
-        <div>
-          <GreetingBlock />
+      <GreetingBlock />
+      <div className={css.desktopWrapper}>
+        <div className={css.dbcontainer}>
           <StatusBlock />
           <BabyTodayCard />
           <MomTipCard />
         </div>
-        <div>
+        <div className={css.topPadding}>
           <TasksReminderCard />
           <FeelingCheckCard />
         </div>

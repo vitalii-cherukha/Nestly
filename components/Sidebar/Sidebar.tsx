@@ -13,7 +13,7 @@ import { RxAvatar } from "react-icons/rx";
 import { useAuthStore } from "@/lib/store/authStore";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import { logout } from "@/lib/api/clientApi";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LuLogOut } from "react-icons/lu";
 import { GoSignIn } from "react-icons/go";
 
@@ -24,6 +24,7 @@ export default function Sidebar() {
   const [modal, setModal] = useState(false);
   const router = useRouter();
   const isLoggedout = useAuthStore((state) => state.clearIsAuthenticated);
+  const pathURL = usePathname();
 
   // Lock scroll for mobile modal mode
   useEffect(() => {
@@ -39,6 +40,9 @@ export default function Sidebar() {
     isLoggedout();
     router.push("/auth/register");
   };
+
+  if (!pathURL || pathURL.startsWith("/auth") || pathURL.startsWith("/profile"))
+    return null;
 
   return (
     <>
