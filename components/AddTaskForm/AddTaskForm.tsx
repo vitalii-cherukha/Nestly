@@ -2,7 +2,7 @@
 import { Field, Form, Formik, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createTask } from "../../lib/api/clientApi";
+import { createTask } from "@/lib/api/clientApi";
 import css from "./AddTaskForm.module.css";
 import { BsXLg } from "react-icons/bs";
 
@@ -44,6 +44,7 @@ const AddTaskForm = ({ onCloseModal }: AddTaskFormProps) => {
         iziToast.default.success({
           title: "Супер",
           message: "Завдання збережено",
+          position: "topRight",
         });
       });
     },
@@ -52,6 +53,7 @@ const AddTaskForm = ({ onCloseModal }: AddTaskFormProps) => {
         iziToast.default.error({
           title: "Помилка",
           message: "Щось пішло не так, спробуйте, будь ласка, ще раз",
+          position: "topRight",
         });
       });
       console.error("Помилка:", error);

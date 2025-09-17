@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import css from "./ChildStatusSelect.module.css";
-import { useUserStore } from "@/lib/store/userStore";
+import { useAuthStore } from "@/lib/store/authStore";
 
 export default function ChildStatusSelect() {
-  const babyGender = useUserStore((state) => state.babyGender);
-  const setBabyGender = useUserStore((state) => state.setBabyGender);
+  const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
   const [isOpen, setIsOpen] = useState(false);
 
   const options = [
@@ -14,12 +14,14 @@ export default function ChildStatusSelect() {
     { value: "unknown", label: "Ще не знаю" },
   ];
 
-  const selectedOption = options.find((opt) => opt.value === babyGender);
+  const selectedOption = options.find((opt) => opt.value === user?.babyGender);
   const displayText = selectedOption ? selectedOption.label : "Обeрiть стать";
 
   const handleOptionClick = (value: string) => {
-    setBabyGender(value);
-    setIsOpen(false);
+    if (user) {
+      setUser({ ...user, babyGender: value });
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -29,7 +31,9 @@ export default function ChildStatusSelect() {
       </label>
       <div className={css.selectWrapper}>
         <div className={css.select} onClick={() => setIsOpen(!isOpen)}>
-          <span className={!babyGender ? css.placeholder : css.selectText}>
+          <span
+            className={!user?.babyGender ? css.placeholder : css.selectText}
+          >
             {displayText}
           </span>
           <span className={css.arrow}>{isOpen ? "▲" : "▼"}</span>
@@ -41,7 +45,7 @@ export default function ChildStatusSelect() {
               <div
                 key={option.value}
                 className={`${css.option} ${
-                  babyGender === option.value ? css.activeOption : ""
+                  user?.babyGender === option.value ? css.activeOption : ""
                 }`}
                 onClick={() => handleOptionClick(option.value)}
               >

@@ -1,45 +1,57 @@
 "use client";
+
 import AvatarPicker from "@/components/Onboarding/AvatarPicker/AvatarPicker";
 import BirthDatePicker from "@/components/Onboarding/BirthDatePicker/BirthDatePicker";
 import ChildStatusSelect from "@/components/Onboarding/ChildStatusSelect/ChildStatusSelect";
 import css from "./EditProfilePage.module.css";
-import { useUserStore } from "@/lib/store/userStore";
 import { updateProfile } from "@/lib/api/clientApi";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/lib/store/authStore";
 
 export default function EditProfileClient() {
-  const { dueDate, babyGender } = useUserStore();
+  const user = useAuthStore((state) => state.user);
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!babyGender) {
-      console.log("Оберіть стать дитини");
-      return;
+    try {
+      const formData = {
+        dueDate:
+          user?.dueDate && user?.dueDate.includes(".")
+            ? (() => {
+                const [day, month, year] = user?.dueDate.split(".");
+                if (day && month && year) {
+                  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+                }
+                return user?.dueDate;
+              })()
+            : user?.dueDate,
+        babyGender: user?.babyGender,
+      };
+
+      await updateProfile(formData);
+      router.replace("/");
+
+      const { default: iziToast } = await import("izitoast");
+      iziToast.success({
+        title: "Супер",
+        message: "Дані збережено",
+        position: "topRight",
+      });
+    } catch (error) {
+      const { default: iziToast } = await import("izitoast");
+      iziToast.error({
+        title: "Помилка",
+        message: "Щось пішло не так, спробуйте ще раз",
+        position: "topRight",
+      });
     }
-
-    const formData = {
-      dueDate:
-        dueDate && dueDate.includes(".")
-          ? (() => {
-              const [day, month, year] = dueDate.split(".");
-              if (day && month && year) {
-                return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-              }
-              return dueDate;
-            })()
-          : dueDate,
-      babyGender,
-    };
-
-    updateProfile(formData);
-    router.replace("/");
   };
 
   return (
     <div>
-      <form className={css.form} action="submit" onSubmit={handleSubmit}>
+      <form className={css.form} onSubmit={handleSubmit}>
         <AvatarPicker />
         <div className={css.selectWrapper}>
           <ChildStatusSelect />

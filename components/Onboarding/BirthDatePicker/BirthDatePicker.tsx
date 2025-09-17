@@ -1,26 +1,35 @@
 "use client";
 import { uk } from "date-fns/locale";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactDatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import css from "./BirthDatePicker.module.css";
-import { useUserStore } from "@/lib/store/userStore";
+import { useAuthStore } from "@/lib/store/authStore";
 
 registerLocale("uk", uk);
 
 export default function BirthDatePicker() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const setDueDate = useUserStore((state) => state.setDueDate);
-  const dueDate = useUserStore((state) => state.dueDate);
+  const setUser = useAuthStore((state) => state.setUser);
+  const user = useAuthStore((state) => state.user);
+
+  useEffect(() => {
+    if (user?.dueDate) {
+      setSelectedDate(new Date(user?.dueDate));
+    }
+  }, [user?.dueDate]);
 
   const handleChange = (date: Date | null) => {
-    if (date) {
+    if (date && user) {
       setSelectedDate(date);
-      setDueDate(date.toLocaleDateString("uk-UA"));
+      setUser({ ...user, dueDate: date.toLocaleDateString("uk-UA") });
     }
   };
 
-  const today = new Date().toLocaleDateString("uk-UA").replace(/\//g, ".");
+  const today = new Date().toLocaleDateString("uk-UA");
+  const userDate = user?.dueDate
+    ? new Date(user.dueDate).toLocaleDateString("uk-UA")
+    : today;
 
   return (
     <div>
@@ -30,7 +39,7 @@ export default function BirthDatePicker() {
           selected={selectedDate}
           onChange={handleChange}
           dateFormat="dd.MM.yyyy"
-          placeholderText={dueDate !== "" ? dueDate : today}
+          placeholderText={userDate}
           minDate={new Date()}
           locale={uk}
         />

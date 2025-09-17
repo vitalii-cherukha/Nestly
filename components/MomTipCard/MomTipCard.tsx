@@ -1,24 +1,28 @@
-"use client";
-import { useAuthStore } from "@/lib/store/authStore";
+// import css from "./MomTipCard.module.css";
+
+// interface MomTipCardProps {
+//   data: string;
+// }
+
+// export default function MomTipCard({ data }: MomTipCardProps) {
+//   return (
+//     <div className={css.momTipCard}>
+//       <h3 className={css.momTipCard_title}>Порада для мами</h3>
+//       <p className={css.momTipCard_text}>{data}</p>
+//     </div>
+//   );
+// }
 import css from "./MomTipCard.module.css";
 
-import { useQuery } from "@tanstack/react-query";
-import { GreetingData } from "@/types/greeting";
-import { getGreeting, getPublicGreeting } from "@/lib/api/clientApi";
+interface MomTipCardProps {
+  momHint: string;
+}
 
-const MomTipCard = () => {
-  const user = useAuthStore((s) => s.user);
-  const { data, isLoading, error } = useQuery<GreetingData>({
-    queryKey: ["momTip", user ? "private" : "public"],
-    queryFn: user ? getGreeting : getPublicGreeting,
-  });
-  if (isLoading) return <p>Завантаження...</p>;
-  if (error || !data?.momHint) return <p>Не вдалося завантажити пораду</p>;
-
+const MomTipCard = ({ momHint }: MomTipCardProps) => {
   return (
     <div className={css.momTipCard}>
       <h3 className={css.momTipCard_title}>Порада для мами</h3>
-      <p className={css.momTipCard_text}>{data.momHint}</p>
+      <p className={css.momTipCard_text}>{momHint}</p>
     </div>
   );
 };

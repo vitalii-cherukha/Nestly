@@ -7,16 +7,27 @@ import { updateAvatar } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 import { ApiError } from "next/dist/server/api-utils";
 import "izitoast/dist/css/iziToast.min.css";
+import { User } from "@/types/user";
 
-const ProfileAvatar = () => {
+interface ProfileAvatarProps {
+  userServer: User;
+}
+
+const ProfileAvatar = ({ userServer }: ProfileAvatarProps) => {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
   const [error, setError] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  if (!user) {
-    return <p>Завантаження...</p>;
+  if (error) {
+    import("izitoast").then((iziToast) => {
+      iziToast.default.error({
+        title: "Помилка",
+        message: "Щось пішло не так, спробуйте ще раз",
+        position: "topRight",
+      });
+    });
   }
 
   const handleClick = () => {
@@ -35,19 +46,10 @@ const ProfileAvatar = () => {
       }
       try {
         setIsUploading(true);
-
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setUser({
-            ...user,
-            avatarUrl: reader.result as string,
-          });
-        };
-        reader.readAsDataURL(file);
-
         const updatedUser = await updateAvatar(file);
+
         setUser({
-          ...user,
+          ...(user || userServer),
           ...updatedUser,
         });
         import("izitoast").then((iziToast) => {
@@ -75,16 +77,16 @@ const ProfileAvatar = () => {
   return (
     <div className={css.container}>
       <Image
-        src={user.avatarUrl}
-        alt={user.name || "User avatar"}
+        src={user?.avatarUrl || userServer.avatarUrl}
+        alt={user?.name || userServer.name || "User avatar"}
         width={132}
         height={132}
         className={css.avatarUser}
         priority
       />
       <div className={css.wrapper}>
-        <h2 className={css.nameUser}>{user.name}</h2>
-        <p className={css.emailUser}>{user.email}</p>
+        <h2 className={css.nameUser}>{user?.name || userServer.name}</h2>
+        <p className={css.emailUser}>{user?.email || userServer.email}</p>
         <button onClick={handleClick} type="button" className={css.btn}>
           {isUploading ? "Завантажується..." : "Завантажити нове фото"}
         </button>
@@ -97,8 +99,6 @@ const ProfileAvatar = () => {
           onChange={handleFileChange}
           disabled={isUploading}
         />
-
-        {error && <p>{error}</p>}
       </div>
     </div>
   );
