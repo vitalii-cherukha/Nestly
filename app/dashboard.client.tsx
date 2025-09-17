@@ -71,7 +71,7 @@ const DashboardClient = ({ authType }: DashboardClientProps) => {
             <BabyTodayCard babyToday={data.babyToday} />
             <MomTipCard momHint={data.momHint} />
           </div>
-          <div>
+          <div className={css.topPadding}>
             <TasksReminderCard />
             <FeelingCheckCard />
           </div>
