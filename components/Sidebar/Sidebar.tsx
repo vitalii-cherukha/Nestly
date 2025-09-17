@@ -16,6 +16,7 @@ import { logout } from "@/lib/api/clientApi";
 import { usePathname, useRouter } from "next/navigation";
 import { LuLogOut } from "react-icons/lu";
 import { GoSignIn } from "react-icons/go";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Sidebar() {
   const { open, close } = useSidebar();
@@ -24,6 +25,7 @@ export default function Sidebar() {
   const [modal, setModal] = useState(false);
   const router = useRouter();
   const isLoggedout = useAuthStore((state) => state.clearIsAuthenticated);
+  const queryClient = useQueryClient();
   const pathURL = usePathname();
 
   // Lock scroll for mobile modal mode
@@ -36,6 +38,7 @@ export default function Sidebar() {
   }, [open]);
 
   const onLogout = async () => {
+    queryClient.clear();
     await logout();
     isLoggedout();
     router.push("/auth/register");
