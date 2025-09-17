@@ -6,9 +6,12 @@ import Container from "../Container/Container";
 import css from "./Header.module.css";
 import Link from "next/link";
 import { useSidebar } from "@/lib/store/sidebarStore";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const { open, toggle } = useSidebar();
+  const pathURL = usePathname();
+  if (!pathURL || pathURL.startsWith("/auth")) return null;
   return (
     <div className={css.header}>
       <Container>
