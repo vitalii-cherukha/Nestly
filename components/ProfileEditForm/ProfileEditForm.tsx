@@ -145,11 +145,6 @@ const ProfileEditForm = ({ userServer }: ProfileEditProps) => {
 
             <label className={css.label}>
               Планова дата пологів
-              {/* <Field
-                name="dueDate"
-                type="date"
-                className={`${css.input} ${touched.dueDate && errors.dueDate ? css.inputError : ""}`}
-              /> */}
               <CustomDatePicker
                 value={values.dueDate}
                 onChange={(value) => setFieldValue("dueDate", value)}
