@@ -11,7 +11,7 @@ export default function EditProfileClient() {
   const user = useAuthStore((state) => state.user);
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -29,7 +29,7 @@ export default function EditProfileClient() {
         babyGender: user?.babyGender,
       };
 
-      updateProfile(formData);
+      await updateProfile(formData);
       router.replace("/");
 
       import("izitoast").then((iziToast) => {
