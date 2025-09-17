@@ -1,30 +1,46 @@
-"use client";
-import { useQuery } from "@tanstack/react-query";
+// import { GreetingData } from "@/types/greeting";
+// import css from "./StatusBlock.module.css";
+
+// interface StatusProps {
+//   data: GreetingData;
+// }
+// const StatusBlock = ({ data }: StatusProps) => {
+
+//   return (
+//     <ul className={css.list}>
+//       <li className={css.item}>
+//         <h4 className={css.title}>Тиждень</h4>
+//         <p className={css.text}>{data?.curWeekToPregnant}</p>
+//       </li>
+//       <li className={css.item}>
+//         <h4 className={css.title}>Днів до зустрічі</h4>
+//         <p className={css.text}>~{data?.daysBeforePregnant}</p>
+//       </li>
+//     </ul>
+//   );
+// };
+
+// export default StatusBlock;
 import css from "./StatusBlock.module.css";
 
-import { useAuthStore } from "@/lib/store/authStore";
-import { getGreeting, getPublicGreeting } from "@/lib/api/clientApi";
-import { GreetingData } from "@/types/greeting";
+interface StatusBlockProps {
+  curWeekToPregnant: number;
+  daysBeforePregnant: number;
+}
 
-const StatusBlock = () => {
-  const user = useAuthStore((s) => s.user);
-
-  const { data, isLoading, error } = useQuery<GreetingData>({
-    queryKey: ["greeting", user ? "private" : "public"],
-    queryFn: user ? getGreeting : getPublicGreeting,
-  });
-
-  if (isLoading) return <p>Завантаження...</p>;
-  if (error) return <p>Не вдалося завантажити дані</p>;
+const StatusBlock = ({
+  curWeekToPregnant,
+  daysBeforePregnant,
+}: StatusBlockProps) => {
   return (
     <ul className={css.list}>
       <li className={css.item}>
         <h4 className={css.title}>Тиждень</h4>
-        <p className={css.text}>{data?.curWeekToPregnant}</p>
+        <p className={css.text}>{curWeekToPregnant}</p>
       </li>
       <li className={css.item}>
         <h4 className={css.title}>Днів до зустрічі</h4>
-        <p className={css.text}>~{data?.daysBeforePregnant}</p>
+        <p className={css.text}>~{daysBeforePregnant}</p>
       </li>
     </ul>
   );

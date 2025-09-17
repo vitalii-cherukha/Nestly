@@ -29,6 +29,8 @@ export const fetchServerNotes = async (
 };
 
 import type { DiaryEntry } from "@/types/note";
+import { GreetingData } from "@/types/greeting";
+import { GetTasksRep } from "./clientApi";
 
 // Получить запись по id (PATCH с пустым телом)
 export async function fetchDiaryByIdServer(
@@ -179,6 +181,61 @@ export const getWeekInfoMom = async ({
 }): Promise<MomData> => {
   const cookieStore = await cookies();
   const { data } = await api.get(`/weeks/${weekNumber}/mom`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+//////////////////////////
+
+// export const getPublicGreeting = async (): Promise<GreetingData> => {
+//   const cookieStore = await cookies();
+//   const { data } = await api.get<GreetingData>("/weeks/greeting/public", {
+//     headers: {
+//       Cookie: cookieStore.toString(),
+//     },
+//   });
+//   return data;
+// };
+
+export async function getCurrentUser(): Promise<User | null> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value;
+  if (!accessToken) return null;
+
+  try {
+    const { data } = await api.get<User>("/users/current", {
+      headers: { Cookie: cookieStore.toString() },
+    });
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+/////////////////////
+export const getGreeting = async (): Promise<GreetingData> => {
+  const cookieStore = await cookies();
+  const { data } = await api.get<GreetingData>("/weeks/greeting", {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+export const getPublicGreeting = async (): Promise<GreetingData> => {
+  const cookieStore = await cookies();
+  const { data } = await api.get<GreetingData>("/weeks/greeting/public", {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+export const getTasks = async (): Promise<GetTasksRep> => {
+  const cookieStore = await cookies();
+  const { data } = await api.get<GetTasksRep>("/tasks", {
     headers: {
       Cookie: cookieStore.toString(),
     },
