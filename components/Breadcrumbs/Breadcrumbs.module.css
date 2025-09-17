@@ -2,8 +2,9 @@
   height: 24px;
   display: flex;
   align-items: center;
-  padding: 0 16px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: 24px;
+  margin-bottom: 16px;
 }
 
 .breadcrumbsList {
@@ -12,14 +13,12 @@
   align-items: center;
   gap: 8px;
   overflow-x: auto;
-
 }
 
 .breadcrumbsItem {
   white-space: nowrap;
   color: var(--color-neutral);
   font: var(--text-small-normal);
-
 }
 
 .breadcrumbsItem1 {
@@ -41,11 +40,17 @@
 
 /* ≥1440: desktop */
 @media (min-width: 1440px) {
-  .wrap {
+  .breadcrumbsItem {
+    font-size: 14px;
+  }
+  .breadcrumbsItem1 {
+    font-size: 14px;
+  }
+  /* .wrap {
     padding: 0 32px;
   }
 
   .item {
     font-size: 16px;
-  }
+  } */
 }
