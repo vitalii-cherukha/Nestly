@@ -6,21 +6,32 @@ import { updateAvatar } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 
 export default function AvatarPicker() {
-  const [error, setError] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    setError("");
 
     if (file && user) {
       if (!file.type.startsWith("image/")) {
-        setError("Only Images");
+        import("izitoast").then((iziToast) => {
+          iziToast.default.error({
+            title: "Помилка",
+            message: "Тільки зображення",
+            position: "topRight",
+          });
+        });
+
         return;
       } else if (file.size > 1 * 1024 * 1024) {
-        setError("Max file size 1MB");
+        import("izitoast").then((iziToast) => {
+          iziToast.default.error({
+            title: "Помилка",
+            message: "Максимальна вага файлу 1MB",
+            position: "topRight",
+          });
+        });
         return;
       }
 
@@ -36,8 +47,14 @@ export default function AvatarPicker() {
         const updatedUser = await updateAvatar(file);
         setUser(updatedUser);
       } catch (error) {
-        console.error(error);
-        setError("Помилка завантаження фото");
+        import("izitoast").then((iziToast) => {
+          iziToast.default.error({
+            title: "Помилка",
+            message: "Помилка завантаження фото",
+            position: "topRight",
+          });
+        });
+
         if (user) {
           setUser(user);
         }
@@ -66,7 +83,6 @@ export default function AvatarPicker() {
           disabled={isUploading}
         />
       </label>
-      {error && <div className={css.error}>{error}</div>}
     </div>
   );
 }

@@ -9,33 +9,45 @@ import { useAuthStore } from "@/lib/store/authStore";
 
 export default function EditProfileClient() {
   const user = useAuthStore((state) => state.user);
-  const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // if (user?.babyGender) {
-    //   console.log("Оберіть стать дитини");
-    //   return;
-    // }
+    try {
+      const formData = {
+        dueDate:
+          user?.dueDate && user?.dueDate.includes(".")
+            ? (() => {
+                const [day, month, year] = user?.dueDate.split(".");
+                if (day && month && year) {
+                  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+                }
+                return user?.dueDate;
+              })()
+            : user?.dueDate,
+        babyGender: user?.babyGender,
+      };
 
-    const formData = {
-      dueDate:
-        user?.dueDate && user?.dueDate.includes(".")
-          ? (() => {
-              const [day, month, year] = user?.dueDate.split(".");
-              if (day && month && year) {
-                return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-              }
-              return user?.dueDate;
-            })()
-          : user?.dueDate,
-      babyGender: user?.babyGender,
-    };
+      updateProfile(formData);
+      router.replace("/");
 
-    updateProfile(formData);
-    router.replace("/");
+      import("izitoast").then((iziToast) => {
+        iziToast.default.success({
+          title: "Супер",
+          message: "Дані збережено",
+          position: "topRight",
+        });
+      });
+    } catch (error) {
+      import("izitoast").then((iziToast) => {
+        iziToast.default.error({
+          title: "Помилка",
+          message: "Щось пішло не так, спробуйте ще раз",
+          position: "topRight",
+        });
+      });
+    }
   };
 
   return (
