@@ -12,8 +12,8 @@ import {
 } from "formik";
 import * as Yup from "yup";
 import { api } from "@/lib/api/api";
-import toast from "react-hot-toast";
 import css from "./DiaryEntryForm.module.css";
+import "izitoast/dist/css/iziToast.min.css";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
 import { createDiaryEntry, updateDiaryEntry } from "@/lib/api/clientApi";
@@ -96,7 +96,6 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        console.log("[dropdown] click outside -> close");
         setIsDropdownOpen(false);
       }
     };
@@ -128,17 +127,11 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
 
   const fetchPage = useCallback(
     async (nextPage: number, append: boolean) => {
-      console.log(
-        `[emotions] fetchPage start -> page=${nextPage}, append=${append}`
-      );
       const res = await api.get(`/emotions?page=${nextPage}&limit=${limit}`);
-      console.log("[emotions] raw response:", res.data);
 
       const parsed = parseEmotions(res.data);
-      console.log(`[emotions] parsed length=${parsed.length}`);
 
       const batch = normalize(parsed);
-      console.log(`[emotions] normalized length=${batch.length}`);
 
       setHasMore(batch.length === limit);
       setEmotions((prev) => {
@@ -146,13 +139,9 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
         const map = new Map<string, Emotion>();
         list.forEach((e) => map.set(e._id, e));
         const result = Array.from(map.values());
-        console.log(`[emotions] setEmotions -> total=${result.length}`);
         return result;
       });
       setPage(nextPage);
-      console.log(
-        `[emotions] fetchPage done -> page=${nextPage}, hasMore=${batch.length === limit}`
-      );
     },
     [limit]
   );
@@ -160,7 +149,6 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
   useEffect(() => {
     (async () => {
       try {
-        console.log("[emotions] initial load...");
         setEmotionsLoading(true);
         setEmotionsError(null);
         await fetchPage(1, false);
@@ -177,34 +165,47 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
         setHasMore(false);
       } finally {
         setEmotionsLoading(false);
-        console.log("[emotions] initial load finished");
       }
     })();
   }, [fetchPage]);
+
+  const showIziToast = async (
+    kind: "success" | "error",
+    opts: {
+      title?: string;
+      message: string;
+      position?: "topRight" | "topLeft" | "bottomRight" | "bottomLeft";
+    }
+  ) => {
+    const iziToast = (await import("izitoast")).default;
+    iziToast[kind]({
+      position: "topRight",
+      ...opts,
+    });
+  };
 
   const handleSubmit = async (
     values: CreateNote,
     { setSubmitting }: FormikHelpers<CreateNote>
   ) => {
     try {
-      console.log("[form] submit values:", values);
-
       if (entry) {
-        console.log("[form] updateDiaryEntry -> PATCH /diary/:id");
         await updateDiaryEntry(entry._id, values);
       } else {
-        console.log("[form] createDiaryEntry -> POST /diary");
         await createDiaryEntry(values);
         clearDraft();
       }
-
-      toast.success(
-        entry ? "Запис успішно оновлено!" : "Запис успішно створено!"
-      );
+      await showIziToast("success", {
+        title: "Супер",
+        message: entry ? "Запис успішно оновлено!" : "Запис успішно створено!",
+      });
       onSuccess();
     } catch (error) {
       console.error("Помилка відправки:", error);
-      toast.error(getErrorMessage(error));
+      await showIziToast("error", {
+        title: "Помилка",
+        message: getErrorMessage(error),
+      });
     } finally {
       setSubmitting(false);
     }
@@ -212,7 +213,6 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
 
   const retryLoadEmotions = async () => {
     try {
-      console.log("[emotions] retry load");
       setEmotionsError(null);
       setEmotionsLoading(true);
       await fetchPage(1, false);
@@ -229,7 +229,6 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
     const el = e.currentTarget;
     const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 24;
     if (nearBottom && hasMore && !loadingMore) {
-      console.log("[scroll] near bottom -> load next page", { page, hasMore });
       try {
         setLoadingMore(true);
         await fetchPage(page + 1, true);
@@ -346,9 +345,6 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
                     onPointerDown={(e) => {
                       e.preventDefault();
                       const next = !isDropdownOpen;
-                      console.log("[dropdown] trigger pointerdown -> toggle", {
-                        next,
-                      });
                       setIsDropdownOpen(next);
                       if (next) {
                         justOpenedRef.current = true;
@@ -356,7 +352,6 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
                         requestAnimationFrame(() => {
                           setInteractive(true);
                           justOpenedRef.current = false;
-                          console.log("[dropdown] interactive restored");
                         });
                       }
                     }}
@@ -409,9 +404,6 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
                               className={`${css.selectOption} ${isSelected ? css.selectOptionSelected : ""}`}
                               onClick={() => {
                                 if (justOpenedRef.current) {
-                                  console.log(
-                                    "[option] click ignored (just opened)"
-                                  );
                                   return;
                                 }
                                 const newEmotions = isSelected
@@ -419,12 +411,6 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = ({
                                       (id) => id !== emotion._id
                                     )
                                   : [...values.emotions, emotion._id];
-                                console.log("[option] toggle", {
-                                  id: emotion._id,
-                                  name: emotion.name || emotion.title,
-                                  wasSelected: isSelected,
-                                  next: newEmotions,
-                                });
                                 setFieldValue("emotions", newEmotions);
                                 if (!entry)
                                   setDraft({
