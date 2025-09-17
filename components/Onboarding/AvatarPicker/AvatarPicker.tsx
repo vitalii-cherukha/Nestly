@@ -3,19 +3,19 @@ import { useState } from "react";
 import css from "./AvatarPicker.module.css";
 import Image from "next/image";
 import { updateAvatar } from "@/lib/api/clientApi";
-import { useUserStore } from "@/lib/store/userStore";
+import { useAuthStore } from "@/lib/store/authStore";
 
 export default function AvatarPicker() {
   const [error, setError] = useState("");
   const [isUploading, setIsUploading] = useState(false);
-  const avatar = useUserStore((state) => state.avatarUrl);
-  const setAvatar = useUserStore((state) => state.setAvatar);
+  const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     setError("");
 
-    if (file) {
+    if (file && user) {
       if (!file.type.startsWith("image/")) {
         setError("Only Images");
         return;
@@ -29,17 +29,19 @@ export default function AvatarPicker() {
 
         const reader = new FileReader();
         reader.onloadend = () => {
-          setAvatar(reader.result as string);
+          setUser({ ...user, avatarUrl: reader.result as string });
         };
         reader.readAsDataURL(file);
 
         const updatedUser = await updateAvatar(file);
-        setAvatar(updatedUser.avatarUrl);
+        setUser(updatedUser);
       } catch (error) {
         console.error(error);
         setError("Помилка завантаження фото");
+        if (user) {
+          setUser(user);
+        }
       } finally {
-        console.log("Загружаем файл:", file.name, file.size, file.type);
         setIsUploading(false);
       }
     }
@@ -49,10 +51,10 @@ export default function AvatarPicker() {
     <div className={css.avatarWrapper}>
       <Image
         className={css.avatar}
-        src={avatar}
+        src={user?.avatarUrl || "/default-avatar.png"}
         alt="Preview"
-        width={300}
-        height={300}
+        width={164}
+        height={164}
       />
       <label className={css.button}>
         {isUploading ? "Завантажується..." : "Завантажити фото"}

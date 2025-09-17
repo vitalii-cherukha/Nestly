@@ -3,34 +3,35 @@ import AvatarPicker from "@/components/Onboarding/AvatarPicker/AvatarPicker";
 import BirthDatePicker from "@/components/Onboarding/BirthDatePicker/BirthDatePicker";
 import ChildStatusSelect from "@/components/Onboarding/ChildStatusSelect/ChildStatusSelect";
 import css from "./EditProfilePage.module.css";
-import { useUserStore } from "@/lib/store/userStore";
 import { updateProfile } from "@/lib/api/clientApi";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/lib/store/authStore";
 
 export default function EditProfileClient() {
-  const { dueDate, babyGender } = useUserStore();
+  const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!babyGender) {
-      console.log("Оберіть стать дитини");
-      return;
-    }
+    // if (user?.babyGender) {
+    //   console.log("Оберіть стать дитини");
+    //   return;
+    // }
 
     const formData = {
       dueDate:
-        dueDate && dueDate.includes(".")
+        user?.dueDate && user?.dueDate.includes(".")
           ? (() => {
-              const [day, month, year] = dueDate.split(".");
+              const [day, month, year] = user?.dueDate.split(".");
               if (day && month && year) {
                 return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
               }
-              return dueDate;
+              return user?.dueDate;
             })()
-          : dueDate,
-      babyGender,
+          : user?.dueDate,
+      babyGender: user?.babyGender,
     };
 
     updateProfile(formData);
