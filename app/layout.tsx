@@ -44,6 +44,8 @@ export default function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const isAuthProfilePage = false;
+
   return (
     <html lang="en">
       <body className={`${lato.variable} ${comfortaa.variable}`}>
@@ -51,15 +53,19 @@ export default function RootLayout({
           <AuthInterceptor />
           <AuthProvider>
             <Header />
-            <div className={css.layout}>
-              <div className={css.sidebarWrapper}>
-                <Sidebar />
+            {!isAuthProfilePage ? (
+              <div className={css.layout}>
+                <div className={css.sidebarWrapper}>
+                  <Sidebar />
+                </div>
+                <main className={css.main}>
+                  <Breadcrumbs />
+                  {children}
+                </main>
               </div>
-              <main className={css.main}>
-                <Breadcrumbs />
-                {children}
-              </main>
-            </div>
+            ) : (
+              <main>{children}</main>
+            )}
           </AuthProvider>
         </TanStackProvider>
       </body>
