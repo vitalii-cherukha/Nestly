@@ -8,12 +8,18 @@ import { updateProfile } from "@/lib/api/clientApi";
 import { ApiError } from "next/dist/server/api-utils";
 import { useState } from "react";
 import CustomSelect from "../CustomSelect/CustomSelect";
+import { User } from "@/types/user";
+import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
 
 interface InitialValues {
   name: string;
   email: string;
   babyGender: string;
   dueDate: string;
+}
+
+interface ProfileEditProps {
+  userServer: User;
 }
 
 const validationSchema = Yup.object().shape({
@@ -30,12 +36,19 @@ const validationSchema = Yup.object().shape({
     ),
 });
 
-const ProfileEditForm = () => {
+const ProfileEditForm = ({ userServer }: ProfileEditProps) => {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
   const [error, setError] = useState("");
-  if (!user) {
-    return <p>Завантаження...</p>;
+
+  if (error) {
+    import("izitoast").then((iziToast) => {
+      iziToast.default.error({
+        title: "Помилка",
+        message: "Щось пішло не так, спробуйте ще раз",
+        position: "topRight",
+      });
+    });
   }
 
   const handleSubmit = async (
@@ -70,11 +83,14 @@ const ProfileEditForm = () => {
   };
 
   const initialValues = {
-    name: user.name || "",
-    email: user.email || "",
-    babyGender: user.babyGender || "",
-    dueDate: user.dueDate || "",
+    name: user?.name || userServer.name || "",
+    email: user?.email || userServer.email || "",
+    babyGender: user?.babyGender || userServer.babyGender || "",
+    dueDate: user?.dueDate || userServer.dueDate || "",
   };
+
+  const minDate = new Date();
+  minDate.setHours(0, 0, 0, 0);
 
   return (
     <div className={css.container}>
@@ -129,10 +145,17 @@ const ProfileEditForm = () => {
 
             <label className={css.label}>
               Планова дата пологів
-              <Field
+              {/* <Field
                 name="dueDate"
                 type="date"
                 className={`${css.input} ${touched.dueDate && errors.dueDate ? css.inputError : ""}`}
+              /> */}
+              <CustomDatePicker
+                value={values.dueDate}
+                onChange={(value) => setFieldValue("dueDate", value)}
+                placeholder="Оберіть дату"
+                error={!!(touched.dueDate && errors.dueDate)}
+                minDate={minDate}
               />
               <ErrorMessage
                 name="dueDate"
@@ -152,7 +175,6 @@ const ProfileEditForm = () => {
               <button type="submit" className={css.btnSave}>
                 Зберегти зміни
               </button>
-              {error && <p>{error}</p>}
             </div>
           </Form>
         )}
