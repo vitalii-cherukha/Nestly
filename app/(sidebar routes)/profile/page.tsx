@@ -9,14 +9,14 @@ const ProfilePage = async () => {
   const user = await getServerMe();
 
   return (
-    <div className={css.wrapper}>
-      <Section>
-        <Container>
+    <Section>
+      <Container>
+        <div className={css.wrapper}>
           <ProfileAvatar userServer={user} />
           <ProfileEditForm userServer={user} />
-        </Container>
-      </Section>
-    </div>
+        </div>
+      </Container>
+    </Section>
   );
 };
 
