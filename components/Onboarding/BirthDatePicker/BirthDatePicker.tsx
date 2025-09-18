@@ -37,7 +37,7 @@ export default function BirthDatePicker() {
           selected={selectedDate}
           onChange={handleChange}
           dateFormat="dd.MM.yyyy"
-          placeholderText={new Date().toLocaleDateString()}
+          placeholderText={new Date().toLocaleDateString("uk-UA")}
           minDate={new Date()}
           locale={uk}
         />
