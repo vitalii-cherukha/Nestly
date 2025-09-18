@@ -78,7 +78,7 @@
 
 /* tablet */
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
 }
 
 /* desktop */
@@ -239,14 +239,17 @@
 
 /* tablet */
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .dropdown {
-    top: -500%;
-    left: 40%;
+    left: 63%;
   }
 }
 
 /* desktop */
 
 @media screen and (min-width: 1440px) {
+  .dropdown {
+    top: -470%;
+    left: 60%;
+  }
 }
