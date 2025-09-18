@@ -1,7 +1,13 @@
+@media screen and (min-width: 768px) {
+  .wrapper {
+    width: 704px;
+  }
+}
+
 /* desktop */
 
 @media screen and (min-width: 1440px) {
   .wrapper {
-    min-width: 644px;
+    width: 644px;
   }
 }
