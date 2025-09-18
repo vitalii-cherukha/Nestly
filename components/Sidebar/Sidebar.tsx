@@ -40,6 +40,7 @@ export default function Sidebar() {
     await logout();
     isLoggedout();
     router.refresh();
+    router.refresh();
     router.push("/auth/register");
   };
 
