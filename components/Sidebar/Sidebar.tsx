@@ -27,7 +27,6 @@ export default function Sidebar() {
   const isLoggedout = useAuthStore((state) => state.clearIsAuthenticated);
   const queryClient = useQueryClient();
 
-  // Lock scroll for mobile modal mode
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
