@@ -39,6 +39,7 @@ export default function Sidebar() {
     queryClient.clear();
     await logout();
     isLoggedout();
+    router.refresh();
     router.push("/auth/register");
   };
 
