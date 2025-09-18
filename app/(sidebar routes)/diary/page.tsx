@@ -22,9 +22,9 @@ export const generateMetadata = async (): Promise<Metadata> => {
       url: "https://nestly-alpha.vercel.app/diary",
       images: [
         {
-          url: "../../../public/logo.png",
-          width: 120,
-          height: 120,
+          url: "../../../public/sign-up-img.jpg",
+          width: 480,
+          height: 600,
           alt: "Ваші записи",
         },
       ],
