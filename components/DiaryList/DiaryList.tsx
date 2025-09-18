@@ -1,28 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getDiaryEntries } from "@/lib/api/clientApi";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getDiaryEntries as getDiaryEntriesClient } from "@/lib/api/clientApi";
 import css from "./DiaryList.module.css";
 import type { DiaryEntry } from "@/types/note";
 import DiaryEntryCard from "../DiaryEntryCard/DiaryEntryCard";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { DiaryEntryModal } from "../DiaryEntryModal/DiaryEntryModal";
 
+// Тип відповіді від API
+interface GetDiaryEntriesRep {
+  diaryNotes: DiaryEntry[];
+}
+
 interface Props {
   onSelectEntry?: (entry: DiaryEntry) => void;
 }
 
+// Обгортка для React Query
+const getDiaryEntriesQuery = async (): Promise<GetDiaryEntriesRep> => {
+  return getDiaryEntriesClient();
+};
+
 export default function DiaryList({ onSelectEntry }: Props) {
-  const [entries, setEntries] = useState<DiaryEntry[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleModalConfirm = () => {
-    setIsModalOpen(false);
-  };
+  const { data, isLoading, isError, refetch } = useQuery<GetDiaryEntriesRep>({
+    queryKey: ["diaryEntries"],
+    queryFn: getDiaryEntriesQuery,
+  });
 
-  useEffect(() => {
-    getDiaryEntries().then((data) => setEntries(data.diaryNotes));
-  }, []);
+  const entries: DiaryEntry[] = data?.diaryNotes ?? [];
+
+  if (isLoading) return <p>Завантаження...</p>;
+  if (isError) return <p>Сталася помилка при завантаженні</p>;
 
   return (
     <div className={css.diaryContainer}>
@@ -35,7 +47,7 @@ export default function DiaryList({ onSelectEntry }: Props) {
       </div>
 
       {entries.length === 0 ? (
-        <p>Наразі записи у щоденнику відстні</p>
+        <p>Наразі записи у щоденнику відсутні</p>
       ) : (
         <div className={css.diaryNotesWrapper}>
           {entries.map((entry) => (
@@ -53,8 +65,8 @@ export default function DiaryList({ onSelectEntry }: Props) {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSuccess={() => {
-            handleModalConfirm();
-            getDiaryEntries().then((data) => setEntries(data.diaryNotes));
+            setIsModalOpen(false);
+            refetch(); // 🔑 після створення нового запису
           }}
         />
       )}

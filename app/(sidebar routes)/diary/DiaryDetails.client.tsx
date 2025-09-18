@@ -16,37 +16,30 @@ export default function DiaryDetailsClient() {
   const [selectedEntry, setSelectedEntry] = useState<DiaryEntry | null>(null);
   const router = useRouter();
 
-  // Обробка вибору запису
   const handleSelectEntry = (entry: DiaryEntry) => {
     if (isDesktop) {
-      setSelectedEntry(entry); // десктоп — показуємо поруч
+      setSelectedEntry(entry);
     } else {
-      router.push(`/diary/${entry._id}`); // мобілка - окрема сторінка
+      router.push(`/diary/${entry._id}`);
     }
   };
 
-  // Колбек для оновлення післе редагування/відалення на десктопі
   const handleUpdate = () => {
     setSelectedEntry(null);
   };
 
   return (
-    <>
-      <Section>
-        <Container>
-          <GreetingBlock />
-          <main className={css.diaryDescWrapper}>
-            <DiaryList onSelectEntry={handleSelectEntry} />
+    <Section>
+      <Container>
+        <GreetingBlock />
+        <main className={css.diaryDescWrapper}>
+          <DiaryList onSelectEntry={handleSelectEntry} />
 
-            {isDesktop && selectedEntry && (
-              <DiaryEntryDetails
-                entry={selectedEntry}
-                onUpdate={handleUpdate}
-              />
-            )}
-          </main>
-        </Container>
-      </Section>
-    </>
+          {isDesktop && selectedEntry && (
+            <DiaryEntryDetails entry={selectedEntry} onUpdate={handleUpdate} />
+          )}
+        </main>
+      </Container>
+    </Section>
   );
 }
