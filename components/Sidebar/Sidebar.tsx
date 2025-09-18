@@ -13,7 +13,7 @@ import { RxAvatar } from "react-icons/rx";
 import { useAuthStore } from "@/lib/store/authStore";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import { logout } from "@/lib/api/clientApi";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { LuLogOut } from "react-icons/lu";
 import { GoSignIn } from "react-icons/go";
 import { useQueryClient } from "@tanstack/react-query";
@@ -26,7 +26,6 @@ export default function Sidebar() {
   const router = useRouter();
   const isLoggedout = useAuthStore((state) => state.clearIsAuthenticated);
   const queryClient = useQueryClient();
-  const pathURL = usePathname();
 
   // Lock scroll for mobile modal mode
   useEffect(() => {
@@ -43,8 +42,6 @@ export default function Sidebar() {
     isLoggedout();
     router.push("/auth/register");
   };
-
-  if (!pathURL || pathURL.startsWith("/auth")) return null;
 
   return (
     <>
@@ -74,27 +71,35 @@ export default function Sidebar() {
         </div>
         <div className={css.sidebarContent}>
           <ul className={css.menuList}>
-            <li className={css.menuListItem}>
-              <BsCalendar2Event size={24} />
-              <Link onClick={close} href="/">
+            <li>
+              <Link href="/" onClick={close} className={css.menuListItem}>
+                <BsCalendar2Event size={24} />
                 Мій день
               </Link>
             </li>
-            <li className={css.menuListItem}>
-              <LuRoute size={24} />
-              <Link onClick={close} href={`/journey/${user?.curWeekNumber}`}>
+            <li>
+              <Link
+                href={`/journey/${user?.curWeekNumber === null ? user.curWeekNumber : `1`}`}
+                onClick={close}
+                className={css.menuListItem}
+              >
+                <LuRoute size={24} />
                 Подорож
               </Link>
             </li>
-            <li className={css.menuListItem}>
-              <TbBook2 size={24} />
-              <Link onClick={close} href="/diary">
+            <li>
+              <Link href="/diary" onClick={close} className={css.menuListItem}>
+                <TbBook2 size={24} />
                 Щоденник
               </Link>
             </li>
-            <li className={css.menuListItem}>
-              <RxAvatar size={24} />
-              <Link onClick={close} href="/profile">
+            <li>
+              <Link
+                href="/profile"
+                onClick={close}
+                className={css.menuListItem}
+              >
+                <RxAvatar size={24} />
                 Профіль
               </Link>
             </li>

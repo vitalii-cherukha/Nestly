@@ -18,6 +18,12 @@ const LayoutClient = ({ children }: { children: React.ReactNode }) => {
           {children}
         </main>
       </div>
+      <main className={css.main}>
+        <Header />
+        <Breadcrumbs />
+        {children}
+      </main>
+    </div>
     </>
   );
 };
