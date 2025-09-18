@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
 import { WeekSelector } from "@/components/WeekSelector/WeekSelector";
@@ -18,8 +18,14 @@ import Section from "@/components/Section/Section";
 import Container from "@/components/Container/Container";
 import GreetingBlock from "@/components/GreetingBlock/GreetingBlock";
 
+const SEARCH_PARAMS = {
+  tabIndex: "tab-index",
+};
+
 export default function JourneyDetails() {
-  const [tabIndex, setTabIndex] = React.useState(0);
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get(SEARCH_PARAMS.tabIndex) ?? 0;
+  const [tabIndex, setTabIndex] = React.useState(() => +initialTab);
 
   const router = useRouter();
   const { weekNumber } = useParams<{ weekNumber: string }>();
@@ -52,7 +58,15 @@ export default function JourneyDetails() {
   });
 
   const handleOnCardClick = (weekNumber: number) => {
-    router.replace(`/journey/${weekNumber}`);
+    router.replace(
+      `/journey/${weekNumber}?${SEARCH_PARAMS.tabIndex}=${tabIndex}`
+    );
+  };
+
+  const handleTabChange = (i: number) => {
+    setTabIndex(i);
+
+    router.replace(`?${SEARCH_PARAMS.tabIndex}=${i}`, { scroll: false });
   };
 
   const tabData = [
@@ -95,7 +109,7 @@ export default function JourneyDetails() {
             items={tabData}
             tabsProps={{
               selectedIndex: tabIndex,
-              onSelect: setTabIndex,
+              onSelect: handleTabChange,
             }}
           />
         </Container>
