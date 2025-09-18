@@ -7,7 +7,7 @@ import type { DiaryEntry } from "@/types/note";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import { DiaryEntryModal } from "../DiaryEntryModal/DiaryEntryModal";
 import { deleteDiaryEntry } from "@/lib/api/clientApi";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TbEdit } from "react-icons/tb";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import css from "./DiaryEntryDetails.module.css";
@@ -22,28 +22,32 @@ export default function DiaryEntryDetails({ entry, onUpdate }: Props) {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const router = useRouter();
   const isDesktop = useMediaQuery({ minWidth: 1440 });
+  const queryClient = useQueryClient();
 
+  // Видалення
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => deleteDiaryEntry(id),
+    mutationFn: (id: string) => deleteDiaryEntry(id),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["diaryEntries"] });
       setIsDeleteModal(false);
       if (isDesktop) {
-        onUpdate?.(); // десктоп — обновляємо список
+        onUpdate?.();
       } else {
-        router.push("/diary"); // мобілка — редірект
+        router.push("/diary");
       }
     },
-    onError: (err) => console.error("Помилка при видаленні:", err),
   });
 
   const handleDeleteConfirm = () => deleteMutation.mutate(entry._id);
 
+  // Редагування
   const handleEditConfirm = () => {
+    queryClient.invalidateQueries({ queryKey: ["diaryEntries"] });
     setIsEditModal(false);
     if (isDesktop) {
-      onUpdate?.(); // десктоп — обновляємо список
+      onUpdate?.();
     } else {
-      router.push("/diary"); // мобілка — редірект
+      router.push("/diary");
     }
   };
 
