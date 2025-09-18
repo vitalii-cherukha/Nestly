@@ -6,10 +6,10 @@ import * as Yup from "yup";
 import { useAuthStore } from "@/lib/store/authStore";
 import { updateProfile } from "@/lib/api/clientApi";
 import { ApiError } from "next/dist/server/api-utils";
-import { useState } from "react";
 import CustomSelect from "../CustomSelect/CustomSelect";
 import { User } from "@/types/user";
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
+import { useState, useRef } from "react";
 
 interface InitialValues {
   name: string;
@@ -22,63 +22,94 @@ interface ProfileEditProps {
   userServer: User;
 }
 
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Введіть ім’я"),
-  email: Yup.string().email("Некоректна пошта").required("Введіть пошту"),
-  babyGender: Yup.string()
-    .required("Оберіть стать")
-    .oneOf(["boy", "girl", "unknown"]),
-  dueDate: Yup.date()
-    .required("Оберіть дату")
-    .min(
-      new Date(new Date().setHours(0, 0, 0, 0)),
-      "Дата не може бути раніше сьогоднішнього дня"
-    ),
-});
-
 const ProfileEditForm = ({ userServer }: ProfileEditProps) => {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
-  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const toastShownRef = useRef(false);
 
-  if (error) {
-    import("izitoast").then((iziToast) => {
-      iziToast.default.error({
-        title: "Помилка",
-        message: "Щось пішло не так, спробуйте ще раз",
-        position: "topRight",
-      });
-    });
-  }
+  const minDate = new Date();
+  minDate.setHours(0, 0, 0, 0);
+
+  const maxDate = new Date();
+  maxDate.setMonth(maxDate.getMonth() + 9);
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required("Введіть ім’я")
+      .min(3, "Мінімальна довжина 3 символи")
+      .max(20, "Максимальна довжина 20 символів"),
+
+    email: Yup.string().email("Некоректна пошта").required("Введіть пошту"),
+
+    babyGender: Yup.string()
+      .required("Оберіть стать")
+      .oneOf(["boy", "girl", "unknown"]),
+
+    dueDate: Yup.date()
+      .typeError("Невірний формат дати")
+      .required("Оберіть дату")
+      .min(minDate, "Дата не може бути раніше сьогоднішнього дня")
+      .max(maxDate, "Дата не може бути пізніше ніж через 9 місяців"),
+  });
 
   const handleSubmit = async (
     values: InitialValues,
     actions: FormikHelpers<InitialValues>
   ) => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    toastShownRef.current = false;
+
     try {
-      const updatedUser = await updateProfile(values);
+      const cleanValues = {
+        ...values,
+        name: values.name.trim(),
+        email: values.email.trim(),
+      };
+
+      const updatedUser = await updateProfile(cleanValues);
+
       setUser({
         ...user,
         ...updatedUser,
       });
-      import("izitoast").then((iziToast) => {
-        iziToast.default.success({
-          title: "Супер",
-          message: "Дані збережено",
-          position: "topRight",
+
+      if (!toastShownRef.current) {
+        toastShownRef.current = true;
+        import("izitoast").then((iziToast) => {
+          iziToast.default.success({
+            title: "Успіх",
+            message: "Дані успішно збережено",
+            position: "topRight",
+          });
         });
-      });
-    } catch (error) {
-      setError((error as ApiError).message);
-      import("izitoast").then((iziToast) => {
-        iziToast.default.error({
-          title: "Помилка",
-          message: "Щось пішло не так, спробуйте ще раз",
-          position: "topRight",
+      }
+    } catch (err) {
+      console.error("Profile update error:", err);
+
+      const message =
+        err instanceof Error
+          ? err.message
+          : (err as ApiError)?.message || "Щось пішло не так, спробуйте ще раз";
+
+      if (!toastShownRef.current) {
+        toastShownRef.current = true;
+        import("izitoast").then((iziToast) => {
+          iziToast.default.error({
+            title: "Помилка",
+            message,
+            position: "topRight",
+          });
         });
-      });
+      }
     } finally {
+      setIsSubmitting(false);
       actions.setSubmitting(false);
+      setTimeout(() => {
+        toastShownRef.current = false;
+      }, 1000);
     }
   };
 
@@ -89,33 +120,44 @@ const ProfileEditForm = ({ userServer }: ProfileEditProps) => {
     dueDate: user?.dueDate || userServer.dueDate || "",
   };
 
-  const minDate = new Date();
-  minDate.setHours(0, 0, 0, 0);
-
   return (
     <div className={css.container}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
+        validateOnChange={true}
+        validateOnBlur={true}
+        enableReinitialize={true}
       >
-        {({ handleReset, errors, touched, values, setFieldValue }) => (
+        {({
+          handleReset,
+          errors,
+          touched,
+          values,
+          setFieldValue,
+          isValid,
+          dirty,
+        }) => (
           <Form className={css.form}>
             <label className={css.label}>
-              Ім’я
+              Ім`я
               <Field
                 name="name"
                 type="text"
                 className={`${css.input} ${touched.name && errors.name ? css.inputError : ""}`}
+                placeholder="Введіть своє ім'я"
               />
               <ErrorMessage name="name" component="div" className={css.error} />
             </label>
+
             <label className={css.label}>
               Пошта
               <Field
                 name="email"
                 type="email"
                 className={`${css.input} ${touched.email && errors.email ? css.inputError : ""}`}
+                placeholder="Введіть свою пошту"
               />
               <ErrorMessage
                 name="email"
@@ -123,6 +165,7 @@ const ProfileEditForm = ({ userServer }: ProfileEditProps) => {
                 className={css.error}
               />
             </label>
+
             <label className={css.label}>
               Стать дитини
               <CustomSelect
@@ -162,13 +205,21 @@ const ProfileEditForm = ({ userServer }: ProfileEditProps) => {
             <div className={css.actions}>
               <button
                 type="button"
-                onClick={handleReset}
+                onClick={() => {
+                  handleReset();
+                  toastShownRef.current = false;
+                }}
                 className={css.btnCancel}
+                disabled={isSubmitting}
               >
                 Відмінити зміни
               </button>
-              <button type="submit" className={css.btnSave}>
-                Зберегти зміни
+              <button
+                type="submit"
+                className={css.btnSave}
+                disabled={isSubmitting || !isValid || !dirty}
+              >
+                {isSubmitting ? "Збереження..." : "Зберегти зміни"}
               </button>
             </div>
           </Form>
