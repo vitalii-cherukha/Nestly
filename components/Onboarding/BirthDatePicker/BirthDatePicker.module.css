@@ -16,11 +16,11 @@
 }
 
 .datepickerWrapper :global(.react-datepicker-wrapper) {
-    width: 100%;
+    width: 335px;
 }
 
 .datepickerWrapper :global(.react-datepicker__input-container input) {
-    width: 480px;
+    width: 335px;
     height: 40px;
     min-height: 40px;
     padding: 8px 12px;
@@ -32,6 +32,21 @@
     transition: var(--primary-transition);
     box-sizing: border-box;
 }
+
+@media screen and (min-width: 768px) {
+    .datepickerWrapper :global(.react-datepicker-wrapper) {
+        width: 100%;
+    }
+
+    .datepickerWrapper :global(.react-datepicker__input-container input) {
+        width: 480px;
+
+    }
+}
+
+
+
+
 
 .datepickerWrapper :global(.react-datepicker__input-container input:hover) {
     border-color: var(--input-hover);

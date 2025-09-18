@@ -1,6 +1,3 @@
-/* EditProfilePage.module.css */
-
-/* Основной контейнер занимает всю ширину и высоту экрана */
 .pageContainer {
     display: flex;
     min-height: 100vh;
@@ -8,7 +5,7 @@
     position: relative;
 }
 
-/* Левая панель - 50% экрана */
+
 .leftPanel {
     width: 50%;
     display: flex;
@@ -20,14 +17,14 @@
     box-sizing: border-box;
 }
 
-/* Правая панель - 50% экрана */
+
 .rightPanel {
     width: 50%;
     position: relative;
     overflow: hidden;
 }
 
-/* Обертка для формы */
+
 .formWrapper {
     width: 100%;
     max-width: 480px;
@@ -49,7 +46,7 @@
     max-width: 335px;
 }
 
-/* Если у вас есть класс .form в EditProfileClient */
+
 .form {
     display: flex;
     flex-direction: column;

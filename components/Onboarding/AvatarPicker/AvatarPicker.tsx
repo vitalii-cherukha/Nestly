@@ -68,7 +68,7 @@ export default function AvatarPicker() {
     <div className={css.avatarWrapper}>
       <Image
         className={css.avatar}
-        src={user?.avatarUrl || "/default-avatar.png"}
+        src={user?.avatarUrl || "/avatar.jpg"}
         alt="Preview"
         width={164}
         height={164}
