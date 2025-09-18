@@ -42,6 +42,7 @@
   .sidebarWrap {
     width: 317;
     min-height: 100vh;
+
   }
   .layout {
     justify-content: flex-start;

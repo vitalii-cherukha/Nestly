@@ -9,27 +9,25 @@ import { useAuthStore } from "@/lib/store/authStore";
 registerLocale("uk", uk);
 
 export default function BirthDatePicker() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const setUser = useAuthStore((state) => state.setUser);
   const user = useAuthStore((state) => state.user);
 
   useEffect(() => {
     if (user?.dueDate) {
-      setSelectedDate(new Date(user?.dueDate));
+      const date = new Date(user.dueDate);
+      if (!isNaN(date.getTime())) {
+        setSelectedDate(date);
+      }
     }
   }, [user?.dueDate]);
 
   const handleChange = (date: Date | null) => {
     if (date && user) {
       setSelectedDate(date);
-      setUser({ ...user, dueDate: date.toLocaleDateString("uk-UA") });
+      setUser({ ...user, dueDate: date.toISOString().split("T")[0] });
     }
   };
-
-  const today = new Date().toLocaleDateString("uk-UA");
-  const userDate = user?.dueDate
-    ? new Date(user.dueDate).toLocaleDateString("uk-UA")
-    : today;
 
   return (
     <div>
@@ -39,7 +37,7 @@ export default function BirthDatePicker() {
           selected={selectedDate}
           onChange={handleChange}
           dateFormat="dd.MM.yyyy"
-          placeholderText={userDate}
+          placeholderText={new Date().toLocaleDateString("uk-UA")}
           minDate={new Date()}
           locale={uk}
         />

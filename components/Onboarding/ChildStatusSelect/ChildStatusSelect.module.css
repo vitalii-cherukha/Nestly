@@ -17,7 +17,17 @@
 
 .selectWrapper {
     position: relative;
+    width: 335px;
 }
+
+@media screen and (min-width: 768px) {
+    .selectWrapper {
+        position: relative;
+        width: 100%;
+    }
+}
+
+
 
 .select {
     width: 100%;

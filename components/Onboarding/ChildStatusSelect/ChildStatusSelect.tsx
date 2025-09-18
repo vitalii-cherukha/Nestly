@@ -14,15 +14,18 @@ export default function ChildStatusSelect() {
     { value: "unknown", label: "Ще не знаю" },
   ];
 
-  const selectedOption = options.find((opt) => opt.value === user?.babyGender);
-  const displayText = selectedOption ? selectedOption.label : "Обeрiть стать";
-
   const handleOptionClick = (value: string) => {
     if (user) {
       setUser({ ...user, babyGender: value });
       setIsOpen(false);
     }
   };
+
+  const selectedOption =
+    user?.babyGender && user.babyGender !== "unknown"
+      ? options.find((opt) => opt.value === user?.babyGender)
+      : undefined;
+  const displayText = selectedOption ? selectedOption.label : "Обeрiть стать";
 
   return (
     <div className={css.container}>
