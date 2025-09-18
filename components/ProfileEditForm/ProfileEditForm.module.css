@@ -18,7 +18,7 @@
 }
 
 .input {
-  font-family: var(--font-family);
+  font-family: var(--font-lato);
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
@@ -44,7 +44,7 @@
 }
 
 /* .select {
-  font-family: var(--font-family);
+  font-family: var(--font-lato);
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
@@ -68,7 +68,7 @@
 .error {
   position: absolute;
   bottom: -20px;
-  font-family: var(--font-family);
+  font-family: var(--font-lato);
   font-weight: 400;
   font-size: 12px;
   line-height: 160%;
@@ -83,7 +83,7 @@
 }
 
 .btnCancel {
-  font-family: var(--font-family);
+  font-family: var(--font-lato);
   font-weight: 500;
   font-size: 14px;
   line-height: 160%;
@@ -115,7 +115,7 @@
 }
 
 .btnSave {
-  font-family: var(--font-family);
+  font-family: var(--font-lato);
   font-weight: 500;
   font-size: 14px;
   line-height: 160%;
@@ -169,6 +169,6 @@
     font-size: 16px;
   }
   .form {
-      width: 580px;
+    width: 580px;
   }
 }

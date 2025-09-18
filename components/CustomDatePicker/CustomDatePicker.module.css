@@ -41,7 +41,7 @@
   flex: 1;
   text-align: left;
   color: var(--opacity-neutral-darkest-60);
-  font-family: var(--font-family);
+  font-family: var(--font-lato);
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
@@ -204,30 +204,19 @@
 }
 
 .day:hover:not(.dayDisabled) {
-  background-color: #f0f9ff;
-  color: #0ea5e9;
+  background-color: var(--color-scheme-accent);
+  color: white;
 }
 
 .day:active:not(.dayDisabled) {
   background-color: #e0f2fe;
 }
 
-/* Сьогоднішній день */
-.dayToday {
-  background-color: var(--color-scheme-accent);
-  color: white;
-  font-weight: 600;
-}
-
-.dayToday:hover {
-  background-color: var(--color-scheme-accent);
-  color: white;
-}
-
 /* Вибрана дата */
+
 .daySelected {
-  background-color: var(--color-scheme-accent);
-  color: white;
+  background-color: var(--color-scheme-accent) !important;
+  color: white !important;
   font-weight: 600;
 }
 
