@@ -125,7 +125,7 @@ export default function Sidebar() {
               <div className={css.sidebarFooterAuthUser}>
                 <div className={css.sidebarFooterUserData}>
                   <Image
-                    src={user?.avatarUrl ?? "/default-avatar.png"}
+                    src={user?.avatarUrl ?? "/avatar.jpg"}
                     width={40}
                     height={40}
                     alt="Avatar"
