@@ -13,7 +13,6 @@ import { getProfile } from "@/lib/api/clientApi";
 import { useEffect } from "react";
 
 export default function EditProfileClient() {
-  const userState = useAuthStore((state) => state.user);
   const router = useRouter();
   const { data } = useQuery({
     queryKey: ["user"],
@@ -24,10 +23,10 @@ export default function EditProfileClient() {
   useEffect(() => {
     if (data) setUser(data);
   }, [data, setUser]);
+  const user = useAuthStore((state) => state.user);
   if (!data) {
     return <p>Сталась помилка! Перезавантажте сторінку</p>;
   }
-  const user = data ?? userState;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

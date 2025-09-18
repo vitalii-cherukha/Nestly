@@ -21,12 +21,10 @@ export default function ChildStatusSelect() {
     }
   };
 
-  const selectedOption =
-    user?.babyGender && user.babyGender !== "unknown"
-      ? options.find((opt) => opt.value === user?.babyGender)
-      : undefined;
-  const displayText = selectedOption ? selectedOption.label : "Обeрiть стать";
-
+  const selectedOption = user?.babyGender
+    ? options.find((opt) => opt.value === user?.babyGender)
+    : undefined;
+  const displayText = selectedOption ? selectedOption.label : "Оберiть стать";
   return (
     <div className={css.container}>
       <label className={css.label} htmlFor="childStatus">
