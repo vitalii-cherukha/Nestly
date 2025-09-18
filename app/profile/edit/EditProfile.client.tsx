@@ -7,10 +7,27 @@ import css from "./EditProfilePage.module.css";
 import { updateProfile } from "@/lib/api/clientApi";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
+import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
+import { getProfile } from "@/lib/api/clientApi";
+import { useEffect } from "react";
 
 export default function EditProfileClient() {
-  const user = useAuthStore((state) => state.user);
+  const userState = useAuthStore((state) => state.user);
   const router = useRouter();
+  const { data } = useQuery({
+    queryKey: ["user"],
+    queryFn: getProfile,
+    refetchOnMount: false,
+  });
+  const setUser = useAuthStore((state) => state.setUser);
+  useEffect(() => {
+    if (data) setUser(data);
+  }, [data, setUser]);
+  if (!data) {
+    return <p>Сталась помилка! Перезавантажте сторінку</p>;
+  }
+  const user = data ?? userState;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +56,7 @@ export default function EditProfileClient() {
         message: "Дані збережено",
         position: "topRight",
       });
-    } catch (error) {
+    } catch {
       const { default: iziToast } = await import("izitoast");
       iziToast.error({
         title: "Помилка",
@@ -50,18 +67,39 @@ export default function EditProfileClient() {
   };
 
   return (
-    <div>
-      <form className={css.form} onSubmit={handleSubmit}>
-        <AvatarPicker />
-        <div className={css.selectWrapper}>
-          <ChildStatusSelect />
-          <BirthDatePicker />
-        </div>
+    <div className={css.pageContainer}>
+      <div className={css.leftPanel}>
+        <div className={css.formWrapper}>
+          <h1 className={css.title}>Давайте познаймимось ближче</h1>
+          <div>
+            <form className={css.form} onSubmit={handleSubmit}>
+              <AvatarPicker />
+              <div className={css.selectWrapper}>
+                <ChildStatusSelect />
+                <BirthDatePicker />
+              </div>
 
-        <button className={css.button} type="submit">
-          Зберегти
-        </button>
-      </form>
+              <button className={css.button} type="submit">
+                Зберегти
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div className={css.rightPanel}>
+        <Image
+          className={css.image}
+          src="/sign-up-add.jpg"
+          alt="Tree"
+          fill
+          priority
+          style={{
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+        />
+      </div>
     </div>
   );
 }

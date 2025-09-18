@@ -1,30 +1,24 @@
 import EditProfileClient from "./EditProfile.client";
-import css from "./EditProfilePage.module.css";
-import Image from "next/image";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { getCurrentUser } from "@/lib/api/serverApi";
 
-export default function EditProfilePage() {
+const Page = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["user"],
+    queryFn: getCurrentUser,
+  });
+
   return (
-    <div className={css.pageContainer}>
-      <div className={css.leftPanel}>
-        <div className={css.formWrapper}>
-          <h1 className={css.title}>Давайте познаймимось ближче</h1>
-          <EditProfileClient />
-        </div>
-      </div>
-
-      <div className={css.rightPanel}>
-        <Image
-          className={css.image}
-          src="/sign-up-add.jpg"
-          alt="Tree"
-          fill
-          priority
-          style={{
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
-        />
-      </div>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <EditProfileClient />
+    </HydrationBoundary>
   );
-}
+};
+
+export default Page;
