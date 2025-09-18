@@ -20,7 +20,7 @@
 }
 
 .nameUser {
-  font-family: var(--second-family);
+  font-family: var(--font-comfortaa);
   font-weight: 700;
   font-size: 20px;
   line-height: 140%;
@@ -33,7 +33,7 @@
 
 .emailUser {
   margin-bottom: 20px;
-  font-family: var(--font-family);
+  font-family: var(--font-lato);
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
@@ -42,7 +42,7 @@
 }
 
 .btn {
-  font-family: var(--font-family);
+  font-family: var(--font-lato);
   font-size: 14px;
   font-weight: 500;
   line-height: 160%;

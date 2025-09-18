@@ -20,11 +20,16 @@ const CustomDatePicker = ({
 }: CustomDatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [displayValue, setDisplayValue] = useState("");
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    // Початковий місяць - поточний або місяць вибраної дати
+    if (value) {
+      const selectedDate = new Date(value);
+      return new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+    }
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), 1);
+  });
   const containerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const formatDisplayDate = (dateString: string) => {
     if (!dateString) return "";
@@ -38,22 +43,11 @@ const CustomDatePicker = ({
     return `${day}.${month}.${year}`;
   };
 
-  // Форматування дати для input (YYYY-MM-DD)
-  const formatInputDate = (date: Date) => {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
   useEffect(() => {
     if (value) {
       setDisplayValue(formatDisplayDate(value));
-      setSelectedDate(new Date(value));
-      setCurrentDate(new Date(value));
     } else {
       setDisplayValue("");
-      setSelectedDate(null);
     }
   }, [value]);
 
@@ -77,51 +71,59 @@ const CustomDatePicker = ({
   }, [isOpen]);
 
   const handleToggle = () => {
+    if (!isOpen) {
+      // При відкритті ініціалізуємо правильний місяць
+      if (value) {
+        // Якщо є вибрана дата - показуємо її місяць
+        const selectedDate = new Date(value);
+        setCurrentMonth(
+          new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
+        );
+      } else {
+        // Якщо дати немає - показуємо поточний місяць
+        const today = new Date();
+        setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1));
+      }
+    }
     setIsOpen(!isOpen);
   };
 
-  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedDate = event.target.value;
-    onChange(selectedDate);
-    setIsOpen(false);
-  };
-
-  const handleDateSelect = (date: Date) => {
-    const formattedDate = formatInputDate(date);
-    onChange(formattedDate);
+  const handleDateSelect = (dateString: string) => {
+    onChange(dateString);
     setIsOpen(false);
   };
 
   const handlePrevMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
+    const newMonth = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() - 1,
+      1
     );
+    setCurrentMonth(newMonth);
   };
 
   const handleNextMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+    const newMonth = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() + 1,
+      1
     );
+    setCurrentMonth(newMonth);
   };
 
-  const isDateDisabled = (date: Date) => {
-    if (!minDate) return false;
-    return date < minDate;
-  };
-
-  const isDateSelected = (date: Date) => {
-    if (!selectedDate) return false;
-    return date.toDateString() === selectedDate.toDateString();
-  };
-
-  const isToday = (date: Date) => {
+  const canGoToPrevMonth = () => {
     const today = new Date();
-    return date.toDateString() === today.toDateString();
+    const currentMonthStart = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      1
+    );
+    return currentMonth > currentMonthStart;
   };
 
   const renderCalendar = () => {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
 
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -146,7 +148,7 @@ const CustomDatePicker = ({
 
     const dayNames = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"];
 
-    // Пусті клітинки для днів попереднього місяця
+    // Пусті клітинки
     for (
       let i = 0;
       i < (startingDayOfWeek === 0 ? 6 : startingDayOfWeek - 1);
@@ -155,20 +157,31 @@ const CustomDatePicker = ({
       days.push(<div key={`empty-${i}`} className={css.emptyDay}></div>);
     }
 
-    // Дні поточного місяця
+    // Дні місяця
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(year, month, day);
-      const disabled = isDateDisabled(date);
-      const selected = isDateSelected(date);
-      const today = isToday(date);
+      const dateString = `${year}-${(month + 1).toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+
+      const isSelected = value === dateString;
+      const isToday = new Date().toDateString() === date.toDateString();
+      const isDisabled = minDate && date < minDate;
+
+      let className = css.day;
+      if (isDisabled) {
+        className += ` ${css.dayDisabled}`;
+      } else if (isSelected) {
+        className += ` ${css.daySelected}`;
+      } else if (isToday) {
+        className += ` ${css.dayToday}`;
+      }
 
       days.push(
         <button
           key={day}
           type="button"
-          className={`${css.day} ${disabled ? css.dayDisabled : ""} ${selected ? css.daySelected : ""} ${today ? css.dayToday : ""}`}
-          onClick={() => !disabled && handleDateSelect(date)}
-          disabled={disabled}
+          className={className}
+          onClick={() => !isDisabled && handleDateSelect(dateString)}
+          disabled={isDisabled}
         >
           {day}
         </button>
@@ -180,8 +193,10 @@ const CustomDatePicker = ({
         <div className={css.calendarHeader}>
           <button
             type="button"
-            className={css.navButton}
+            className={`${css.navButton} ${!canGoToPrevMonth() ? css.navButtonDisabled : ""}`}
             onClick={handlePrevMonth}
+            disabled={!canGoToPrevMonth()}
+            title="Попередний місяць"
           >
             <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
               <path
@@ -193,13 +208,16 @@ const CustomDatePicker = ({
               />
             </svg>
           </button>
+
           <span className={css.monthYear}>
             {monthNames[month]} {year}
           </span>
+
           <button
             type="button"
             className={css.navButton}
             onClick={handleNextMonth}
+            title="Наступний місяць"
           >
             <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
               <path
@@ -267,19 +285,8 @@ const CustomDatePicker = ({
         </svg>
       </div>
 
-      {/* Кастомний календар */}
+      {/* Календар з навігацією */}
       {isOpen && <div className={css.dropdown}>{renderCalendar()}</div>}
-
-      {/* Fallback нативний input (прихований) */}
-      <input
-        ref={inputRef}
-        type="date"
-        value={value}
-        onChange={handleDateChange}
-        min={minDate ? minDate.toISOString().split("T")[0] : undefined}
-        className={css.hiddenInput}
-        tabIndex={-1}
-      />
     </div>
   );
 };
