@@ -8,22 +8,16 @@ import Header from "@/components/Header/Header";
 const LayoutClient = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <Header />
       <div className={css.layout}>
         <div className={css.sidebarWrap}>
           <Sidebar />
         </div>
         <main className={css.main}>
+          <Header />
           <Breadcrumbs />
           {children}
         </main>
       </div>
-      <main className={css.main}>
-        <Header />
-        <Breadcrumbs />
-        {children}
-      </main>
-    </div>
     </>
   );
 };
