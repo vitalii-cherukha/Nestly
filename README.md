@@ -15,42 +15,49 @@ https://github.com/vitalii-cherukha/Nestly
 
 ---
 
-## Overview
-Nestly is designed to help expectant parents track pregnancy milestones, journal personal notes, and manage profile data. The app contains a dashboard with widgets, a pregnancy calendar, notes/diary functionality, and secure user authentication. It was implemented using modern React/Next.js patterns and TanStack Query for data fetching.
+## 🧩 Overview
+Nestly helps expectant parents track pregnancy milestones, record personal notes, and manage their profile data.  
+The app includes:
+- A dashboard with informative widgets  
+- A pregnancy calendar  
+- A diary for notes and reflections  
+- Authentication and profile management  
+
+Built with **Next.js**, **TypeScript**, and **TanStack Query**, the application leverages **Zustand** for centralized global state management — ensuring smooth data flow and reactivity across components.
+
 
 ---
 
 ## ✨ Key Features
-- Responsive Dashboard with helpful widgets
-- Pregnancy Calendar (visual timeline)
-- Personal Diary / Notes with create / edit / delete
-- User registration & authentication (protected routes)
-- Profile page with editable information
-- Seamless data fetching & caching via TanStack Query
-- Modular components using CSS Modules for scoped styles
-- Team-oriented implementation with task tracking (Trello)
+- 🧭 Dashboard with widgets and key pregnancy data  
+- 📅 Interactive Pregnancy Calendar  
+- 📝 Personal Diary with create / edit / delete functionality  
+- 👩‍🍼 Profile section with editable user data  
+- 🔐 User authentication (sign-up, sign-in, protected routes)  
+- ⚡ Global state management via **Zustand**  
+- 🚀 API communication with **TanStack Query** and **Axios**  
+- 💅 Scoped styling using **CSS Modules**  
+- 🧱 Modular, reusable React components  
+- 📱 Fully responsive layout
+
 
 ---
 
 ## 🛠️ Tech Stack
-- Framework: **Next.js** (App Router)
-- UI: **React**, **CSS Modules**
-- Data-fetching: **TanStack Query (@tanstack/react-query)**
-- State: (local / context / small shared stores where needed)
-- HTTP client: **Axios**
-- Language: **TypeScript**
-- Deployment: **Vercel**
-- Tools & workflow: Git / GitHub, Trello (team tasks), Prettier, ESLint
+- **Framework:** Next.js (App Router)  
+- **UI:** React, CSS Modules  
+- **Language:** TypeScript  
+- **State Management:** Zustand (global state)  
+- **Data Fetching:** TanStack Query (@tanstack/react-query)  
+- **HTTP Client:** Axios  
+- **Deployment:** Vercel  
+- **Dev Tools:** ESLint, Prettier, Git / GitHub
 
 ---
 
-## 👥 My role
-Team project — I worked as a **Scrum Master & Frontend Developer**.  
-Contributions included:
-- Designed and implemented dynamic UI components
-- Integrated TanStack Query with backend REST API
-- Implemented authentication flows & protected routes
-- Coordinated tasks and reviews in Trello / GitHub
+## 👨‍💻 My Role
+**Role:** Frontend Developer  
+**Responsibility:** Implementation of the **Profile Section** — including user data editing, integration with API endpoints, and UI state management using Zustand.
 
 ---
 
@@ -82,21 +89,18 @@ types/
 ```
 public/ # static assets (images, icons, etc.)
 
-yaml
-Копіювати код
-
 ---
 
 ## 🚀 Run locally
 
 > Prerequisites: Node.js v18+ recommended, npm (or yarn)
 
-1. Clone repository
+## 1. Clone repository
 ```
 git clone https://github.com/vitalii-cherukha/Nestly.git
 cd Nestly
 ```
-## Install dependencies
+## 2. Install dependencies
 ```
 npm install
 ```
@@ -104,15 +108,14 @@ or
 ```
 yarn install
 ```
-Create environment file
-Create .env.local in project root and add the API base URL:
 
-ini
+## 3. Set up environment variables
+Create a .env.local file in the project root and add:
 ```
 NEXT_PUBLIC_API_URL=http://localhost:3000/
 ```
-(other env variables required by your backend / auth)
-## Run dev server
+
+## 4. Start the development server
 ```
 npm run dev
 ```
@@ -120,10 +123,11 @@ or
 ```
 yarn dev
 ```
-Open http://localhost:3000 (or port printed in console).
 
-Build / production preview
+Then open http://localhost:3000
+ in your browser.
 
+## 5. Build for production
 ```
 npm run build
 npm run start
@@ -133,27 +137,20 @@ or
 yarn build
 yarn start
 ```
-⚙️ Environment & Notes
-Ensure NEXT_PUBLIC_API_URL points to the backend API that implements the app endpoints.
 
-If auth uses cookies / tokens, configure the backend & CORS accordingly for local testing.
+⚙️ Environment Notes
 
-TanStack Query is used for caching; check lib/api for API wrappers and query keys.
+The NEXT_PUBLIC_API_URL must point to the backend API used for data fetching.
 
-🧩 Contributing & Team notes
-This project was developed collaboratively. If you plan to contribute:
+Zustand manages the global app state (auth, profile data, UI preferences, etc.).
 
-Create a new branch for your feature/fix
-
-Open a PR with a descriptive title and reference related tasks (Trello / issue)
-
-Keep changes focused and add comments where the logic is not obvious
+TanStack Query handles data caching and synchronization with the server.
 
 📜 License
-MIT — feel free to reuse code in your own projects.
+
+MIT License — feel free to use and adapt this codebase.
 
 ✉️ Contact
-Created and maintained by Vitalii Cherukha
-GitHub: https://github.com/vitalii-cherukha
 
-
+Developed by Vitalii Cherukha
+GitHub: github.com/vitalii-cherukha
